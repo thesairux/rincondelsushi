@@ -370,7 +370,7 @@ const TEXTOS = {
   portada: { titulo: "Sushi, burgers", destacado: "y más", bajada: "" },
   carta: { titulo: "Elige tu", destacado: "antojo", bajada: "" },
   arma: { titulo: "Arma tu", destacado: "roll" },
-  pasos: { titulo: "Haz tu pedido", destacado: "en 3 pasos.", bajada: "", lista: [{ titulo: "", texto: "" }, { titulo: "", texto: "" }, { titulo: "", texto: "" }] },
+  pasos: { titulo: "Haz tu pedido", destacado: "en 3 pasos.", lista: [{ titulo: "", texto: "" }, { titulo: "", texto: "" }, { titulo: "", texto: "" }] },
   ubicacion: { titulo: "Te esperamos" },
   antojo: { titulo: "¿Qué se te", destacado: "antoja hoy?" },
   cupones: { titulo: "Cupones", destacado: "de la semana", bajada: "" }
@@ -888,7 +888,7 @@ const GROUPS = [
         ${par("textos.carta", "Carta")}${field("Texto de la carta", "textos.carta.bajada", { area: true, rows: 2 })}
         ${par("textos.cupones", "Cupones")}${field("Texto de los cupones", "textos.cupones.bajada", { area: true, rows: 2 })}
         ${par("textos.arma", "Arma tu roll")}
-        ${par("textos.pasos", "Cómo pedir")}${field("Texto de cómo pedir", "textos.pasos.bajada", { area: true, rows: 2 })}
+        ${par("textos.pasos", "Cómo pedir")}
         ${t.pasos.lista.map((p, i) => `<div class="item"><strong>Paso ${i + 1}</strong>${field("Título", `textos.pasos.lista.${i}.titulo`)}${field("Texto", `textos.pasos.lista.${i}.texto`, { area: true, rows: 2 })}</div>`).join("")}
         ${field("Ubicación: título", "textos.ubicacion.titulo")}
         ${par("textos.antojo", "Final")}`;

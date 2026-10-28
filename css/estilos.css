@@ -391,7 +391,6 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .pasos-cabeza { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px 48px; flex-wrap: wrap; }
 .pasos .titulo-grande { font-size: clamp(3.2rem, 8vw, 5.6rem); }
 .pasos .titulo-grande .acento { display: block; }
-.pasos-bajada { max-width: 400px; color: var(--suave); font-size: .95rem; }
 .pasos-lista { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
 .pasos-lista li {
   position: relative; display: grid; align-content: start; gap: 10px; padding: 30px 28px 32px;

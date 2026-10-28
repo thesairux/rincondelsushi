@@ -153,7 +153,6 @@ window.CARTA = {
     "pasos": {
       "titulo": "Haz tu pedido",
       "destacado": "en 3 pasos.",
-      "bajada": "Retiro en tu sucursal o delivery en el sector urbano de Ovalle. Pagas online o al recibir, y te avisamos cuando esté listo.",
       "lista": [
         {
           "titulo": "Elige o arma",
