@@ -75,12 +75,12 @@ window.CARTA = {
     "portada": {
       "titulo": "Tablas de sushi",
       "destacado": "para compartir",
-      "bajada": "Tablas mixtas y calientes, con o sin kanikama, y cortes premium. Arma tu pedido y mándalo por WhatsApp: el resto lo confirmamos contigo."
+      "bajada": "Tablas mixtas y calientes (con o sin kanikama), cortes premium y hand rolls a tu pinta. Arma tu pedido y mándalo por WhatsApp: el resto lo confirmamos contigo."
     },
     "carta": {
       "titulo": "Elige tu",
       "destacado": "tabla",
-      "bajada": "Tablas mixtas y calientes, con o sin kanikama, y cortes premium. Suma lo que quieras al pedido."
+      "bajada": "Tablas mixtas y calientes (con o sin kanikama), cortes premium y hand rolls. Suma lo que quieras al pedido."
     },
     "cupones": {
       "titulo": "Cupones",
@@ -89,7 +89,7 @@ window.CARTA = {
     },
     "arma": {
       "titulo": "Arma tu",
-      "destacado": "roll"
+      "destacado": "hand roll"
     },
     "pasos": {
       "titulo": "Haz tu pedido",
@@ -97,8 +97,8 @@ window.CARTA = {
       "bajada": "El pedido te llega listo para enviar por WhatsApp. Nosotros te confirmamos disponibilidad, modalidad y total.",
       "lista": [
         {
-          "titulo": "Elige tu tabla",
-          "texto": "Mixta o caliente, con o sin kanikama, del tamaño que necesites."
+          "titulo": "Elige o arma",
+          "texto": "Escoge tu tabla o tus cortes premium, o arma tus hand rolls como más te gusten."
         },
         {
           "titulo": "Revisa tu pedido",
@@ -419,9 +419,389 @@ window.CARTA = {
           ]
         }
       ]
+    },
+    {
+      "nombre": "Hand rolls",
+      "categorias": [
+        {
+          "id": "hand-rolls",
+          "nombre": "Hand rolls",
+          "ayuda": "Hand roll de 20 cm: base de queso + 1 proteína + 1 agregado. Promoción 3 × $10.000 solo en pollo, camarón o kanikama.",
+          "personalizar": [
+            "hr-proteina",
+            "hr-agregado",
+            "hr-envoltura"
+          ],
+          "productos": [
+            {
+              "id": "hand-roll",
+              "nombre": "Hand rolls",
+              "precio": 3500,
+              "foto": "img/carta/hand-roll.webp",
+              "detalle": "Tiene que ser una proteína (base de queso) y un agregado. Ejemplo: pollo, queso y champiñón; kanikama, queso y cebollín.",
+              "personalizar": [
+                "hr-proteina",
+                "hr-agregado",
+                "hr-envoltura",
+                "hr-extra",
+                "hr-sin-nori"
+              ]
+            },
+            {
+              "id": "hand-roll-vegetariano",
+              "nombre": "Hand roll vegetariano o vegano",
+              "precio": 3500,
+              "foto": "img/carta/hand-roll.webp",
+              "detalle": "Sin proteína: lleva 2 agregados.",
+              "personalizar": [
+                "hr-tipo",
+                "hr-agregado",
+                "hr-agregado-2",
+                "hr-envoltura",
+                "hr-extra",
+                "hr-sin-nori"
+              ]
+            },
+            {
+              "id": "promo-hand-rolls",
+              "nombre": "Promoción de hand rolls 3 × $10.000",
+              "precio": 10000,
+              "foto": "img/carta/hand-roll.webp",
+              "rolls": 3,
+              "destacado": true,
+              "detalle": "3 hand rolls, solo de pollo, camarón o kanikama. Cada uno con una proteína (base de queso) y un agregado. Ejemplo: pollo, queso y cebollín; kanikama, queso y cebollín.",
+              "personalizar": [
+                "hr-proteina-promo",
+                "hr-agregado",
+                "hr-envoltura",
+                "hr-extra",
+                "hr-sin-nori"
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "cupones": [],
-  "personalizacion": [],
+  "personalizacion": [
+    {
+      "id": "hr-proteina",
+      "nombre": "Proteína",
+      "tipo": "elegir",
+      "porRoll": true,
+      "min": 1,
+      "max": 1,
+      "opciones": [
+        {
+          "id": "pollo",
+          "nombre": "Pollo",
+          "precio": 0
+        },
+        {
+          "id": "camaron",
+          "nombre": "Camarón",
+          "precio": 0
+        },
+        {
+          "id": "kanikama",
+          "nombre": "Kanikama",
+          "precio": 0
+        },
+        {
+          "id": "pollo-crispy",
+          "nombre": "Pollo crispy",
+          "precio": 500
+        },
+        {
+          "id": "camaron-crispy",
+          "nombre": "Camarón crispy",
+          "precio": 500
+        },
+        {
+          "id": "vacuno",
+          "nombre": "Vacuno",
+          "precio": 2000
+        }
+      ],
+      "ayuda": "¿Vegetariano o vegano? Pide el «Hand roll vegetariano o vegano»: lleva 2 agregados."
+    },
+    {
+      "id": "hr-proteina-promo",
+      "nombre": "Proteína",
+      "tipo": "elegir",
+      "porRoll": true,
+      "min": 1,
+      "max": 1,
+      "opciones": [
+        {
+          "id": "pollo",
+          "nombre": "Pollo",
+          "precio": 0
+        },
+        {
+          "id": "camaron",
+          "nombre": "Camarón",
+          "precio": 0
+        },
+        {
+          "id": "kanikama",
+          "nombre": "Kanikama",
+          "precio": 0
+        }
+      ]
+    },
+    {
+      "id": "hr-tipo",
+      "nombre": "Tipo",
+      "tipo": "elegir",
+      "porRoll": true,
+      "min": 1,
+      "max": 1,
+      "opciones": [
+        {
+          "id": "vegetariano",
+          "nombre": "Vegetariano",
+          "precio": 0
+        },
+        {
+          "id": "vegano",
+          "nombre": "Vegano",
+          "precio": 0
+        }
+      ]
+    },
+    {
+      "id": "hr-agregado",
+      "nombre": "Agregado",
+      "tipo": "elegir",
+      "porRoll": true,
+      "min": 1,
+      "max": 1,
+      "opciones": [
+        {
+          "id": "champinon",
+          "nombre": "Champiñón",
+          "precio": 0
+        },
+        {
+          "id": "cebollin",
+          "nombre": "Cebollín",
+          "precio": 0
+        },
+        {
+          "id": "aceituna",
+          "nombre": "Aceituna",
+          "precio": 0
+        },
+        {
+          "id": "morron",
+          "nombre": "Morrón",
+          "precio": 0
+        },
+        {
+          "id": "pepino",
+          "nombre": "Pepino",
+          "precio": 0
+        },
+        {
+          "id": "pepinillo",
+          "nombre": "Pepinillo",
+          "precio": 500
+        },
+        {
+          "id": "nuez",
+          "nombre": "Nuez",
+          "precio": 500
+        },
+        {
+          "id": "almendra",
+          "nombre": "Almendra",
+          "precio": 500
+        },
+        {
+          "id": "palta",
+          "nombre": "Palta",
+          "precio": 500
+        },
+        {
+          "id": "palmito",
+          "nombre": "Palmito",
+          "precio": 500
+        },
+        {
+          "id": "choclito",
+          "nombre": "Choclito",
+          "precio": 500
+        },
+        {
+          "id": "frutilla",
+          "nombre": "Frutilla",
+          "precio": 1000
+        }
+      ]
+    },
+    {
+      "id": "hr-agregado-2",
+      "nombre": "Segundo agregado",
+      "tipo": "elegir",
+      "porRoll": true,
+      "min": 1,
+      "max": 1,
+      "opciones": [
+        {
+          "id": "champinon",
+          "nombre": "Champiñón",
+          "precio": 0
+        },
+        {
+          "id": "cebollin",
+          "nombre": "Cebollín",
+          "precio": 0
+        },
+        {
+          "id": "aceituna",
+          "nombre": "Aceituna",
+          "precio": 0
+        },
+        {
+          "id": "morron",
+          "nombre": "Morrón",
+          "precio": 0
+        },
+        {
+          "id": "pepino",
+          "nombre": "Pepino",
+          "precio": 0
+        },
+        {
+          "id": "pepinillo",
+          "nombre": "Pepinillo",
+          "precio": 500
+        },
+        {
+          "id": "nuez",
+          "nombre": "Nuez",
+          "precio": 500
+        },
+        {
+          "id": "almendra",
+          "nombre": "Almendra",
+          "precio": 500
+        },
+        {
+          "id": "palta",
+          "nombre": "Palta",
+          "precio": 500
+        },
+        {
+          "id": "palmito",
+          "nombre": "Palmito",
+          "precio": 500
+        },
+        {
+          "id": "choclito",
+          "nombre": "Choclito",
+          "precio": 500
+        },
+        {
+          "id": "frutilla",
+          "nombre": "Frutilla",
+          "precio": 1000
+        }
+      ]
+    },
+    {
+      "id": "hr-envoltura",
+      "nombre": "Envoltura",
+      "tipo": "elegir",
+      "porRoll": true,
+      "min": 1,
+      "max": 1,
+      "opciones": [
+        {
+          "id": "panko",
+          "nombre": "Panko",
+          "precio": 0,
+          "porDefecto": true
+        },
+        {
+          "id": "tempura",
+          "nombre": "Tempura",
+          "precio": 0
+        },
+        {
+          "id": "panko-merken",
+          "nombre": "Panko merkén",
+          "precio": 500
+        }
+      ]
+    },
+    {
+      "id": "hr-extra",
+      "nombre": "Extra",
+      "tipo": "agregar",
+      "porRoll": true,
+      "min": 0,
+      "max": 5,
+      "opciones": [
+        {
+          "id": "pollo-extra",
+          "nombre": "Pollo extra",
+          "precio": 1000
+        },
+        {
+          "id": "camaron-extra",
+          "nombre": "Camarón extra",
+          "precio": 1000
+        },
+        {
+          "id": "kanikama-extra",
+          "nombre": "Kanikama extra",
+          "precio": 1000
+        },
+        {
+          "id": "pepino-extra",
+          "nombre": "Pepino extra",
+          "precio": 500
+        },
+        {
+          "id": "morron-extra",
+          "nombre": "Morrón extra",
+          "precio": 500
+        },
+        {
+          "id": "aceituna-extra",
+          "nombre": "Aceituna extra",
+          "precio": 500
+        },
+        {
+          "id": "cebollin-extra",
+          "nombre": "Cebollín extra",
+          "precio": 500
+        },
+        {
+          "id": "champinon-extra",
+          "nombre": "Champiñón extra",
+          "precio": 500
+        }
+      ]
+    },
+    {
+      "id": "hr-sin-nori",
+      "nombre": "Sin nori",
+      "tipo": "extra",
+      "porRoll": true,
+      "min": 0,
+      "max": 5,
+      "opciones": [
+        {
+          "id": "sin-nori",
+          "nombre": "Sin nori",
+          "precio": 500
+        }
+      ]
+    }
+  ],
   "ingredientes": {}
 };
