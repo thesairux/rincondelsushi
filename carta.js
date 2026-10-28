@@ -49,8 +49,8 @@ window.CARTA = {
   "negocio": {
     "nombre": "El Rincón del Sushi",
     "lema": "Sushi y promos por WhatsApp",
-    "whatsapp": "56900000000",
-    "whatsappVisible": "+56 9 0000 0000",
+    "whatsapp": "56946324426",
+    "whatsappVisible": "+56 9 4632 4426",
     "facebook": "",
     "instagram": "",
     "direccion": "Calle Demo 123",
