@@ -80,7 +80,7 @@ window.CARTA = {
     "carta": {
       "titulo": "Elige tu",
       "destacado": "tabla",
-      "bajada": "Tablas, cortes premium, hand rolls, especiales (gohan, sushiburger, sushi arepa y sushipleto) y salsas. Suma lo que quieras al pedido."
+      "bajada": "Tablas, cortes premium, hand rolls, especiales (gohan, sushiburger, sushi arepa y sushipleto), box y salsas. Suma lo que quieras al pedido."
     },
     "cupones": {
       "titulo": "Cupones",
@@ -549,6 +549,51 @@ window.CARTA = {
                 "pleto-agregados",
                 "esp-extras"
               ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "nombre": "Box Rincón",
+      "categorias": [
+        {
+          "id": "box-rincon",
+          "nombre": "Box Rincón",
+          "productos": [
+            {
+              "id": "box-rincon-1",
+              "nombre": "Box Rincón del Sushi 1",
+              "precio": 24000,
+              "foto": "img/carta/box-rincon-1.webp",
+              "detalle": "10 aros de cebolla\n6 trutros crispy\n1 porción de papas fritas\n10 cortes fritos en panko: pollo, queso y cebollín\n10 cortes envueltos en queso crema: pollo, queso y morrón\n10 cortes envueltos en palta: champiñón, queso y pepino",
+              "nota": "Con aros de cebolla."
+            },
+            {
+              "id": "box-rincon-2",
+              "nombre": "Box Rincón del Sushi 2",
+              "precio": 24500,
+              "foto": "img/carta/box-rincon-2.webp",
+              "detalle": "5 arrollados: jamón queso o primavera\n6 trutros crispy\n1 porción de papas fritas\n10 cortes fritos en panko: pollo, queso y cebollín\n10 cortes envueltos en queso crema: pollo, queso y morrón\n10 cortes envueltos en palta: champiñón, queso y pepino",
+              "opciones": [
+                "Jamón queso",
+                "Primavera"
+              ],
+              "nota": "Con arrollados de jamón queso o primavera, a elección."
+            },
+            {
+              "id": "box-rincon-3",
+              "nombre": "Box Rincón del Sushi 3",
+              "precio": 24500,
+              "foto": "img/carta/box-rincon-3.webp",
+              "detalle": "5 gyozas fritas: camarón, cerdo, pollo o vegetarianas\n6 trutros crispy\n1 porción de papas fritas\n10 cortes fritos en panko: pollo, queso y cebollín\n10 cortes envueltos en queso crema: pollo, queso y morrón\n10 cortes envueltos en palta: champiñón, queso y pepino",
+              "opciones": [
+                "Camarón",
+                "Cerdo",
+                "Pollo",
+                "Vegetarianas"
+              ],
+              "nota": "Con gyozas de camarón, cerdo, pollo o vegetarianas, a elección."
             }
           ]
         }
