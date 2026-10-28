@@ -23,6 +23,8 @@ transferencia, y cambia `img/logo.png`, `img/icono-192.png`, `img/icono-180.png`
   de $3.500 (total $5.500).
 - **Cuadro «Proteínas que aplican»** del cartel de hand rolls (pepino, morrón, aceituna, cebollín, champiñones):
   falta saber si limita los agregados de la promoción 3 × $10.000. Por ahora la promo acepta todos.
+- **Sushiburger**: su ficha no trae lista de precios. Tiene los recargos de la sushi arepa y el sushipleto
+  (vacuno +$1.000). El gohan tiene vacuno +$2.000, como en su afiche.
 - **Masago roll**: la descripción del catálogo sigue con «Extra…» y no se alcanza a leer.
 - **Sucursales**: nombre, WhatsApp, dirección, horario y delivery de cada una. Hoy todos los pedidos van al
   WhatsApp de la Sucursal del Portal (+56 9 4632 4426).
@@ -89,6 +91,8 @@ personalizacion      → grupos que el cliente elige: punto de la carne, agregad
 - `"tipo": "elegir"`, `"min": 1`, `"max": 1` → el cliente elige una sí o sí (punto de la carne, salsa).
   Con `"porDefecto": true` en una opción, queda marcada de entrada.
 - `"tipo": "extra"`, `"max": 10` → agregados opcionales, cada uno con su `"precio"` (tocino +$1.000).
+- `"suma": { "gohan-agregados": 1 }` en una opción → al elegirla, el cliente elige uno más en ese otro grupo
+  (la proteína «Vegetariano (2 agregados)» del gohan, el sushiburger, la sushi arepa y el sushipleto).
 - `"porRoll": true` → se elige en cada roll; el producto dice cuántos rolls arma el cliente con `"rolls": 2`.
   Con `"gratis": 1` en una opción, la primera no se cobra y cada repetida sí (envoltura en palta o en queso).
 - Para usar un grupo: `"personalizar": ["punto", "agregados"]` en la categoría (vale para todos sus productos)

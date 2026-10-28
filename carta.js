@@ -75,12 +75,12 @@ window.CARTA = {
     "portada": {
       "titulo": "Tablas de sushi",
       "destacado": "para compartir",
-      "bajada": "Tablas mixtas y calientes (con o sin kanikama), cortes premium y hand rolls a tu pinta. Arma tu pedido y mándalo por WhatsApp: el resto lo confirmamos contigo."
+      "bajada": "Tablas mixtas y calientes (con o sin kanikama), cortes premium, hand rolls, gohan, sushiburger, sushi arepa y sushipleto. Arma tu pedido y mándalo por WhatsApp: el resto lo confirmamos contigo."
     },
     "carta": {
       "titulo": "Elige tu",
       "destacado": "tabla",
-      "bajada": "Tablas mixtas y calientes (con o sin kanikama), cortes premium y hand rolls. Suma lo que quieras al pedido."
+      "bajada": "Tablas, cortes premium, hand rolls y especiales: gohan, sushiburger, sushi arepa y sushipleto. Suma lo que quieras al pedido."
     },
     "cupones": {
       "titulo": "Cupones",
@@ -98,7 +98,7 @@ window.CARTA = {
       "lista": [
         {
           "titulo": "Elige o arma",
-          "texto": "Escoge tu tabla o tus cortes premium, o arma tus hand rolls como más te gusten."
+          "texto": "Escoge tu tabla o tus cortes premium, o arma tus hand rolls, gohan y especiales como más te gusten."
         },
         {
           "titulo": "Revisa tu pedido",
@@ -488,6 +488,66 @@ window.CARTA = {
                 "hr-envoltura",
                 "hr-extra",
                 "hr-sin-nori"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "nombre": "Especiales",
+      "categorias": [
+        {
+          "id": "especiales",
+          "nombre": "Especiales",
+          "nota": "Pídelos de lunes a domingo.",
+          "productos": [
+            {
+              "id": "gohan",
+              "nombre": "Gohan pollo o camarón",
+              "precio": 7000,
+              "foto": "img/carta/gohan.webp",
+              "detalle": "Arma tu gohan seleccionando 1 relleno y 1 agregado. Base de palta y queso.",
+              "personalizar": [
+                "gohan-proteina",
+                "gohan-agregados",
+                "esp-extras"
+              ]
+            },
+            {
+              "id": "sushiburger",
+              "nombre": "Sushiburger",
+              "precio": 7500,
+              "foto": "img/carta/sushiburger.webp",
+              "detalle": "Como es de costumbre, lleva base de queso crema: escoge 1 proteína y 3 agregados. ¡Puedes combinarla como tú quieras!",
+              "personalizar": [
+                "burger-proteina",
+                "burger-agregados",
+                "esp-extras"
+              ]
+            },
+            {
+              "id": "sushi-arepa",
+              "nombre": "Sushi arepa",
+              "precio": 5000,
+              "foto": "img/carta/sushi-arepa.webp",
+              "detalle": "Arma tu sushi arepa escogiendo 1 proteína y 1 agregado. Base de palta y queso.",
+              "personalizar": [
+                "arepa-proteina",
+                "arepa-agregados",
+                "esp-extras"
+              ]
+            },
+            {
+              "id": "sushipleto",
+              "nombre": "Sushipleto",
+              "precio": 5000,
+              "foto": "img/carta/sushipleto.webp",
+              "detalle": "Arma tu sushipleto escogiendo 1 proteína y 1 agregado. Base de queso.",
+              "personalizar": [
+                "pleto-proteina",
+                "pleto-agregados",
+                "esp-extras"
               ]
             }
           ]
@@ -944,6 +1004,575 @@ window.CARTA = {
           "id": "tempura",
           "nombre": "Tempura",
           "precio": 0
+        }
+      ]
+    },
+    {
+      "id": "gohan-proteina",
+      "nombre": "Proteína",
+      "tipo": "elegir",
+      "min": 1,
+      "max": 1,
+      "opciones": [
+        {
+          "id": "pollo",
+          "nombre": "Pollo",
+          "precio": 0
+        },
+        {
+          "id": "camaron",
+          "nombre": "Camarón",
+          "precio": 0
+        },
+        {
+          "id": "kanikama",
+          "nombre": "Kanikama",
+          "precio": 0
+        },
+        {
+          "id": "pollo-crispy",
+          "nombre": "Pollo crispy",
+          "precio": 500
+        },
+        {
+          "id": "camaron-crispy",
+          "nombre": "Camarón crispy",
+          "precio": 500
+        },
+        {
+          "id": "vacuno",
+          "nombre": "Vacuno",
+          "precio": 2000
+        },
+        {
+          "id": "salmon",
+          "nombre": "Salmón",
+          "precio": 2000
+        },
+        {
+          "id": "pulpo",
+          "nombre": "Pulpo",
+          "precio": 2000
+        },
+        {
+          "id": "salmon-apanado",
+          "nombre": "Salmón apanado",
+          "precio": 2500
+        },
+        {
+          "id": "vegetariano",
+          "nombre": "Vegetariano (2 agregados)",
+          "precio": 0,
+          "suma": {
+            "gohan-agregados": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "gohan-agregados",
+      "nombre": "Agregado",
+      "tipo": "elegir",
+      "min": 1,
+      "max": 1,
+      "opciones": [
+        {
+          "id": "aceituna",
+          "nombre": "Aceituna",
+          "precio": 0
+        },
+        {
+          "id": "champinones",
+          "nombre": "Champiñones",
+          "precio": 0
+        },
+        {
+          "id": "cebollin",
+          "nombre": "Cebollín",
+          "precio": 0
+        },
+        {
+          "id": "pepino",
+          "nombre": "Pepino",
+          "precio": 0
+        },
+        {
+          "id": "morron",
+          "nombre": "Morrón",
+          "precio": 0
+        },
+        {
+          "id": "palta",
+          "nombre": "Palta",
+          "precio": 500
+        },
+        {
+          "id": "palmito",
+          "nombre": "Palmito",
+          "precio": 500
+        },
+        {
+          "id": "choclito",
+          "nombre": "Choclito",
+          "precio": 500
+        },
+        {
+          "id": "almendra-tostada",
+          "nombre": "Almendra tostada",
+          "precio": 500
+        },
+        {
+          "id": "nuez",
+          "nombre": "Nuez",
+          "precio": 500
+        },
+        {
+          "id": "pepinillo",
+          "nombre": "Pepinillo",
+          "precio": 500
+        },
+        {
+          "id": "frutilla",
+          "nombre": "Frutilla",
+          "precio": 1000
+        }
+      ]
+    },
+    {
+      "id": "burger-proteina",
+      "nombre": "Proteína",
+      "tipo": "elegir",
+      "min": 1,
+      "max": 1,
+      "opciones": [
+        {
+          "id": "pollo",
+          "nombre": "Pollo",
+          "precio": 0
+        },
+        {
+          "id": "camaron",
+          "nombre": "Camarón",
+          "precio": 0
+        },
+        {
+          "id": "kanikama",
+          "nombre": "Kanikama",
+          "precio": 0
+        },
+        {
+          "id": "pollo-crispy",
+          "nombre": "Pollo crispy",
+          "precio": 500
+        },
+        {
+          "id": "camaron-crispy",
+          "nombre": "Camarón crispy",
+          "precio": 500
+        },
+        {
+          "id": "vacuno",
+          "nombre": "Vacuno",
+          "precio": 1000
+        },
+        {
+          "id": "salmon",
+          "nombre": "Salmón",
+          "precio": 2000
+        },
+        {
+          "id": "pulpo",
+          "nombre": "Pulpo",
+          "precio": 2000
+        },
+        {
+          "id": "salmon-apanado",
+          "nombre": "Salmón apanado",
+          "precio": 2500
+        },
+        {
+          "id": "vegetariano",
+          "nombre": "Vegetariano (2 agregados)",
+          "precio": 0,
+          "suma": {
+            "burger-agregados": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "burger-agregados",
+      "nombre": "Agregados",
+      "tipo": "elegir",
+      "min": 3,
+      "max": 3,
+      "opciones": [
+        {
+          "id": "aceituna",
+          "nombre": "Aceituna",
+          "precio": 0
+        },
+        {
+          "id": "champinones",
+          "nombre": "Champiñones",
+          "precio": 0
+        },
+        {
+          "id": "cebollin",
+          "nombre": "Cebollín",
+          "precio": 0
+        },
+        {
+          "id": "pepino",
+          "nombre": "Pepino",
+          "precio": 0
+        },
+        {
+          "id": "morron",
+          "nombre": "Morrón",
+          "precio": 0
+        },
+        {
+          "id": "palta",
+          "nombre": "Palta",
+          "precio": 500
+        },
+        {
+          "id": "palmito",
+          "nombre": "Palmito",
+          "precio": 500
+        },
+        {
+          "id": "choclito",
+          "nombre": "Choclito",
+          "precio": 500
+        },
+        {
+          "id": "almendra-tostada",
+          "nombre": "Almendra tostada",
+          "precio": 500
+        },
+        {
+          "id": "nuez",
+          "nombre": "Nuez",
+          "precio": 500
+        },
+        {
+          "id": "pepinillo",
+          "nombre": "Pepinillo",
+          "precio": 500
+        },
+        {
+          "id": "frutilla",
+          "nombre": "Frutilla",
+          "precio": 1000
+        }
+      ]
+    },
+    {
+      "id": "arepa-proteina",
+      "nombre": "Proteína",
+      "tipo": "elegir",
+      "min": 1,
+      "max": 1,
+      "opciones": [
+        {
+          "id": "pollo",
+          "nombre": "Pollo",
+          "precio": 0
+        },
+        {
+          "id": "camaron",
+          "nombre": "Camarón",
+          "precio": 0
+        },
+        {
+          "id": "kanikama",
+          "nombre": "Kanikama",
+          "precio": 0
+        },
+        {
+          "id": "pollo-crispy",
+          "nombre": "Pollo crispy",
+          "precio": 500
+        },
+        {
+          "id": "camaron-crispy",
+          "nombre": "Camarón crispy",
+          "precio": 500
+        },
+        {
+          "id": "vacuno",
+          "nombre": "Vacuno",
+          "precio": 1000
+        },
+        {
+          "id": "salmon",
+          "nombre": "Salmón",
+          "precio": 2000
+        },
+        {
+          "id": "pulpo",
+          "nombre": "Pulpo",
+          "precio": 2000
+        },
+        {
+          "id": "salmon-apanado",
+          "nombre": "Salmón apanado",
+          "precio": 2500
+        },
+        {
+          "id": "vegetariano",
+          "nombre": "Vegetariano (2 agregados)",
+          "precio": 0,
+          "suma": {
+            "arepa-agregados": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "arepa-agregados",
+      "nombre": "Agregado",
+      "tipo": "elegir",
+      "min": 1,
+      "max": 1,
+      "opciones": [
+        {
+          "id": "aceituna",
+          "nombre": "Aceituna",
+          "precio": 0
+        },
+        {
+          "id": "champinones",
+          "nombre": "Champiñones",
+          "precio": 0
+        },
+        {
+          "id": "cebollin",
+          "nombre": "Cebollín",
+          "precio": 0
+        },
+        {
+          "id": "pepino",
+          "nombre": "Pepino",
+          "precio": 0
+        },
+        {
+          "id": "morron",
+          "nombre": "Morrón",
+          "precio": 0
+        },
+        {
+          "id": "palta",
+          "nombre": "Palta",
+          "precio": 500
+        },
+        {
+          "id": "palmito",
+          "nombre": "Palmito",
+          "precio": 500
+        },
+        {
+          "id": "choclito",
+          "nombre": "Choclito",
+          "precio": 500
+        },
+        {
+          "id": "almendra-tostada",
+          "nombre": "Almendra tostada",
+          "precio": 500
+        },
+        {
+          "id": "nuez",
+          "nombre": "Nuez",
+          "precio": 500
+        },
+        {
+          "id": "pepinillo",
+          "nombre": "Pepinillo",
+          "precio": 500
+        },
+        {
+          "id": "frutilla",
+          "nombre": "Frutilla",
+          "precio": 1000
+        }
+      ]
+    },
+    {
+      "id": "pleto-proteina",
+      "nombre": "Proteína",
+      "tipo": "elegir",
+      "min": 1,
+      "max": 1,
+      "opciones": [
+        {
+          "id": "pollo",
+          "nombre": "Pollo",
+          "precio": 0
+        },
+        {
+          "id": "camaron",
+          "nombre": "Camarón",
+          "precio": 0
+        },
+        {
+          "id": "kanikama",
+          "nombre": "Kanikama",
+          "precio": 0
+        },
+        {
+          "id": "pollo-crispy",
+          "nombre": "Pollo crispy",
+          "precio": 500
+        },
+        {
+          "id": "camaron-crispy",
+          "nombre": "Camarón crispy",
+          "precio": 500
+        },
+        {
+          "id": "vacuno",
+          "nombre": "Vacuno",
+          "precio": 1000
+        },
+        {
+          "id": "salmon",
+          "nombre": "Salmón",
+          "precio": 2000
+        },
+        {
+          "id": "pulpo",
+          "nombre": "Pulpo",
+          "precio": 2000
+        },
+        {
+          "id": "salmon-apanado",
+          "nombre": "Salmón apanado",
+          "precio": 2500
+        },
+        {
+          "id": "vegetariano",
+          "nombre": "Vegetariano (2 agregados)",
+          "precio": 0,
+          "suma": {
+            "pleto-agregados": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "pleto-agregados",
+      "nombre": "Agregado",
+      "tipo": "elegir",
+      "min": 1,
+      "max": 1,
+      "opciones": [
+        {
+          "id": "aceituna",
+          "nombre": "Aceituna",
+          "precio": 0
+        },
+        {
+          "id": "champinones",
+          "nombre": "Champiñones",
+          "precio": 0
+        },
+        {
+          "id": "cebollin",
+          "nombre": "Cebollín",
+          "precio": 0
+        },
+        {
+          "id": "pepino",
+          "nombre": "Pepino",
+          "precio": 0
+        },
+        {
+          "id": "morron",
+          "nombre": "Morrón",
+          "precio": 0
+        },
+        {
+          "id": "palta",
+          "nombre": "Palta",
+          "precio": 500
+        },
+        {
+          "id": "palmito",
+          "nombre": "Palmito",
+          "precio": 500
+        },
+        {
+          "id": "choclito",
+          "nombre": "Choclito",
+          "precio": 500
+        },
+        {
+          "id": "almendra-tostada",
+          "nombre": "Almendra tostada",
+          "precio": 500
+        },
+        {
+          "id": "nuez",
+          "nombre": "Nuez",
+          "precio": 500
+        },
+        {
+          "id": "frutilla",
+          "nombre": "Frutilla",
+          "precio": 1000
+        }
+      ]
+    },
+    {
+      "id": "esp-extras",
+      "nombre": "Extras",
+      "tipo": "extra",
+      "min": 0,
+      "max": 10,
+      "ayuda": "Proteína extra (pollo, camarón o kanikama) $1.000; agregado extra (pepino, morrón, aceituna, cebollín o champiñones) $500.",
+      "opciones": [
+        {
+          "id": "pollo-extra",
+          "nombre": "Pollo extra",
+          "precio": 1000
+        },
+        {
+          "id": "camaron-extra",
+          "nombre": "Camarón extra",
+          "precio": 1000
+        },
+        {
+          "id": "kanikama-extra",
+          "nombre": "Kanikama extra",
+          "precio": 1000
+        },
+        {
+          "id": "pepino-extra",
+          "nombre": "Pepino extra",
+          "precio": 500
+        },
+        {
+          "id": "morron-extra",
+          "nombre": "Morrón extra",
+          "precio": 500
+        },
+        {
+          "id": "aceituna-extra",
+          "nombre": "Aceituna extra",
+          "precio": 500
+        },
+        {
+          "id": "cebollin-extra",
+          "nombre": "Cebollín extra",
+          "precio": 500
+        },
+        {
+          "id": "champinones-extra",
+          "nombre": "Champiñones extra",
+          "precio": 500
         }
       ]
     }

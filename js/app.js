@@ -101,6 +101,24 @@
     if (p.rolls && p.rolls.length) return p.rolls;
     return gruposRoll(id).length ? [{}] : [];
   }
+  /* Mínimo y máximo de un grupo según lo elegido: una opción con "suma" ({ "agregados": 1 }) deja elegir
+     más en otro grupo (ej: vegetariano lleva 2 agregados). */
+  function limites(g, conf) {
+    var mas = 0;
+    var el = (conf && conf.elecciones) || {};
+    Object.keys(el).forEach(function (gid) {
+      (el[gid] || []).forEach(function (oid) { var o = opcionDe(gid, oid); if (o && o.suma && o.suma[g.id] > 0) mas += o.suma[g.id]; });
+    });
+    return { min: (g.min || 0) + mas, max: (g.max || 1) + mas };
+  }
+  /* Al desmarcar una opción con "suma", lo elegido de más en el otro grupo se quita. */
+  function recortarElecciones(id, conf) {
+    gruposProducto(id).forEach(function (g) {
+      var sel = conf.elecciones[g.id];
+      var max = limites(g, conf).max;
+      if (sel && sel.length > max) conf.elecciones[g.id] = sel.slice(0, max);
+    });
+  }
   function tieneOpciones(p) { return !!(p.opciones && p.opciones.length); }
   function personalizable(id) { return tieneOpciones(PRODUCTOS[id].p) || gruposDe(id).length > 0; }
   function opcionDe(grupoId, opId) {
@@ -705,7 +723,7 @@
     var grupos = gruposProducto(ficha.id);
     for (var i = 0; i < grupos.length; i++) {
       var g = grupos[i];
-      var min = g.min || 0;
+      var min = limites(g, conf).min;
       if (g.tipo === "texto") { if (min && !String((conf.textos || {})[g.id] || "").trim()) return { g: g }; continue; }
       if (((conf.elecciones || {})[g.id] || []).length < min) return { g: g };
     }
@@ -736,9 +754,10 @@
         '<input class="texto-libre" type="text" maxlength="60" data-texto="' + esc(g.id) + '" value="' + esc((conf.textos || {})[g.id] || "") + '" placeholder="Escribe tu elección"></label>';
     }
     var sel = (conf.elecciones || {})[g.id] || [];
-    var max = g.max || 1;
+    var lim = limites(g, conf);
+    var max = lim.max;
     var unica = g.tipo === "elegir" && max === 1;
-    var ayuda = g.tipo === "extra" || !g.min ? "Opcional" : (g.min === max ? "Elige " + max : "Elige de " + g.min + " a " + max);
+    var ayuda = g.tipo === "extra" || !lim.min ? "Opcional" : (lim.min === max ? "Elige " + max : "Elige de " + lim.min + " a " + max);
     return '<fieldset class="grupo"><legend>' + esc(g.nombre) + " <small>" + ayuda + "</small></legend>" +
       (g.opciones || []).map(function (o) {
         var marcado = sel.indexOf(o.id) >= 0;
@@ -925,12 +944,13 @@
     var gid = t.getAttribute("data-grupo");
     if (gid) {
       var g = GRUPOS[gid];
-      var unica = g.tipo === "elegir" && (g.max || 1) === 1;
+      var unica = g.tipo === "elegir" && limites(g, ficha.conf).max === 1;
       var sel = (ficha.conf.elecciones[gid] || []).slice();
       if (unica) sel = [t.value];
       else if (t.checked) { if (sel.indexOf(t.value) < 0) sel.push(t.value); }
       else sel = sel.filter(function (v) { return v !== t.value; });
       if (sel.length) ficha.conf.elecciones[gid] = sel; else delete ficha.conf.elecciones[gid];
+      recortarElecciones(ficha.id, ficha.conf);
       pintarFicha();
     }
   });
