@@ -80,7 +80,7 @@ window.CARTA = {
     "carta": {
       "titulo": "Elige tu",
       "destacado": "tabla",
-      "bajada": "Tablas, cortes premium, hand rolls, especiales (gohan, sushiburger, sushi arepa y sushipleto), box y salsas. Suma lo que quieras al pedido."
+      "bajada": "Tablas, cortes premium, hand rolls, especiales, box, aperitivos y salsas. Suma lo que quieras al pedido."
     },
     "cupones": {
       "titulo": "Cupones",
@@ -594,6 +594,115 @@ window.CARTA = {
                 "Vegetarianas"
               ],
               "nota": "Con gyozas de camarón, cerdo, pollo o vegetarianas, a elección."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "nombre": "Aperitivos",
+      "categorias": [
+        {
+          "id": "aperitivos",
+          "nombre": "Aperitivos",
+          "productos": [
+            {
+              "id": "aros-de-cebolla",
+              "nombre": "Aros de cebolla",
+              "precio": 2000,
+              "foto": "img/carta/aros-de-cebolla.webp",
+              "detalle": "Porción de 10 aros de cebolla."
+            },
+            {
+              "id": "empanadas-de-queso",
+              "nombre": "Empanadas de queso",
+              "precio": 2500,
+              "foto": "img/carta/empanadas-de-queso.webp",
+              "detalle": "10 empanadas de queso fritas."
+            },
+            {
+              "id": "papas-fritas",
+              "nombre": "Papas fritas",
+              "precio": 3500,
+              "foto": "img/carta/papas-fritas.webp",
+              "detalle": "Porción de 400 g de papas fritas."
+            },
+            {
+              "id": "bolitas-crispy",
+              "nombre": "Bolitas crispy",
+              "precio": 4500,
+              "foto": "img/carta/bolitas-crispy.webp",
+              "detalle": "Porción de 6 bolitas crispy rellenas de pollo y queso crema, o de camarón y queso crema.",
+              "opciones": [
+                "Pollo queso crema",
+                "Camarón queso crema"
+              ]
+            },
+            {
+              "id": "box-nino",
+              "nombre": "Box niño",
+              "precio": 4500,
+              "foto": "img/carta/box-nino.webp",
+              "detalle": "7 nuggets de pollo con 400 g de papas fritas."
+            },
+            {
+              "id": "box-trutros",
+              "nombre": "Box trutros",
+              "precio": 7000,
+              "foto": "img/carta/box-trutros.webp",
+              "detalle": "6 trutros de pollo crispy con 400 g de papas fritas."
+            },
+            {
+              "id": "trutros-crispy",
+              "nombre": "8 trutros crispy",
+              "precio": 7000,
+              "foto": "img/carta/trutros-crispy.webp",
+              "detalle": "Porción de 8 trutros apanados."
+            },
+            {
+              "id": "camarones-apanados",
+              "nombre": "Camarones apanados",
+              "precio": 5000,
+              "foto": "img/carta/camarones-apanados.webp",
+              "detalle": "Porción de 6 camarones apanados."
+            },
+            {
+              "id": "arrollados",
+              "nombre": "Arrollados",
+              "precio": 4000,
+              "foto": "img/carta/arrollados.webp",
+              "detalle": "Porción de 5 arrollados fritos, primavera o jamón queso.",
+              "opciones": [
+                "Primavera",
+                "Jamón queso"
+              ]
+            },
+            {
+              "id": "gyozas",
+              "nombre": "Gyozas",
+              "precio": 4000,
+              "foto": "img/carta/gyozas.webp",
+              "detalle": "Porción de 5 gyozas fritas: camarón, cerdo, pollo o vegetarianas.",
+              "opciones": [
+                "Camarón",
+                "Cerdo",
+                "Pollo",
+                "Vegetarianas"
+              ]
+            },
+            {
+              "id": "palitos-de-queso",
+              "nombre": "Palitos de queso",
+              "precio": 4000,
+              "foto": "img/carta/palitos-de-queso.webp",
+              "detalle": "8 palitos de queso."
+            },
+            {
+              "id": "papas-salsa-blanca",
+              "nombre": "Papas con salsa blanca y camarones",
+              "precio": 10000,
+              "foto": "img/carta/papas-salsa-blanca.webp",
+              "detalle": "Papas fritas con salsa blanca y camarones."
             }
           ]
         }
