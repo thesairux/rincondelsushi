@@ -703,6 +703,34 @@ window.CARTA = {
               "precio": 10000,
               "foto": "img/carta/papas-salsa-blanca.webp",
               "detalle": "Papas fritas con salsa blanca y camarones."
+            },
+            {
+              "id": "nigiri-camaron",
+              "nombre": "Nigiri camarón",
+              "precio": 3500,
+              "foto": "img/carta/nigiri-camaron.webp",
+              "detalle": "4 unidades."
+            },
+            {
+              "id": "nigiri-palta",
+              "nombre": "Nigiri de palta",
+              "precio": 3000,
+              "foto": "img/carta/nigiri-palta.webp",
+              "detalle": "4 unidades."
+            },
+            {
+              "id": "nigiri-kanikama",
+              "nombre": "Nigiri kanikama",
+              "precio": 3000,
+              "foto": "img/carta/nigiri-kanikama.webp",
+              "detalle": "4 unidades."
+            },
+            {
+              "id": "pote-ceviche",
+              "nombre": "Pote de ceviche",
+              "precio": 6000,
+              "foto": "img/carta/pote-ceviche.webp",
+              "detalle": "Pote de ceviche de salmón y camarón ecuatoriano."
             }
           ]
         }
