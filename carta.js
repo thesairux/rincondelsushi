@@ -463,6 +463,18 @@ window.CARTA = {
               ]
             },
             {
+              "id": "hand-roll-xl",
+              "nombre": "Handroll XL",
+              "precio": 9000,
+              "foto": "img/carta/hand-roll-xl.webp",
+              "detalle": "Hand roll de 1 kilo con queso crema de base: 2 proteínas y 3 agregados.",
+              "personalizar": [
+                "xl-proteinas",
+                "xl-agregados",
+                "xl-envoltura"
+              ]
+            },
+            {
               "id": "promo-hand-rolls",
               "nombre": "Promoción de hand rolls 3 × $10.000",
               "precio": 10000,
@@ -799,6 +811,139 @@ window.CARTA = {
           "id": "sin-nori",
           "nombre": "Sin nori",
           "precio": 500
+        }
+      ]
+    },
+    {
+      "id": "xl-proteinas",
+      "nombre": "Proteínas",
+      "tipo": "elegir",
+      "min": 2,
+      "max": 2,
+      "opciones": [
+        {
+          "id": "pollo",
+          "nombre": "Pollo",
+          "precio": 0
+        },
+        {
+          "id": "camaron",
+          "nombre": "Camarón",
+          "precio": 0
+        },
+        {
+          "id": "vacuno",
+          "nombre": "Vacuno",
+          "precio": 0
+        },
+        {
+          "id": "salmon",
+          "nombre": "Salmón",
+          "precio": 0
+        },
+        {
+          "id": "kanikama",
+          "nombre": "Kanikama",
+          "precio": 0
+        },
+        {
+          "id": "pollo-crispy",
+          "nombre": "Pollo crispy",
+          "precio": 0
+        },
+        {
+          "id": "camaron-crispy",
+          "nombre": "Camarón crispy",
+          "precio": 0
+        }
+      ]
+    },
+    {
+      "id": "xl-agregados",
+      "nombre": "Agregados",
+      "tipo": "elegir",
+      "min": 3,
+      "max": 3,
+      "opciones": [
+        {
+          "id": "palta",
+          "nombre": "Palta",
+          "precio": 0
+        },
+        {
+          "id": "palmito",
+          "nombre": "Palmito",
+          "precio": 0
+        },
+        {
+          "id": "choclito",
+          "nombre": "Choclito",
+          "precio": 0
+        },
+        {
+          "id": "pepinillo",
+          "nombre": "Pepinillo",
+          "precio": 0
+        },
+        {
+          "id": "nuez",
+          "nombre": "Nuez",
+          "precio": 0
+        },
+        {
+          "id": "almendra",
+          "nombre": "Almendra",
+          "precio": 0
+        },
+        {
+          "id": "frutilla",
+          "nombre": "Frutilla",
+          "precio": 0
+        },
+        {
+          "id": "cebollin",
+          "nombre": "Cebollín",
+          "precio": 0
+        },
+        {
+          "id": "pepino",
+          "nombre": "Pepino",
+          "precio": 0
+        },
+        {
+          "id": "morron",
+          "nombre": "Morrón",
+          "precio": 0
+        },
+        {
+          "id": "champinon",
+          "nombre": "Champiñón",
+          "precio": 0
+        },
+        {
+          "id": "aceituna",
+          "nombre": "Aceituna",
+          "precio": 0
+        }
+      ]
+    },
+    {
+      "id": "xl-envoltura",
+      "nombre": "Envoltura",
+      "tipo": "elegir",
+      "min": 1,
+      "max": 1,
+      "opciones": [
+        {
+          "id": "panko",
+          "nombre": "Panko",
+          "precio": 0,
+          "porDefecto": true
+        },
+        {
+          "id": "tempura",
+          "nombre": "Tempura",
+          "precio": 0
         }
       ]
     }

@@ -17,6 +17,17 @@ Antes de publicar, revisa en `carta.js` → `negocio` el WhatsApp, la dirección
 transferencia, y cambia `img/logo.png`, `img/icono-192.png`, `img/icono-180.png` y `favicon.ico` por el logo del local
 (los que vienen son provisorios, con el nombre en letras).
 
+## Pendiente de confirmar con el local
+
+- **Hand roll de vacuno**: el cartel dice «Vacuno $5.500». Está cargado como +$2.000 sobre el hand roll
+  de $3.500 (total $5.500).
+- **Cuadro «Proteínas que aplican»** del cartel de hand rolls (pepino, morrón, aceituna, cebollín, champiñones):
+  falta saber si limita los agregados de la promoción 3 × $10.000. Por ahora la promo acepta todos.
+- **Masago roll**: la descripción del catálogo sigue con «Extra…» y no se alcanza a leer.
+- **Sucursales**: nombre, WhatsApp, dirección, horario y delivery de cada una. Hoy todos los pedidos van al
+  WhatsApp de la Sucursal del Portal (+56 9 4632 4426).
+- Dirección, horario, redes, datos de transferencia, logo y colores del local.
+
 ## Panel de administración
 
 Entra a **tu-pagina.vercel.app/admin**. El usuario es `rincondelsushi` (se cambia con `ADMIN_USER`) y la contraseña es la
