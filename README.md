@@ -23,8 +23,8 @@ transferencia, y cambia `img/logo.png`, `img/icono-192.png`, `img/icono-180.png`
   de $3.500 (total $5.500).
 - **Cuadro «Proteínas que aplican»** del cartel de hand rolls (pepino, morrón, aceituna, cebollín, champiñones):
   falta saber si limita los agregados de la promoción 3 × $10.000. Por ahora la promo acepta todos.
-- **Sushiburger**: su ficha no trae lista de precios. Tiene los recargos de la sushi arepa y el sushipleto
-  (vacuno +$1.000). El gohan tiene vacuno +$2.000, como en su afiche.
+- **Sushiburger**: confirmado que vale $7.500 también con vacuno. Las demás proteínas y agregados tienen los
+  recargos de la sushi arepa y el sushipleto (su ficha no trae lista de precios).
 - **Masago roll**: la descripción del catálogo sigue con «Extra…» y no se alcanza a leer.
 - **Sucursales**: nombre, WhatsApp, dirección, horario y delivery de cada una. Hoy todos los pedidos van al
   WhatsApp de la Sucursal del Portal (+56 9 4632 4426).

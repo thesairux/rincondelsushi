@@ -80,7 +80,7 @@ window.CARTA = {
     "carta": {
       "titulo": "Elige tu",
       "destacado": "tabla",
-      "bajada": "Tablas, cortes premium, hand rolls y especiales: gohan, sushiburger, sushi arepa y sushipleto. Suma lo que quieras al pedido."
+      "bajada": "Tablas, cortes premium, hand rolls, especiales (gohan, sushiburger, sushi arepa y sushipleto) y salsas. Suma lo que quieras al pedido."
     },
     "cupones": {
       "titulo": "Cupones",
@@ -549,6 +549,53 @@ window.CARTA = {
                 "pleto-agregados",
                 "esp-extras"
               ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "nombre": "Salsas",
+      "categorias": [
+        {
+          "id": "salsas",
+          "nombre": "Salsas",
+          "productos": [
+            {
+              "id": "salsa-spicy",
+              "nombre": "Pote de salsa spicy",
+              "precio": 700,
+              "foto": "img/carta/salsa-spicy.webp"
+            },
+            {
+              "id": "salsa-al-olivo",
+              "nombre": "Pote de salsa al olivo",
+              "precio": 700,
+              "foto": "img/carta/salsa-al-olivo.webp"
+            },
+            {
+              "id": "salsa-acevichada",
+              "nombre": "Pote de salsa acevichada",
+              "precio": 700,
+              "foto": "img/carta/salsa-acevichada.webp"
+            },
+            {
+              "id": "salsa-teriyaki",
+              "nombre": "Salsa teriyaki",
+              "precio": 500,
+              "foto": "img/carta/salsa-teriyaki.webp"
+            },
+            {
+              "id": "salsa-soya",
+              "nombre": "Salsa soya",
+              "precio": 500,
+              "foto": "img/carta/salsa-soya.webp"
+            },
+            {
+              "id": "jengibre",
+              "nombre": "Pote de jengibre",
+              "precio": 500,
+              "foto": "img/carta/jengibre.webp"
             }
           ]
         }
@@ -1173,7 +1220,7 @@ window.CARTA = {
         {
           "id": "vacuno",
           "nombre": "Vacuno",
-          "precio": 1000
+          "precio": 0
         },
         {
           "id": "salmon",
