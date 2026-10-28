@@ -75,12 +75,12 @@ window.CARTA = {
     "portada": {
       "titulo": "Tablas de sushi",
       "destacado": "para compartir",
-      "bajada": "Tablas mixtas y calientes, con o sin kanikama. Arma tu pedido y mándalo por WhatsApp: el resto lo confirmamos contigo."
+      "bajada": "Tablas mixtas y calientes, con o sin kanikama, y cortes premium. Arma tu pedido y mándalo por WhatsApp: el resto lo confirmamos contigo."
     },
     "carta": {
       "titulo": "Elige tu",
       "destacado": "tabla",
-      "bajada": "Tablas mixtas y calientes, con o sin kanikama. Suma lo que quieras al pedido."
+      "bajada": "Tablas mixtas y calientes, con o sin kanikama, y cortes premium. Suma lo que quieras al pedido."
     },
     "cupones": {
       "titulo": "Cupones",
@@ -330,6 +330,91 @@ window.CARTA = {
               "detalle": "40 cortes calientes: pollo, queso y cebollín\n40 cortes calientes: camarón, queso y aceituna\n20 cortes calientes: pollo, queso y palta",
               "precio": 29000,
               "foto": "img/carta/tabla-100-cortes.webp"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "nombre": "Cortes premium",
+      "categorias": [
+        {
+          "id": "cortes-premium",
+          "nombre": "Cortes premium",
+          "productos": [
+            {
+              "id": "pollo-spicy",
+              "nombre": "Pollo spicy",
+              "detalle": "10 cortes envueltos en panko de pollo, queso y cebollín con salsa spicy.",
+              "precio": 5200,
+              "foto": "img/carta/pollo-spicy.webp"
+            },
+            {
+              "id": "guacamole-roll",
+              "nombre": "Guacamole roll",
+              "detalle": "10 cortes envueltos en sésamo mixto. Pollo, queso y palta con topping de guacamole.",
+              "precio": 7000,
+              "foto": "img/carta/guacamole-roll.webp"
+            },
+            {
+              "id": "camaron-al-olivo",
+              "nombre": "Camarón al olivo",
+              "detalle": "10 cortes envueltos en panko de camarón, queso y palta con salsa al olivo.",
+              "precio": 5200,
+              "foto": "img/carta/camaron-al-olivo.webp"
+            },
+            {
+              "id": "pulpo-al-olivo",
+              "nombre": "Pulpo al olivo",
+              "detalle": "10 cortes envueltos en panko de pulpo, queso y palta (salsa al olivo).",
+              "precio": 7000,
+              "foto": "img/carta/pulpo-al-olivo.webp"
+            },
+            {
+              "id": "masago-roll",
+              "nombre": "Masago roll",
+              "detalle": "Salmón, queso crema y cebollín o palta.",
+              "precio": 8500,
+              "foto": "img/carta/masago-roll.webp",
+              "opciones": [
+                "Cebollín",
+                "Palta"
+              ]
+            },
+            {
+              "id": "roll-acevichado",
+              "nombre": "Roll acevichado",
+              "detalle": "10 cortes envueltos en palta, de camarón, queso y palta. Cubiertos de nuestro exquisito ceviche de salmón.",
+              "precio": 8500,
+              "foto": "img/carta/roll-acevichado.webp"
+            },
+            {
+              "id": "roll-sin-arroz",
+              "nombre": "Roll sin arroz",
+              "detalle": "10 cortes sin arroz envueltos en palta, de pollo, queso, palmito, cebollín y aceituna.",
+              "precio": 8000,
+              "foto": "img/carta/roll-sin-arroz.webp"
+            },
+            {
+              "id": "panko-vacuno",
+              "nombre": "Panko vacuno",
+              "detalle": "10 cortes envueltos en panko de vacuno, queso y palta.",
+              "precio": 5500,
+              "foto": "img/carta/panko-vacuno.webp"
+            },
+            {
+              "id": "pulpo-panko",
+              "nombre": "Pulpo panko",
+              "detalle": "10 cortes envueltos en panko de pulpo, queso y palta.",
+              "precio": 6500,
+              "foto": "img/carta/pulpo-panko.webp"
+            },
+            {
+              "id": "panko-salmon",
+              "nombre": "Panko salmón",
+              "detalle": "10 cortes envueltos en panko de salmón, queso y palta.",
+              "precio": 6500,
+              "foto": "img/carta/panko-salmon.webp"
             }
           ]
         }
