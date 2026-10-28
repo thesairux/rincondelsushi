@@ -219,6 +219,37 @@ input.in:focus,textarea.in:focus,select.in:focus{border-color:var(--red-soft);ou
 @media (max-width:1180px){.lbl-long{display:none}.lbl-short{display:inline}#client-lbl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}}
 @media (min-width:861px) and (max-width:1023px){.tb-brand small{display:none}}
 
+/* Pedidos */
+.ped-badge{min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--yellow);color:#1b1405;font-size:.78rem;line-height:20px}
+.pedidos{position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;background:var(--bg)}
+.ped-cab{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.75rem 1rem;padding:.8rem 1.1rem;border-bottom:1px solid var(--line)}
+.ped-cab h2{margin:0;font:800 1.7rem/1 var(--display);text-transform:uppercase}
+.ped-cab h2:focus{outline:none}
+.ped-cab small{color:var(--muted);font-size:.86rem}
+.ped-filtros{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.ped-filtros .in{width:auto;min-height:40px;padding:.4rem .7rem}
+.ped-lista{flex:1;overflow-y:auto;display:grid;align-items:start;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));align-content:start;gap:.9rem;padding:1rem 1.1rem 3rem}
+.ped{display:grid;align-content:start;gap:.65rem;padding:1rem;border-radius:14px;background:var(--card);border:1px solid var(--line);min-width:0}
+.ped.nuevo{border-color:var(--yellow);box-shadow:0 0 0 3px rgba(255,204,31,.2)}
+.ped.apagado{opacity:.6}
+.ped-top{display:flex;align-items:baseline;justify-content:space-between;gap:.5rem}
+.ped-top b{font:800 1.5rem/1 var(--display)}
+.ped-top span{color:var(--muted);font-size:.88rem}
+.chip{display:inline-block;padding:.15rem .6rem;border-radius:999px;background:var(--card-2);border:1px solid var(--line-2);font-size:.8rem;font-weight:700}
+.chip.ok{border-color:var(--ok);color:var(--ok)}
+.chip.warn{border-color:var(--yellow);color:var(--yellow)}
+.chip.mal{border-color:var(--danger);color:var(--danger)}
+.ped-datos{display:grid;gap:.2rem;font-size:.92rem}
+.ped-datos span{color:var(--muted)}
+.ped-items{margin:0;padding:.6rem 0 0;border-top:1px solid var(--line);list-style:none;display:grid;gap:.45rem;font-size:.92rem}
+.ped-items li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.1rem .6rem}
+.ped-items small{grid-column:1 / -1;color:var(--muted);font-size:.82rem;line-height:1.35}
+.ped-total{display:flex;justify-content:space-between;padding-top:.55rem;border-top:1px solid var(--line);font-weight:700}
+.ped-acciones{display:flex;flex-wrap:wrap;gap:.4rem}
+.ped-acciones .btn{min-height:38px;padding:.35rem .8rem;font-size:.88rem}
+.ped-aviso{margin:0;font-size:.82rem;color:var(--ok)}
+@media (max-width:600px){.ped-lista{grid-template-columns:1fr;padding:.8rem}.ped-filtros{width:100%}.ped-filtros .in{flex:1}}
+
 /* Aviso */
 .toast{position:fixed;left:50%;bottom:calc(1.5rem + env(safe-area-inset-bottom));transform:translate(-50%,20px);z-index:50;width:min(560px,100% - 2rem);
   padding:.85rem 1rem;border-radius:12px;background:#2b2530;border:1px solid var(--line-2);box-shadow:0 12px 30px -10px rgba(0,0,0,.6);
@@ -282,6 +313,7 @@ input.in:focus,textarea.in:focus,select.in:focus{border-color:var(--red-soft);ou
   </div>
 
   <div class="tb-side">
+    <button class="btn small" id="btn-pedidos" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>Pedidos<b class="ped-badge" id="ped-badge" hidden></b></button>
     <button class="btn small" id="logout" type="button">Salir</button>
   </div>
 
@@ -311,6 +343,23 @@ input.in:focus,textarea.in:focus,select.in:focus{border-color:var(--red-soft);ou
   </div>
   <div class="drawer-body" id="drawer-body"><div id="groups"></div><p class="drawer-foot"><a id="view-site" target="_blank" rel="noopener">Ver mi página publicada ↗</a></p></div>
 </aside>
+
+<!-- ============ Pedidos de la página ============ -->
+<section class="pedidos" id="pedidos" hidden aria-labelledby="ped-titulo">
+  <header class="ped-cab">
+    <div>
+      <h2 id="ped-titulo" tabindex="-1">Pedidos</h2>
+      <small id="ped-sub">Se actualiza solo cada 30 segundos</small>
+    </div>
+    <div class="ped-filtros">
+      <input class="in" type="date" id="ped-fecha" aria-label="Día">
+      <select class="in" id="ped-sucursal" aria-label="Sucursal"></select>
+      <button class="btn small" id="ped-recargar" type="button">Actualizar</button>
+      <button class="btn small primary" id="ped-cerrar" type="button">Volver a la página</button>
+    </div>
+  </header>
+  <div class="ped-lista" id="ped-lista"><p class="empty">Cargando pedidos…</p></div>
+</section>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -1185,6 +1234,91 @@ async function publish() {
     btn.disabled = false;
   }
 }
+
+/* ---------- pedidos de la página (api/pedidos.js) ---------- */
+const PED = { lista: [], vistos: null, timer: 0, fecha: "", sucursal: "", hoy: "", correo: false };
+const ESTADO_TXT = { "esperando-pago": "Esperando pago online", recibido: "Recibido", preparando: "En preparación", listo: "Listo para retirar", "en-camino": "En camino", entregado: "Entregado", cancelado: "Cancelado" };
+const horaDe = t => new Date(t).toLocaleTimeString("es-CL", { hour: "2-digit", minute: "2-digit", timeZone: "America/Santiago" });
+function pedidoHtml(p) {
+  const nuevo = PED.vistos && !PED.vistos.has(p.id);
+  const online = p.pago && p.pago.metodo === "Online";
+  const pago = !p.pago || !p.pago.metodo ? "" : online
+    ? `<span class="chip ${p.pago.estado === "pagado" ? "ok" : p.pago.estado === "revisar" ? "mal" : p.pago.estado === "pendiente" ? "warn" : "mal"}">Online: ${esc({ pagado: "pagado", pendiente: "esperando pago", rechazado: "rechazado", anulado: "anulado", revisar: "revisar monto" }[p.pago.estado] || p.pago.estado)}</span>`
+    : `<span class="chip">Paga ${p.modo === "delivery" ? "al recibir" : "al retirar"}: ${esc(p.pago.metodo)}</span>`;
+  const mapa = p.ubicacion ? ` · <a href="https://www.google.com/maps/search/?api=1&query=${p.ubicacion.lat},${p.ubicacion.lng}" target="_blank" rel="noopener">mapa</a>` : "";
+  const sigue = p.modo === "delivery" ? ["en-camino", "En camino"] : ["listo", "Listo para retirar"];
+  const botones = p.estado === "esperando-pago" ? [["cancelado", "Cancelar"]]
+    : [["preparando", "En preparación"], sigue, ["entregado", "Entregado"], ["cancelado", "Cancelar"]];
+  const avisos = (p.avisos || []).map(a => ESTADO_TXT[a]).filter(Boolean);
+  return `<article class="ped${nuevo ? " nuevo" : ""}${["entregado", "cancelado", "esperando-pago"].includes(p.estado) ? " apagado" : ""}">
+    <div class="ped-top"><b>N° ${esc(String(p.id).padStart(4, "0"))}</b><span>${horaDe(p.creado)}</span></div>
+    <div class="row"><span class="chip ${p.estado === "listo" || p.estado === "en-camino" ? "ok" : p.estado === "cancelado" ? "mal" : ""}">${esc(ESTADO_TXT[p.estado] || p.estado)}</span>${pago}</div>
+    <div class="ped-datos">
+      <div><b>${esc(p.nombre)}</b>${p.email ? ` <span>· ${esc(p.email)}</span>` : ""}</div>
+      ${p.sucursal ? `<div><span>Sucursal</span> ${esc(p.sucursal)}</div>` : ""}
+      <div><span>${p.modo === "delivery" ? "Delivery" : "Retiro en el local"}</span>${p.modo === "delivery" ? ` ${esc(p.direccion)}${mapa}${p.fueraDeZona ? ' <span class="chip warn">fuera de la zona</span>' : ""}` : ""}</div>
+    </div>
+    <ul class="ped-items">${(p.items || []).map(it => `<li><span>${it.cant} × ${esc(it.nombre)}</span><span>${plata(it.precio)}</span>${(it.detalle || []).length ? `<small>${it.detalle.map(esc).join("<br>")}</small>` : ""}</li>`).join("")}</ul>
+    ${p.descuento ? `<div class="ped-datos"><div><span>Cupón ${esc(p.cupon)}</span> −${plata(p.descuento)}</div></div>` : ""}
+    ${p.modo === "delivery" ? `<div class="ped-datos"><div><span>Delivery</span> ${p.delivery == null ? "por confirmar" : plata(p.delivery)}</div></div>` : ""}
+    <div class="ped-total"><span>Total</span><span>${plata(p.total)}</span></div>
+    <div class="ped-acciones">${botones.map(([v, t]) => `<button class="btn ${p.estado === v ? "primary" : ""}" type="button" data-ped="${p.id}" data-estado="${v}" ${p.estado === v ? 'aria-pressed="true"' : ""}>${t}</button>`).join("")}</div>
+    ${avisos.length ? `<p class="ped-aviso">Aviso por correo enviado: ${esc(avisos.join(", "))}</p>` : p.email ? "" : '<p class="ped-aviso" style="color:var(--muted)">Sin correo: avísale por WhatsApp.</p>'}
+  </article>`;
+}
+function pintarPedidos() {
+  const lista = PED.lista.filter(p => !PED.sucursal || p.sucursal === PED.sucursal);
+  const sucs = [...new Set(PED.lista.map(p => p.sucursal).filter(Boolean).concat(((state && state.negocio && state.negocio.sucursales) || []).map(x => x.nombre)))];
+  $("#ped-sucursal").innerHTML = `<option value="">Todas las sucursales</option>` + sucs.map(n => `<option ${n === PED.sucursal ? "selected" : ""}>${esc(n)}</option>`).join("");
+  $("#ped-lista").innerHTML = lista.length ? lista.map(pedidoHtml).join("") : `<p class="empty">No hay pedidos ${PED.fecha === PED.hoy ? "hoy" : "ese día"}${PED.sucursal ? " en " + esc(PED.sucursal) : ""}.</p>`;
+  const activos = PED.lista.filter(p => ["recibido", "preparando"].includes(p.estado)).length;
+  $("#ped-badge").hidden = !activos; $("#ped-badge").textContent = activos;
+  $("#ped-sub").textContent = `${lista.length} ${lista.length === 1 ? "pedido" : "pedidos"} · se actualiza solo cada 30 segundos` + (PED.correo ? "" : " · falta configurar el correo (RESEND_API_KEY) para avisar a los clientes");
+}
+function sonar() {
+  try {
+    const a = new (window.AudioContext || window.webkitAudioContext)(), o = a.createOscillator(), g = a.createGain();
+    o.connect(g); g.connect(a.destination); o.frequency.value = 880; g.gain.setValueAtTime(.18, a.currentTime);
+    g.gain.exponentialRampToValueAtTime(.0001, a.currentTime + .6); o.start(); o.stop(a.currentTime + .6);
+  } catch (e) {}
+}
+async function cargarPedidos(silencio) {
+  try {
+    const r = await api("pedidos", { fecha: PED.fecha || undefined });
+    PED.hoy = r.hoy; PED.correo = r.correo;
+    if (!PED.fecha) { PED.fecha = r.fecha; $("#ped-fecha").value = r.fecha; }
+    const nuevos = PED.vistos ? r.pedidos.filter(p => !PED.vistos.has(p.id) && p.estado !== "esperando-pago") : [];
+    PED.lista = r.pedidos;
+    pintarPedidos();
+    if (nuevos.length) { sonar(); toast(nuevos.length === 1 ? `Pedido nuevo: N° ${String(nuevos[0].id).padStart(4, "0")}` : `${nuevos.length} pedidos nuevos`); }
+    PED.vistos = new Set(r.pedidos.map(p => p.id));
+  } catch (err) {
+    if (err.status === 503) $("#ped-lista").innerHTML = '<p class="empty">Para ver aquí los pedidos falta conectar la base de datos en Vercel (Storage → Upstash for Redis). Mientras tanto, los pedidos llegan solo por WhatsApp.</p>';
+    else if (!silencio) toast(explain(err), true);
+  }
+}
+$("#btn-pedidos").addEventListener("click", () => {
+  $("#pedidos").hidden = false; $("#ped-titulo").focus();
+  cargarPedidos();
+  clearInterval(PED.timer); PED.timer = setInterval(() => cargarPedidos(true), 30000);
+});
+$("#ped-cerrar").addEventListener("click", () => { $("#pedidos").hidden = true; clearInterval(PED.timer); });
+$("#ped-recargar").addEventListener("click", () => cargarPedidos());
+$("#ped-fecha").addEventListener("change", e => { PED.fecha = e.target.value; PED.vistos = null; cargarPedidos(); });
+$("#ped-sucursal").addEventListener("change", e => { PED.sucursal = e.target.value; pintarPedidos(); });
+$("#ped-lista").addEventListener("click", async e => {
+  const b = e.target.closest("[data-ped]");
+  if (!b || b.getAttribute("aria-pressed") === "true") return;
+  const estado = b.dataset.estado;
+  if (estado === "cancelado" && !confirm("¿Cancelar este pedido?")) return;
+  b.disabled = true;
+  try {
+    const r = await api("estado-pedido", { id: +b.dataset.ped, estado });
+    PED.lista = PED.lista.map(p => (p.id === r.pedido.id ? r.pedido : p));
+    pintarPedidos();
+    toast(r.avisado ? `Listo: le avisamos a ${r.pedido.email} por correo.` : `Pedido N° ${String(r.pedido.id).padStart(4, "0")}: ${ESTADO_TXT[estado]}.`);
+  } catch (err) { b.disabled = false; toast(explain(err), true); }
+});
 </script>
 </body>
 </html>

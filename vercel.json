@@ -19,5 +19,10 @@
         }
       ]
     }
-  ]
+  ],
+  "functions": {
+    "api/pedidos.js": {
+      "includeFiles": "carta.js"
+    }
+  }
 }

@@ -55,19 +55,20 @@ window.CARTA = {
     "instagram": "_rincondelsushi",
     "direccion": "",
     "sector": "",
-    "ciudad": "",
+    "ciudad": "Ovalle",
     "region": "",
     "mapa": "",
     "mapaBusqueda": "",
     "cartaReferencial": true,
-    "valorDelivery": null,
-    "notaDelivery": "Según el sector",
+    "valorDelivery": 2500,
+    "notaDelivery": "Sector urbano de Ovalle",
     "datosTransferencia": "",
     "sucursales": [
       {
         "nombre": "Villa Los Naranjos",
         "whatsapp": "56976400876",
-        "whatsappVisible": "+56 9 7640 0876"
+        "whatsappVisible": "+56 9 7640 0876",
+        "direccion": "Los Sauces 895"
       },
       {
         "nombre": "Villa El Portal",
@@ -75,10 +76,53 @@ window.CARTA = {
         "whatsappVisible": "+56 9 4632 4426"
       }
     ],
-    "pagos": [
+    "zonaDelivery": {
+      "nombre": "sector urbano de Ovalle",
+      "poligono": [
+        [
+          -30.57,
+          -71.215
+        ],
+        [
+          -30.57,
+          -71.18
+        ],
+        [
+          -30.582,
+          -71.16
+        ],
+        [
+          -30.615,
+          -71.16
+        ],
+        [
+          -30.63,
+          -71.18
+        ],
+        [
+          -30.63,
+          -71.22
+        ],
+        [
+          -30.612,
+          -71.238
+        ],
+        [
+          -30.585,
+          -71.235
+        ]
+      ]
+    },
+    "pagosDelivery": [
       "Efectivo",
       "Transferencia",
-      "Link de pago (Webpay)"
+      "Edenred"
+    ],
+    "pagosRetiro": [
+      "Efectivo",
+      "Transferencia",
+      "Tarjeta",
+      "Edenred"
     ]
   },
   "tema": {
@@ -92,12 +136,12 @@ window.CARTA = {
     "portada": {
       "titulo": "Tablas de sushi",
       "destacado": "para compartir",
-      "bajada": "Súper promociones, tablas, cortes premium, rolls con topping, hand rolls, gohan, sushiburger y más. Elige tu sucursal y manda tu pedido por WhatsApp: el resto lo confirmamos contigo."
+      "bajada": "Promos de la semana, súper promociones, menú del día, tablas, rolls, hand rolls y más. Elige tu sucursal, retiro o delivery, y paga online o al recibir."
     },
     "carta": {
       "titulo": "Elige tu",
       "destacado": "tabla",
-      "bajada": "Súper promociones, tablas, cortes premium, rolls con topping, hand rolls, especiales, box, aperitivos, bebidas y salsas. Suma lo que quieras al pedido."
+      "bajada": "Promos, menú del día, tablas, cortes premium, rolls con topping, hand rolls, especiales, box, aperitivos, bebidas y salsas. Suma lo que quieras al pedido."
     },
     "cupones": {
       "titulo": "Cupones",
@@ -111,19 +155,19 @@ window.CARTA = {
     "pasos": {
       "titulo": "Haz tu pedido",
       "destacado": "en 3 pasos.",
-      "bajada": "El pedido te llega listo para enviar por WhatsApp. Nosotros te confirmamos disponibilidad, modalidad y total.",
+      "bajada": "Retiro en tu sucursal o delivery en el sector urbano de Ovalle. Pagas online o al recibir, y te avisamos cuando esté listo.",
       "lista": [
         {
           "titulo": "Elige o arma",
-          "texto": "Escoge una súper promoción, tu tabla o tus cortes premium, o arma tus hand rolls, gohan y especiales como más te gusten."
+          "texto": "Escoge una promo, tu tabla o tus cortes, o arma tus hand rolls y especiales como más te gusten."
         },
         {
-          "titulo": "Revisa tu pedido",
-          "texto": "Ajusta cantidades, deja una nota y elige si lo retiras o pides delivery."
+          "titulo": "Retiro o delivery",
+          "texto": "Elige tu sucursal, Villa Los Naranjos o Villa El Portal, o escribe tu dirección y elígela en la lista."
         },
         {
-          "titulo": "Envíalo por WhatsApp",
-          "texto": "Elige tu sucursal, Villa Los Naranjos o Villa El Portal, y te respondemos para confirmar el pedido y el total."
+          "titulo": "Paga y envía",
+          "texto": "Paga online o al recibir. El pedido llega al WhatsApp de la sucursal y te avisamos por correo."
         }
       ]
     },
@@ -142,6 +186,54 @@ window.CARTA = {
     {
       "nombre": "Súper promociones",
       "categorias": [
+        {
+          "id": "promos-de-la-semana",
+          "nombre": "Promos de la semana",
+          "nota": "Cada una vale solo su día.",
+          "productos": [
+            {
+              "id": "promo-lunes",
+              "nombre": "Promo especial de lunes: 30 piezas",
+              "precio": 9990,
+              "foto": "img/carta/promo-lunes.webp",
+              "dias": [
+                "lunes"
+              ],
+              "destacado": true,
+              "detalle": "10 cortes envueltos en panko: pollo, queso y cebollín\n10 cortes envueltos en panko: camarón, queso y aceituna\n5 cortes envueltos en queso: pollo, queso y morrón\n5 cortes envueltos en palta: champiñón, queso y pepino"
+            },
+            {
+              "id": "promo-martes",
+              "nombre": "Promoción martes: 50 cortes calientes",
+              "precio": 13990,
+              "foto": "img/carta/promo-martes.webp",
+              "dias": [
+                "martes"
+              ],
+              "destacado": true,
+              "detalle": "50 cortes calientes, fritos en panko."
+            },
+            {
+              "id": "promo-miercoles",
+              "nombre": "Miércoles 3x2 en sushiburger",
+              "precio": 15000,
+              "foto": "img/carta/promo-miercoles.webp",
+              "dias": [
+                "miercoles"
+              ],
+              "destacado": true,
+              "rolls": 3,
+              "unidad": "Sushiburger",
+              "personalizar": [
+                "sb3-proteina",
+                "sb3-agregado-1",
+                "sb3-agregado-2",
+                "sb3-agregado-3"
+              ],
+              "detalle": "Lleva 3 sushiburger y paga solo 2. Cada una con base de queso crema, 1 proteína y 3 agregados."
+            }
+          ]
+        },
         {
           "id": "promos-con-bebida",
           "nombre": "Con Coca-Cola",
@@ -217,6 +309,30 @@ window.CARTA = {
                 "promo-acompanamiento"
               ],
               "destacado": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "nombre": "Menú del día",
+      "categorias": [
+        {
+          "id": "menu-del-dia",
+          "nombre": "Menú del día",
+          "nota": "Almuerzos ricos, contundentes y preparados al momento.",
+          "productos": [
+            {
+              "id": "menu-del-dia",
+              "nombre": "Menú del día",
+              "precio": 5000,
+              "foto": "img/carta/menu-del-dia.webp",
+              "detalle": "1 proteína a elección y 2 agregados a elección (arroz, ensalada o papas fritas).",
+              "personalizar": [
+                "md-proteina",
+                "md-agregados",
+                "md-extras"
+              ]
             }
           ]
         }
@@ -3246,6 +3362,383 @@ window.CARTA = {
           "id": "atun-rojo",
           "nombre": "Atún rojo",
           "precio": 7000
+        }
+      ]
+    },
+    {
+      "id": "sb3-proteina",
+      "nombre": "Proteína",
+      "tipo": "elegir",
+      "porRoll": true,
+      "min": 1,
+      "max": 1,
+      "opciones": [
+        {
+          "id": "pollo",
+          "nombre": "Pollo",
+          "precio": 0
+        },
+        {
+          "id": "camaron",
+          "nombre": "Camarón",
+          "precio": 0
+        },
+        {
+          "id": "kanikama",
+          "nombre": "Kanikama",
+          "precio": 0
+        },
+        {
+          "id": "pollo-crispy",
+          "nombre": "Pollo crispy",
+          "precio": 500
+        },
+        {
+          "id": "camaron-crispy",
+          "nombre": "Camarón crispy",
+          "precio": 500
+        },
+        {
+          "id": "vacuno",
+          "nombre": "Vacuno",
+          "precio": 0
+        },
+        {
+          "id": "salmon",
+          "nombre": "Salmón",
+          "precio": 2000
+        },
+        {
+          "id": "pulpo",
+          "nombre": "Pulpo",
+          "precio": 2000
+        },
+        {
+          "id": "salmon-apanado",
+          "nombre": "Salmón apanado",
+          "precio": 2500
+        }
+      ]
+    },
+    {
+      "id": "sb3-agregado-1",
+      "nombre": "Agregado 1",
+      "tipo": "elegir",
+      "porRoll": true,
+      "min": 1,
+      "max": 1,
+      "opciones": [
+        {
+          "id": "aceituna",
+          "nombre": "Aceituna",
+          "precio": 0
+        },
+        {
+          "id": "champinones",
+          "nombre": "Champiñones",
+          "precio": 0
+        },
+        {
+          "id": "cebollin",
+          "nombre": "Cebollín",
+          "precio": 0
+        },
+        {
+          "id": "pepino",
+          "nombre": "Pepino",
+          "precio": 0
+        },
+        {
+          "id": "morron",
+          "nombre": "Morrón",
+          "precio": 0
+        },
+        {
+          "id": "palta",
+          "nombre": "Palta",
+          "precio": 500
+        },
+        {
+          "id": "palmito",
+          "nombre": "Palmito",
+          "precio": 500
+        },
+        {
+          "id": "choclito",
+          "nombre": "Choclito",
+          "precio": 500
+        },
+        {
+          "id": "almendra-tostada",
+          "nombre": "Almendra tostada",
+          "precio": 500
+        },
+        {
+          "id": "nuez",
+          "nombre": "Nuez",
+          "precio": 500
+        },
+        {
+          "id": "pepinillo",
+          "nombre": "Pepinillo",
+          "precio": 500
+        },
+        {
+          "id": "frutilla",
+          "nombre": "Frutilla",
+          "precio": 1000
+        }
+      ]
+    },
+    {
+      "id": "sb3-agregado-2",
+      "nombre": "Agregado 2",
+      "tipo": "elegir",
+      "porRoll": true,
+      "min": 1,
+      "max": 1,
+      "opciones": [
+        {
+          "id": "aceituna",
+          "nombre": "Aceituna",
+          "precio": 0
+        },
+        {
+          "id": "champinones",
+          "nombre": "Champiñones",
+          "precio": 0
+        },
+        {
+          "id": "cebollin",
+          "nombre": "Cebollín",
+          "precio": 0
+        },
+        {
+          "id": "pepino",
+          "nombre": "Pepino",
+          "precio": 0
+        },
+        {
+          "id": "morron",
+          "nombre": "Morrón",
+          "precio": 0
+        },
+        {
+          "id": "palta",
+          "nombre": "Palta",
+          "precio": 500
+        },
+        {
+          "id": "palmito",
+          "nombre": "Palmito",
+          "precio": 500
+        },
+        {
+          "id": "choclito",
+          "nombre": "Choclito",
+          "precio": 500
+        },
+        {
+          "id": "almendra-tostada",
+          "nombre": "Almendra tostada",
+          "precio": 500
+        },
+        {
+          "id": "nuez",
+          "nombre": "Nuez",
+          "precio": 500
+        },
+        {
+          "id": "pepinillo",
+          "nombre": "Pepinillo",
+          "precio": 500
+        },
+        {
+          "id": "frutilla",
+          "nombre": "Frutilla",
+          "precio": 1000
+        }
+      ]
+    },
+    {
+      "id": "sb3-agregado-3",
+      "nombre": "Agregado 3",
+      "tipo": "elegir",
+      "porRoll": true,
+      "min": 1,
+      "max": 1,
+      "opciones": [
+        {
+          "id": "aceituna",
+          "nombre": "Aceituna",
+          "precio": 0
+        },
+        {
+          "id": "champinones",
+          "nombre": "Champiñones",
+          "precio": 0
+        },
+        {
+          "id": "cebollin",
+          "nombre": "Cebollín",
+          "precio": 0
+        },
+        {
+          "id": "pepino",
+          "nombre": "Pepino",
+          "precio": 0
+        },
+        {
+          "id": "morron",
+          "nombre": "Morrón",
+          "precio": 0
+        },
+        {
+          "id": "palta",
+          "nombre": "Palta",
+          "precio": 500
+        },
+        {
+          "id": "palmito",
+          "nombre": "Palmito",
+          "precio": 500
+        },
+        {
+          "id": "choclito",
+          "nombre": "Choclito",
+          "precio": 500
+        },
+        {
+          "id": "almendra-tostada",
+          "nombre": "Almendra tostada",
+          "precio": 500
+        },
+        {
+          "id": "nuez",
+          "nombre": "Nuez",
+          "precio": 500
+        },
+        {
+          "id": "pepinillo",
+          "nombre": "Pepinillo",
+          "precio": 500
+        },
+        {
+          "id": "frutilla",
+          "nombre": "Frutilla",
+          "precio": 1000
+        }
+      ]
+    },
+    {
+      "id": "md-proteina",
+      "nombre": "Proteína",
+      "tipo": "elegir",
+      "min": 1,
+      "max": 1,
+      "opciones": [
+        {
+          "id": "pollo-plancha",
+          "nombre": "Pollo a la plancha",
+          "precio": 0
+        },
+        {
+          "id": "pollo-crispy",
+          "nombre": "Pollo crispy",
+          "precio": 0
+        },
+        {
+          "id": "pollo-champinones",
+          "nombre": "Pollo con champiñones a la crema",
+          "precio": 0
+        },
+        {
+          "id": "pollo-pobre",
+          "nombre": "Pollo a lo pobre",
+          "precio": 1500
+        },
+        {
+          "id": "chuleta-plancha",
+          "nombre": "Chuleta a la plancha",
+          "precio": 0
+        },
+        {
+          "id": "chuleta-champinon",
+          "nombre": "Chuleta con champiñón a la crema",
+          "precio": 0
+        },
+        {
+          "id": "chuleta-pobre",
+          "nombre": "Chuleta a la plancha a lo pobre",
+          "precio": 1500
+        },
+        {
+          "id": "milanesa-pollo",
+          "nombre": "Milanesa de pollo",
+          "precio": 0
+        },
+        {
+          "id": "bistec",
+          "nombre": "Bistec",
+          "precio": 0
+        }
+      ]
+    },
+    {
+      "id": "md-agregados",
+      "nombre": "Agregados",
+      "tipo": "elegir",
+      "min": 2,
+      "max": 2,
+      "opciones": [
+        {
+          "id": "arroz",
+          "nombre": "Arroz",
+          "precio": 0
+        },
+        {
+          "id": "ensalada",
+          "nombre": "Ensalada",
+          "precio": 0
+        },
+        {
+          "id": "papas-fritas",
+          "nombre": "Papas fritas",
+          "precio": 0
+        }
+      ]
+    },
+    {
+      "id": "md-extras",
+      "nombre": "Agregados extras",
+      "tipo": "extra",
+      "min": 0,
+      "max": 6,
+      "opciones": [
+        {
+          "id": "a-lo-pobre",
+          "nombre": "A lo pobre",
+          "precio": 2500
+        },
+        {
+          "id": "arroz-extra",
+          "nombre": "Arroz",
+          "precio": 1000
+        },
+        {
+          "id": "ensalada-extra",
+          "nombre": "Ensalada",
+          "precio": 1000
+        },
+        {
+          "id": "papas-extra",
+          "nombre": "Papas fritas",
+          "precio": 2000
+        },
+        {
+          "id": "huevo-frito",
+          "nombre": "Huevo frito",
+          "precio": 800
         }
       ]
     }

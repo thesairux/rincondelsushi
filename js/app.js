@@ -130,6 +130,7 @@
     });
   }
   function tieneOpciones(p) { return !!(p.opciones && p.opciones.length); }
+  function unidad(id) { return PRODUCTOS[id].p.unidad || "Roll"; }
   function personalizable(id) { return tieneOpciones(PRODUCTOS[id].p) || gruposDe(id).length > 0; }
   function opcionDe(grupoId, opId) {
     var g = GRUPOS[grupoId];
@@ -203,10 +204,10 @@
         var x = f[g.id];
         return g.nombre + ": " + x.o.nombre + (x.cobro ? " +" + plata(x.cobro) : x.gratis ? " (gratis)" : "");
       });
-      if (partes.length) lineas.push({ texto: (armado.length > 1 ? "Roll " + (i + 1) : "Tu roll") + ": " + partes.join(" · "), armado: true });
+      if (partes.length) lineas.push({ texto: (armado.length > 1 ? unidad(id) + " " + (i + 1) : "Tu " + minus(unidad(id))) + ": " + partes.join(" · "), armado: true });
     });
     (conf.cambios || []).forEach(function (c, i) {
-      lineas.push({ texto: (varios ? "Roll " + (c.roll + 1) + ": " : "") + textoCambio(c), cambio: i, roll: varios ? c.roll + 1 : 0, solo: textoCambio(c) });
+      lineas.push({ texto: (varios ? unidad(id) + " " + (c.roll + 1) + ": " : "") + textoCambio(c), cambio: i, roll: varios ? c.roll + 1 : 0, solo: textoCambio(c) });
     });
     gruposProducto(id).forEach(function (g) {
       if (g.tipo === "texto") {
@@ -443,8 +444,11 @@
   }
 
   /* ---------- botones para agregar ---------- */
+  /* "dias": ["lunes"] en un producto: se pide solo esos días */
+  function disponibleHoy(p) { return !(p.dias && p.dias.length) || p.dias.indexOf(DIAS[ahora().dia]) >= 0; }
   function botonAgregar(p, modo) {
     if (p.disponible === false) return '<span class="estado-pill">Agotado</span>';
+    if (!disponibleHoy(p)) return '<span class="estado-pill">Solo los ' + esc(diasTexto(p.dias)) + "</span>";
     if (!estado.abierto) return '<span class="estado-pill">Cerrado</span>';
     var elegir = tieneOpciones(p);
     var texto = modo === "fila" ? (elegir ? "Elegir" : "") : (elegir ? (modo === "destacado" ? "Elegir" : "Elegir opción") : "Agregar");
@@ -464,7 +468,7 @@
     var caja = $("[data-destacados]");
     if (!caja) return;
     carrusel.lista = Object.keys(PRODUCTOS).map(function (k) { return PRODUCTOS[k].p; })
-      .filter(function (p) { return p.destacado && p.foto && p.disponible !== false; });
+      .filter(function (p) { return p.destacado && p.foto && p.disponible !== false && disponibleHoy(p); });
     if (!carrusel.lista.length) { caja.hidden = true; return; }
     if (carrusel.i >= carrusel.lista.length) carrusel.i = 0;
     var p = carrusel.lista[carrusel.i];
@@ -600,11 +604,12 @@
   }
 
   /* ---------- pedido ---------- */
-  var pedido = { items: [], nombre: "", modo: "retiro", direccion: "", pago: "", cupon: "", sucursal: "", ubicacion: null };
+  var pedido = { items: [], nombre: "", email: "", modo: "retiro", direccion: "", pago: "", cupon: "", sucursal: "", ubicacion: null };
   (function cargar() {
     var g = leer(GUARDADO);
     if (!g || typeof g !== "object") return;
-    ["nombre", "direccion", "pago", "sucursal"].forEach(function (k) { if (typeof g[k] === "string") pedido[k] = g[k]; });
+    ["nombre", "email", "direccion", "pago", "sucursal"].forEach(function (k) { if (typeof g[k] === "string") pedido[k] = g[k]; });
+    if (g.ubicacion && isFinite(g.ubicacion.lat) && isFinite(g.ubicacion.lng)) pedido.ubicacion = g.ubicacion;
     if (typeof g.cupon === "string") pedido.cupon = codigo(g.cupon);
     if (g.modo === "delivery") pedido.modo = "delivery";
     if (Array.isArray(g.items)) {
@@ -616,7 +621,7 @@
     }
   })();
   function guardarPedido() {
-    guardar(GUARDADO, { items: pedido.items, nombre: pedido.nombre, modo: pedido.modo, direccion: pedido.direccion, pago: pedido.pago, cupon: pedido.cupon, sucursal: pedido.sucursal });
+    guardar(GUARDADO, { items: pedido.items, nombre: pedido.nombre, email: pedido.email, modo: pedido.modo, direccion: pedido.direccion, pago: pedido.pago, cupon: pedido.cupon, sucursal: pedido.sucursal, ubicacion: pedido.ubicacion });
   }
   /* Descarta opciones que ya no existen en la carta (por si cambió desde la última visita). */
   function limpiarConf(id, conf) {
@@ -657,6 +662,7 @@
   function subtotal() { return pedido.items.reduce(function (s, it) { return s + precioUnitario(it.id, it.conf) * it.cant; }, 0); }
 
   function agregarAlPedido(id, conf) {
+    if (!disponibleHoy(PRODUCTOS[id].p)) return;
     var clave = claveConf(conf);
     var igual = pedido.items.filter(function (it) { return it.id === id && !it.nota && claveConf(it.conf) === clave; })[0];
     if (igual) igual.cant = Math.min(99, igual.cant + 1);
@@ -838,7 +844,7 @@
     var cambios = ficha.conf.cambios.map(function (c, k) { return { c: c, k: k }; }).filter(function (x) { return x.c.roll === i; });
     var texto = roll.texto || (total === 1 ? p.detalle || "" : "");
     var html = '<div class="roll' + (abierto ? " abierto" : "") + '">' +
-      '<p class="roll-titulo"><b>' + (total > 1 ? "Roll " + (i + 1) : "Tu roll") + "</b> " + esc(texto) + "</p>";
+      '<p class="roll-titulo"><b>' + (total > 1 ? unidad(ficha.id) + " " + (i + 1) : "Tu " + minus(unidad(ficha.id))) + "</b> " + esc(texto) + "</p>";
     var ga = gruposArmado(ficha.id);
     if (ga.length) {
       var elegido = (ficha.conf.armado || [])[i] || {};
@@ -848,14 +854,14 @@
         return '<label class="armado-campo"><span>' + esc(g.nombre) + "</span>" +
           '<select data-armado="' + i + '" data-grupo-roll="' + esc(g.id) + '"' + (elegido[g.id] ? "" : ' class="vacio"') + ">" +
           '<option value="">Elige…</option>' + (g.opciones || []).filter(function (o) { return o.disponible !== false; }).map(function (o) {
-            return '<option value="' + esc(o.id) + '"' + (elegido[g.id] === o.id ? " selected" : "") + ">" + esc(o.nombre) + "</option>";
+            return '<option value="' + esc(o.id) + '"' + (elegido[g.id] === o.id ? " selected" : "") + ">" + esc(o.nombre) + (o.precio ? " (+" + plata(o.precio) + ")" : "") + "</option>";
           }).join("") + "</select>" +
           (x && x.gratis ? '<small class="armado-gratis">Gratis</small>' : x && x.cobro ? "<small>+" + plata(x.cobro) + "</small>" : "") +
           "</label>";
       }).join("") + "</div>";
       var completo = ga.every(function (g) { return elegido[g.id]; });
       var faltan = (ficha.conf.armado || []).some(function (r, k) { return k !== i && ga.some(function (g) { return !(r || {})[g.id]; }); });
-      if (total > 1 && completo && faltan) html += '<button class="copiar" type="button" data-copiar="' + i + '">Repetir este roll en los que faltan</button>';
+      if (total > 1 && completo && faltan) html += '<button class="copiar" type="button" data-copiar="' + i + '">Repetir ' + (unidad(ficha.id) === "Roll" ? "este roll" : "esta " + minus(unidad(ficha.id))) + ' en los que faltan</button>';
     }
     if (cambios.length) {
       html += '<ul class="roll-cambios">' + cambios.map(function (x) {
@@ -905,7 +911,7 @@
       var ga = gruposArmado(ficha.id);
       if (ga.length) {
         var ayudas = [x.cat.ayuda].concat(ga.map(function (g) { return g.ayuda; })).filter(Boolean);
-        html += '<div class="rolls"><h3>' + (rolls.length > 1 ? "Arma tus " + rolls.length + " rolls" : "Arma tu roll") + "</h3>" +
+        html += '<div class="rolls"><h3>' + (rolls.length > 1 ? "Arma tus " + rolls.length + " " + minus(unidad(ficha.id)) + "s" : "Arma tu " + minus(unidad(ficha.id))) + "</h3>" +
           (ayudas.length ? '<p class="rolls-ayuda">' + ayudas.map(esc).join(" ") + "</p>" : "");
       } else {
         var tipos = gruposCambio(ficha.id).map(function (g) { return g.tipo; });
@@ -1080,10 +1086,15 @@
     return { ok: true, c: c };
   }
   function formularioHtml() {
-    var html = '<div class="formulario">' + cuponHtml() +
+    var html = '<div class="formulario">' + enviadoHtml() + cuponHtml() + (TIENDA.cuentas ? cuentaHtml() : "") +
       '<label class="campo"><span class="campo-titulo">Tu nombre, para el pedido</span>' +
       '<input type="text" data-campo="nombre" autocomplete="given-name" maxlength="60" placeholder="Ej: Ana" value="' + esc(pedido.nombre) + '">' +
       '<span class="campo-ayuda" data-ayuda="nombre"></span></label>';
+    if ((TIENDA.correo || TIENDA.online) && !CUENTA && acceso.modo !== "cuenta") {
+      html += '<label class="campo"><span class="campo-titulo">Tu correo <small>' + (pedido.pago === "Online" ? "(para el comprobante y el aviso)" : "(opcional)") + "</small></span>" +
+        '<input type="email" data-campo="email" autocomplete="email" inputmode="email" maxlength="120" placeholder="tucorreo@ejemplo.cl" value="' + esc(pedido.email) + '">' +
+        '<span class="campo-ayuda" data-ayuda="email"></span></label>';
+    }
     var ss = sucursales();
     if (ss.length > 1) {
       html += '<fieldset class="campo"><legend class="campo-titulo">¿A qué sucursal pides?</legend><div class="dos">' +
@@ -1093,48 +1104,61 @@
         }).join("") +
         '</div><span class="campo-ayuda" data-ayuda="sucursal"></span></fieldset>';
     }
-    html += '<fieldset class="campo"><legend class="campo-titulo">¿Cómo prefieres pedir?</legend><div class="dos">' +
-        '<label class="radio-tarjeta' + (pedido.modo === "retiro" ? " sel" : "") + '"><input type="radio" name="modo" value="retiro"' + (pedido.modo === "retiro" ? " checked" : "") + "> Retiro</label>" +
-        '<label class="radio-tarjeta' + (pedido.modo === "delivery" ? " sel" : "") + '"><input type="radio" name="modo" value="delivery"' + (pedido.modo === "delivery" ? " checked" : "") + "> Consultar delivery</label>" +
+    var valor = typeof N.valorDelivery === "number" ? " · " + plata(N.valorDelivery) : "";
+    html += '<fieldset class="campo"><legend class="campo-titulo">¿Retiras o te lo llevamos?</legend><div class="dos">' +
+        '<label class="radio-tarjeta' + (pedido.modo === "retiro" ? " sel" : "") + '"><input type="radio" name="modo" value="retiro"' + (pedido.modo === "retiro" ? " checked" : "") + "> Retiro en el local</label>" +
+        '<label class="radio-tarjeta' + (pedido.modo === "delivery" ? " sel" : "") + '"><input type="radio" name="modo" value="delivery"' + (pedido.modo === "delivery" ? " checked" : "") + "> Delivery" + esc(valor) + "</label>" +
       "</div></fieldset>";
     var suc = sucursalElegida();
     if (pedido.modo === "retiro" && suc) {
       html += '<div class="retiro-info"><b>Retiras en la sucursal ' + esc(suc.nombre) + "</b>" +
-        "<span>" + esc(suc.direccion || "Te confirmamos la dirección y la hora de retiro por WhatsApp.") + "</span>" +
-        (suc.mapa ? '<a href="' + esc(suc.mapa) + '" target="_blank" rel="noopener">Ver cómo llegar</a>' : "") + "</div>";
+        "<span>" + esc(suc.direccion ? suc.direccion + (N.ciudad ? ", " + N.ciudad : "") : "Te confirmamos la dirección y la hora de retiro por WhatsApp.") + "</span>" +
+        (suc.mapa || suc.direccion ? '<a href="' + esc(suc.mapa || "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent([suc.direccion, N.ciudad, "Chile"].filter(Boolean).join(", "))) + '" target="_blank" rel="noopener">Ver cómo llegar</a>' : "") + "</div>";
     } else if (pedido.modo === "retiro") {
       html += '<div class="retiro-info">' + (N.direccion
         ? "<b>Retiras en " + esc(direccionCompleta()) + "</b>" + (CON_HORARIO ? "<span>" + esc(horarioCorto()) + (HORARIO_ACTIVO ? "" : " (por confirmar)") + "</span>" : "")
         : "<b>Retiro en el local</b><span>Te confirmamos la dirección y la hora de retiro por WhatsApp.</span>") +
         (N.mapa ? '<a href="' + esc(N.mapa) + '" target="_blank" rel="noopener">Ver cómo llegar</a>' : "") + "</div>";
     } else {
-      html += '<label class="campo"><span class="campo-titulo">Dirección de entrega</span>' +
-        '<input type="text" data-campo="direccion" autocomplete="street-address" maxlength="160" placeholder="Calle, número y comuna" value="' + esc(pedido.direccion) + '">' +
-        '<span class="campo-ayuda" data-ayuda="direccion"></span></label>' +
-        '<div class="campo"><button class="ubicacion-boton" type="button" data-ubicacion>' + icono("ubicacion") + (pedido.ubicacion ? "Actualizar mi ubicación" : "Usar mi ubicación") + "</button>" +
-        '<span class="ubicacion-estado' + (pedido.ubicacion ? " ok" : "") + '" data-ubicacion-estado>' +
-        esc(ubicacionMsg || "Si estás donde quieres recibirlo, comparte tu ubicación para el repartidor. El valor del despacho " + (N.notaDelivery ? "va " + minus(N.notaDelivery) + " y " : "") + "te lo confirmamos por WhatsApp.") + "</span></div>" +
-        '<fieldset class="campo"><legend class="campo-titulo">¿Cómo pagas el delivery?</legend><div class="dos">' +
-          (N.pagos && N.pagos.length ? N.pagos : ["Efectivo", "Transferencia"]).map(function (m) {
-            return '<label class="radio-tarjeta' + (pedido.pago === m ? " sel" : "") + '"><input type="radio" name="pago" value="' + m + '"' + (pedido.pago === m ? " checked" : "") + "> " + m + "</label>";
-          }).join("") +
-        '</div><span class="campo-ayuda" data-ayuda="pago"></span></fieldset>' +
-        (pedido.pago === "Transferencia" && N.datosTransferencia ? '<p class="transferencia">' + esc(N.datosTransferencia) + "</p>" : "");
+      var guardadas = CUENTA && perfil && perfil.perfil && perfil.perfil.direcciones || [];
+      html += '<div class="campo"><label class="campo-titulo" for="direccion-entrega">Dirección de entrega</label>' +
+        (guardadas.length ? '<div class="direcciones-guardadas"><span>Tus direcciones:</span>' + guardadas.map(function (d, i) {
+          return '<button type="button" data-direccion-guardada="' + i + '">' + esc(d.texto) + "</button>";
+        }).join("") + "</div>" : "") +
+        '<div class="direccion-caja"><input type="text" id="direccion-entrega" data-campo="direccion" autocomplete="off" maxlength="160" placeholder="Ej: Avenida San Luis 1234" value="' + esc(pedido.direccion) + '"' +
+        ' role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="sugerencias-direccion">' +
+        '<ul class="sugerencias" id="sugerencias-direccion" role="listbox" data-sugerencias hidden></ul></div>' +
+        '<span class="campo-ayuda" data-ayuda="direccion"></span></div>' +
+        '<div class="campo"><button class="ubicacion-boton" type="button" data-ubicacion>' + icono("ubicacion") + (pedido.ubicacionDe === "gps" ? "Actualizar mi ubicación" : "Usar mi ubicación actual") + "</button>" +
+        '<span class="ubicacion-estado" data-ubicacion-estado></span></div>';
     }
+    html += pagoHtml();
+    if (pedido.pago === "Transferencia" && N.datosTransferencia) html += '<p class="transferencia">' + esc(N.datosTransferencia) + "</p>";
     return html + "</div>";
   }
   function faltaPedido() {
+    if (TIENDA.cuentas && acceso.modo === "cuenta" && !CUENTA) return { campo: "acceso", texto: "Termina de iniciar sesión o sigue como invitado", ayuda: "" };
+    var noHoy = pedido.items.filter(function (it) { return !disponibleHoy(PRODUCTOS[it.id].p); })[0];
+    if (noHoy) return { campo: "items", texto: "«" + PRODUCTOS[noHoy.id].p.nombre + "» es solo los " + diasTexto(PRODUCTOS[noHoy.id].p.dias), ayuda: "" };
     if (!pedido.nombre.trim()) return { campo: "nombre", texto: "Falta tu nombre", ayuda: "Escribe tu nombre para poder enviar el pedido." };
+    var correo = CUENTA ? CUENTA.email : pedido.email.trim();
+    if (correo && !CUENTA && !EMAIL.test(correo)) return { campo: "email", texto: "Revisa tu correo", ayuda: "Revisa que el correo esté bien escrito, o déjalo vacío." };
     if (sucursales().length > 1 && !sucursalElegida()) return { campo: "sucursal", texto: "Elige tu sucursal", ayuda: "Elige la sucursal: el pedido llega a su WhatsApp." };
-    if (pedido.modo === "delivery") {
-      if (!pedido.direccion.trim()) return { campo: "direccion", texto: "Falta tu dirección de entrega", ayuda: "Escribe tu dirección para poder enviar el pedido." };
-      if (!pedido.pago) return { campo: "pago", texto: "Elige cómo pagas", ayuda: "Elige cómo pagas para poder enviar el pedido." };
+    if (pedido.modo === "delivery" && !pedido.direccion.trim()) return { campo: "direccion", texto: "Falta tu dirección de entrega", ayuda: "Escribe tu dirección para poder enviar el pedido." };
+    if (!pedido.pago) return { campo: "pago", texto: "Elige cómo pagas", ayuda: "Elige cómo pagas para poder enviar el pedido." };
+    if (pedido.pago === "Online") {
+      if (!correo) return { campo: "email", texto: "Falta tu correo para pagar online", ayuda: "Para pagar online necesitamos tu correo: ahí te llega el comprobante." };
+      if (pedido.modo === "delivery" && (!pedido.ubicacion || fueraDeZona())) {
+        return { campo: "direccion", texto: fueraDeZona() ? "Fuera de la zona: paga al recibir" : "Elige tu dirección de la lista",
+          ayuda: fueraDeZona() ? "Esta dirección queda fuera de la zona de despacho: el valor se confirma por WhatsApp, así que no se puede pagar online." : "Para pagar online el delivery, elige tu dirección en la lista o usa tu ubicación." };
+      }
     }
     return null;
   }
   function pintarAyudas() {
     var falta = faltaPedido();
-    var normal = { nombre: "Así sabemos a nombre de quién dejarlo.", direccion: "", pago: "", sucursal: "" };
+    var normal = { nombre: "Así sabemos a nombre de quién dejarlo.", direccion: "Escribe tu calle y elígela en la lista: así queda ubicada en el mapa.", pago: "", sucursal: "",
+      email: !TIENDA.correo ? "Para el comprobante del pago online." : pedido.modo === "delivery" ? "Te avisamos por correo cuando tu pedido vaya en camino." : "Te avisamos por correo cuando tu pedido esté listo para retirar." };
     $$("[data-ayuda]", cuerpoPedido).forEach(function (el) {
       var campo = el.getAttribute("data-ayuda");
       var mal = falta && falta.campo === campo;
@@ -1148,7 +1172,8 @@
     var sub = subtotal();
     var desc = descuento();
     var delivery = pedido.modo === "delivery";
-    var fijo = delivery && typeof N.valorDelivery === "number";
+    var costo = delivery ? costoDelivery() : null;
+    var fijo = costo !== null;
     var html = '<div class="totales">';
     if (!desc && !fijo) {
       html += "<div><span>Subtotal referencial" + (delivery ? " (sin delivery)" : "") + "</span><b>" + plata(sub) + "</b></div>";
@@ -1156,14 +1181,21 @@
       html += "<div><span>Subtotal</span><span>" + plata(sub) + "</span></div>";
     }
     if (desc) html += '<div class="descuento"><span>Cupón ' + esc(pedido.cupon) + "</span><span>−" + plata(desc) + "</span></div>";
-    if (delivery) html += "<div><span>Delivery</span><span>" + (fijo ? plata(N.valorDelivery) : esc(N.notaDelivery || "Por confirmar")) + "</span></div>";
+    if (delivery) html += "<div><span>Delivery" + (fijo && N.notaDelivery ? " <small>(" + esc(minus(N.notaDelivery)) + ")</small>" : "") + "</span><span>" + (fijo ? plata(costo) : "Por confirmar") + "</span></div>";
     if (desc || fijo) {
-      html += "<div><span>Total referencial" + (delivery && !fijo ? " (sin delivery)" : "") + "</span><b>" + plata(sub - desc + (fijo ? N.valorDelivery : 0)) + "</b></div>";
+      html += "<div><span>Total referencial" + (delivery && !fijo ? " (sin delivery)" : "") + "</span><b>" + plata(sub - desc + (fijo ? costo : 0)) + "</b></div>";
     }
+    var total = sub - desc + (fijo ? costo : 0);
+    var online = pedido.pago === "Online";
     html += "</div>" +
-      '<p class="pedido-aviso">No pagas aquí: te confirmamos disponibilidad, modalidad y total por WhatsApp.' +
-      (estado.abierto ? "" : " Ahora estamos cerrados: te respondemos apenas abramos.") + "</p>";
+      '<p class="pedido-aviso">' + (online ? "Pagas ahora en Flow (Webpay). Te confirmamos el pedido por WhatsApp" + (TIENDA.correo ? " y te avisamos por correo." : ".")
+        : "No pagas aquí: pagas " + (delivery ? "al recibir" : "al retirar") + ". Te confirmamos disponibilidad y total por WhatsApp.") +
+      (estado.abierto ? "" : " Ahora estamos cerrados: te respondemos apenas abramos.") + "</p>" +
+      (envio.msg ? '<p class="pedido-error" role="alert">' + esc(envio.msg) + "</p>" : "");
     if (falta) html += '<button class="boton boton--grande" type="button" aria-disabled="true" data-falta="' + falta.campo + '">' + esc(falta.texto) + "</button>";
+    else if (envio.cargando) html += '<button class="boton boton--grande" type="button" aria-disabled="true">' + (online ? "Abriendo el pago…" : "Enviando…") + "</button>";
+    else if (online) html += '<button class="boton boton--grande" type="button" data-pagar-online>Pagar ' + plata(total) + " online " + icono("flecha") + "</button>";
+    else if (TIENDA.pedidos) html += '<button class="boton boton--grande" type="button" data-enviar-pedido>' + (enviadoVigente() ? "Volver a enviar por WhatsApp " : "Enviar pedido por WhatsApp ") + icono("flecha") + "</button>";
     else html += '<a class="boton boton--grande" href="' + esc(wsp(mensaje())) + '" target="_blank" rel="noopener" data-enviar>Enviar pedido por WhatsApp ' + icono("flecha") + "</a>";
     piePedido.innerHTML = html;
   }
@@ -1171,7 +1203,8 @@
     var n = cantidadTotal();
     $("[data-pedido-cuenta]").textContent = n ? "(" + n + ")" : "";
     if (!pedido.items.length) {
-      cuerpoPedido.innerHTML = '<div class="vacio"><b>Tu pedido está vacío.</b><span>Elige algo de la carta y aparecerá aquí.</span>' +
+      cuerpoPedido.innerHTML = (enviado ? '<div class="formulario">' + enviadoHtml() + "</div>" : "") +
+        '<div class="vacio"><b>Tu pedido está vacío.</b><span>Elige algo de la carta y aparecerá aquí.</span>' +
         '<a class="boton" href="#carta" data-ir-carta>Ver la carta ' + icono("flecha") + "</a></div>";
       pintarPiePedido();
       return;
@@ -1180,6 +1213,7 @@
     cuerpoPedido.innerHTML = '<ul class="lineas">' + pedido.items.map(lineaHtml).join("") + "</ul>" +
       '<button class="pedido-vaciar" type="button" data-vaciar>Vaciar pedido</button>' + formularioHtml();
     cuerpoPedido.scrollTop = scroll;
+    pintarUbicacion();
     pintarAyudas();
     pintarPiePedido();
   }
@@ -1216,6 +1250,18 @@
       cerrar(dlgPedido);
     } else if (el.hasAttribute("data-ubicacion")) {
       pedirUbicacion();
+    } else if (el.hasAttribute("data-direccion-guardada")) {
+      var dg = perfil.perfil.direcciones[+el.getAttribute("data-direccion-guardada")];
+      if (dg) { pedido.direccion = dg.texto; pedido.ubicacion = dg.ubicacion || null; pedido.ubicacionDe = dg.ubicacion ? "lista" : ""; cambioPedido(); }
+    } else if (el.hasAttribute("data-acceso")) {
+      accionAcceso(el.getAttribute("data-acceso"));
+    } else if (el.hasAttribute("data-estado-actualizar")) {
+      actualizarEnviado(true);
+    } else if (el.hasAttribute("data-otro-pedido")) {
+      pedido.items = []; enviado = null; guardar(ENVIADO, null); cambioPedido();
+    } else if (el.hasAttribute("data-wsp-enviado")) {
+      e.preventDefault();
+      abrirWhatsapp(wsp(mensaje(enviado)));
     } else if (el.hasAttribute("data-aplicar-cupon")) {
       var r = aplicarCupon($("[data-cupon-codigo]", cuerpoPedido).value);
       if (!r.ok) cuponMsg = r.motivo;
@@ -1234,53 +1280,435 @@
       if (it) it.nota = t.value;
     } else if (t.getAttribute("data-campo")) {
       pedido[t.getAttribute("data-campo")] = t.value;
+      if (t.getAttribute("data-campo") === "direccion") escribioDireccion(t);
       pintarAyudas();
+    } else if (t.hasAttribute("data-acceso-email") || t.hasAttribute("data-acceso-cod")) {
+      if (t.hasAttribute("data-acceso-email")) acceso.email = t.value; else acceso.codigo = t.value;
+      return;
     } else return;
     guardarPedido();
     pintarPiePedido();
   });
   cuerpoPedido.addEventListener("change", function (e) {
     var t = e.target;
-    if (t.name === "modo") { pedido.modo = t.value; cambioPedido(); }
+    if (t.name === "modo") { pedido.modo = t.value; if (pedido.pago && pedido.pago !== "Online" && pagosDisponibles().indexOf(pedido.pago) < 0) pedido.pago = ""; cambioPedido(); }
+    else if (t.name === "acceso-modo") { acceso.modo = t.value; acceso.msg = ""; pintarPedido(); }
     else if (t.name === "sucursal") { pedido.sucursal = t.value; cambioPedido(); pintarDatos(); }
     else if (t.name === "pago") { pedido.pago = t.value; cambioPedido(); }
   });
   cuerpoPedido.addEventListener("keydown", function (e) {
-    if (e.key !== "Enter" || !e.target.hasAttribute("data-cupon-codigo")) return;
+    var t = e.target;
+    if (t.getAttribute("data-campo") === "direccion") { teclaDireccion(e); return; }
+    if (e.key !== "Enter") return;
+    if (t.hasAttribute("data-acceso-email")) { e.preventDefault(); accionAcceso("codigo"); return; }
+    if (t.hasAttribute("data-acceso-cod")) { e.preventDefault(); accionAcceso("entrar"); return; }
+    if (!t.hasAttribute("data-cupon-codigo")) return;
     e.preventDefault();
     $("[data-aplicar-cupon]", cuerpoPedido).click();
   });
+  // las sugerencias se eligen con mousedown, antes de que el campo pierda el foco
+  cuerpoPedido.addEventListener("mousedown", function (e) {
+    var li = e.target.closest("[data-sugerencia]");
+    if (!li) return;
+    e.preventDefault();
+    elegirSugerencia(+li.getAttribute("data-sugerencia"));
+  });
+  cuerpoPedido.addEventListener("focusout", function (e) {
+    if (e.target.getAttribute("data-campo") === "direccion") setTimeout(cerrarSugerencias, 150);
+  });
   piePedido.addEventListener("click", function (e) {
+    if (e.target.closest("[data-enviar-pedido]")) { enviarPedido(false); return; }
+    if (e.target.closest("[data-pagar-online]")) { enviarPedido(true); return; }
     var b = e.target.closest("[data-falta]");
     if (!b) return;
     var campo = b.getAttribute("data-falta");
-    var input = $(campo === "pago" || campo === "sucursal" ? 'input[name="' + campo + '"]' : '[data-campo="' + campo + '"]', cuerpoPedido);
+    var input = campo === "acceso" ? $("[data-acceso-email], [data-acceso-cod], input[name=\"acceso-modo\"]", cuerpoPedido)
+      : campo === "items" ? $(".lineas", cuerpoPedido)
+      : $(campo === "pago" || campo === "sucursal" ? 'input[name="' + campo + '"]' : '[data-campo="' + campo + '"]', cuerpoPedido);
     if (input) { input.scrollIntoView({ block: "center", behavior: "smooth" }); input.focus({ preventScroll: true }); }
   });
 
   function pedirUbicacion() {
     var estadoEl = $("[data-ubicacion-estado]", cuerpoPedido);
     if (!navigator.geolocation) {
-      ubicacionMsg = "Tu navegador no permite compartir la ubicación. Escribe la dirección completa.";
-      pintarPedido();
+      ubicacionMsg = "Tu navegador no permite compartir la ubicación. Escribe la dirección y elígela en la lista.";
+      pintarUbicacion();
       return;
     }
     if (estadoEl) estadoEl.textContent = "Buscando tu ubicación…";
     navigator.geolocation.getCurrentPosition(function (pos) {
       pedido.ubicacion = { lat: +pos.coords.latitude.toFixed(6), lng: +pos.coords.longitude.toFixed(6) };
-      ubicacionMsg = "Ubicación agregada: irá en el mensaje para el repartidor.";
+      pedido.ubicacionDe = "gps";
+      ubicacionMsg = "";
+      guardarPedido();
       pintarPedido();
+      // si no escribió la dirección, se completa con la de su ubicación
+      if (!pedido.direccion.trim()) {
+        buscarJson(BUSCADOR_REVERSO + "?lat=" + pedido.ubicacion.lat + "&lon=" + pedido.ubicacion.lng, function (r) {
+          var f = r && r.features && r.features[0];
+          if (!f || pedido.direccion.trim()) return;
+          pedido.direccion = sugerenciaDe(f, "").texto;
+          guardarPedido();
+          pintarPedido();
+        });
+      }
     }, function () {
-      ubicacionMsg = "No pudimos obtener tu ubicación. Escribe la dirección completa.";
-      pintarPedido();
+      ubicacionMsg = "No pudimos obtener tu ubicación. Escribe la dirección y elígela en la lista.";
+      pintarUbicacion();
     }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 });
   }
 
+  /* ---------- cuenta, aviso por correo, dirección y pago online ----------
+     Funcionan si el servidor del pedido está configurado (api/pedidos.js); si no, el pedido va solo por
+     WhatsApp, como siempre. */
+  var TIENDA = { pedidos: false, correo: false, cuentas: false, online: false };
+  var API_PEDIDOS = "api/pedidos";
+  var SESION = "cuenta-v1";
+  var ENVIADO = "pedido-enviado-v1";
+  var EMAIL = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
+  var CUENTA = null;                 // { email, token }
+  var perfil = null;                 // { perfil: { nombre, direcciones }, pedidos: [...] }
+  var acceso = { modo: "invitado", paso: "email", email: "", codigo: "", msg: "", cargando: false };
+  var enviado = leer(ENVIADO);       // el último pedido registrado: { id, numero, clave, firma, estado… }
+  var envio = { cargando: false, msg: "" };
+
+  function llamar(datos, listo) {
+    var x = new XMLHttpRequest();
+    x.open("POST", API_PEDIDOS);
+    x.setRequestHeader("Content-Type", "application/json");
+    x.timeout = 20000;
+    x.onload = function () { var r = null; try { r = JSON.parse(x.responseText); } catch (e) {} listo(x.status, r || {}); };
+    x.onerror = x.ontimeout = function () { listo(0, {}); };
+    x.send(JSON.stringify(datos));
+  }
+
+  /* inicio o invitado */
+  function cuentaHtml() {
+    if (CUENTA) {
+      var pp = perfil && perfil.pedidos || [];
+      return '<div class="cuenta"><div class="cuenta-fila"><div><b>Hola' + (perfil && perfil.perfil && perfil.perfil.nombre ? ", " + esc(perfil.perfil.nombre) : "") + "</b>" +
+        "<span>" + esc(CUENTA.email) + "</span></div>" + '<button type="button" class="enlace" data-acceso="salir">Cerrar sesión</button></div>' +
+        (pp.length ? '<ul class="mis-pedidos">' + pp.slice(0, 3).map(function (x) {
+          return "<li><b>N° " + esc(x.numero) + "</b> <span>" + esc(x.estadoTexto) + "</span> <small>" + plata(x.total) + "</small></li>";
+        }).join("") + "</ul>" : "") + "</div>";
+    }
+    var html = '<fieldset class="campo"><legend class="campo-titulo">¿Cómo quieres seguir?</legend><div class="dos">' +
+      '<label class="radio-tarjeta' + (acceso.modo === "invitado" ? " sel" : "") + '"><input type="radio" name="acceso-modo" value="invitado"' + (acceso.modo === "invitado" ? " checked" : "") + "> Como invitado</label>" +
+      '<label class="radio-tarjeta' + (acceso.modo === "cuenta" ? " sel" : "") + '"><input type="radio" name="acceso-modo" value="cuenta"' + (acceso.modo === "cuenta" ? " checked" : "") + "> Iniciar sesión</label></div>";
+    if (acceso.modo === "cuenta") {
+      if (acceso.paso === "email") {
+        html += '<p class="campo-ayuda">Te mandamos un código a tu correo, sin contraseñas. Guardamos tu nombre, tus direcciones y tus pedidos.</p>' +
+          '<div class="cupon-fila"><input type="email" data-acceso-email autocomplete="email" inputmode="email" maxlength="120" placeholder="tucorreo@ejemplo.cl" value="' + esc(acceso.email) + '">' +
+          '<button class="cupon-aplicar" type="button" data-acceso="codigo"' + (acceso.cargando ? " disabled" : "") + ">" + (acceso.cargando ? "Enviando…" : "Enviarme un código") + "</button></div>";
+      } else {
+        html += '<p class="campo-ayuda">Te mandamos un código de 6 números a <b>' + esc(acceso.email) + "</b>. Revisa también la carpeta de spam.</p>" +
+          '<div class="cupon-fila"><input type="text" data-acceso-cod inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="123456" value="' + esc(acceso.codigo) + '">' +
+          '<button class="cupon-aplicar" type="button" data-acceso="entrar"' + (acceso.cargando ? " disabled" : "") + ">" + (acceso.cargando ? "Entrando…" : "Entrar") + "</button></div>" +
+          '<button type="button" class="enlace" data-acceso="volver">Usar otro correo</button>';
+      }
+      if (acceso.msg) html += '<span class="campo-ayuda falta" role="alert">' + esc(acceso.msg) + "</span>";
+    }
+    return html + "</fieldset>";
+  }
+  function guardarSesion(c) { CUENTA = c; try { if (c) localStorage.setItem(SESION, JSON.stringify(c)); else localStorage.removeItem(SESION); } catch (e) {} }
+  function usarPerfil(r) {
+    perfil = { perfil: r.perfil || {}, pedidos: r.pedidos || [] };
+    if (!pedido.nombre.trim() && perfil.perfil.nombre) pedido.nombre = perfil.perfil.nombre;
+  }
+  function accionAcceso(que) {
+    if (que === "salir") { guardarSesion(null); perfil = null; acceso = { modo: "invitado", paso: "email", email: "", codigo: "", msg: "", cargando: false }; pintarPedido(); return; }
+    if (que === "volver") { acceso.paso = "email"; acceso.codigo = ""; acceso.msg = ""; pintarPedido(); return; }
+    if (que === "codigo") {
+      if (!EMAIL.test(acceso.email.trim())) { acceso.msg = "Revisa que el correo esté bien escrito."; pintarPedido(); return; }
+      acceso.cargando = true; acceso.msg = ""; pintarPedido();
+      llamar({ accion: "codigo", email: acceso.email.trim(), local: N.nombre }, function (st, r) {
+        acceso.cargando = false;
+        if (st === 200) { acceso.paso = "codigo"; acceso.codigo = ""; }
+        else acceso.msg = st === 429 ? "Ya te mandamos varios códigos. Espera unos minutos o sigue como invitado." : "No pudimos mandar el código. Revisa el correo o sigue como invitado.";
+        pintarPedido();
+        var c = $("[data-acceso-cod]", cuerpoPedido); if (c) c.focus();
+      });
+      return;
+    }
+    if (que === "entrar") {
+      var cod = acceso.codigo.replace(/\D/g, "");
+      if (cod.length !== 6) { acceso.msg = "El código tiene 6 números."; pintarPedido(); return; }
+      acceso.cargando = true; acceso.msg = ""; pintarPedido();
+      llamar({ accion: "entrar", email: acceso.email.trim(), codigo: cod }, function (st, r) {
+        acceso.cargando = false;
+        if (st === 200 && r.token) {
+          guardarSesion({ email: acceso.email.trim().toLowerCase(), token: r.token });
+          usarPerfil(r);
+          acceso.modo = "invitado"; acceso.paso = "email";
+          guardarPedido();
+        } else acceso.msg = r.error === "vencido" ? "El código venció. Pide uno nuevo." : "El código no coincide. Revísalo e inténtalo de nuevo.";
+        pintarPedido();
+      });
+    }
+  }
+  function cargarPerfil() {
+    if (!CUENTA) return;
+    llamar({ accion: "perfil", token: CUENTA.token }, function (st, r) {
+      if (st === 401) { guardarSesion(null); perfil = null; }
+      else if (st === 200) usarPerfil(r);
+      if (dlgPedido.open) pintarPedido();
+    });
+  }
+
+  /* el pedido registrado: número y estado */
+  function firmaPedido() {
+    return JSON.stringify([pedido.items.map(function (it) { return [it.id, it.cant, claveConf(it.conf), it.nota]; }), pedido.modo, pedido.sucursal, pedido.direccion, pedido.pago, pedido.cupon]);
+  }
+  function enviadoVigente() { return enviado && enviado.firma === firmaPedido() && pedido.items.length; }
+  function enviadoHtml() {
+    if (!enviado) return "";
+    var e = enviado;
+    var pagado = e.pago && e.pago.estado === "pagado";
+    var rechazado = e.pago && (e.pago.estado === "rechazado" || e.pago.estado === "anulado");
+    var titulo = rechazado ? "El pago no se completó" : pagado ? "¡Pago recibido! Pedido N° " + e.numero : "Pedido N° " + e.numero;
+    var texto = rechazado ? "No se cobró nada. Puedes intentar de nuevo o elegir pagar al " + (e.modo === "delivery" ? "recibir." : "retirar.")
+      : e.pago && e.pago.metodo === "Online" && !pagado ? "Estamos esperando la confirmación del pago."
+      : (e.estadoTexto ? "Estado: " + e.estadoTexto + "." : "") + (e.email ? " Te avisaremos a " + e.email + " cuando " + (e.modo === "delivery" ? "vaya en camino." : "esté listo para retirar.") : "");
+    return '<div class="pedido-enviado' + (rechazado ? " mal" : pagado ? " ok" : "") + '" role="status"><b>' + esc(titulo) + "</b><span>" + esc(texto) + "</span>" +
+      '<div class="pedido-enviado-acciones">' +
+        (pagado && !e.avisado ? '<a class="boton" href="#" data-wsp-enviado>Avisar al local por WhatsApp ' + icono("flecha") + "</a>" : "") +
+        '<button type="button" class="enlace" data-estado-actualizar>Actualizar estado</button>' +
+        (pedido.items.length && !rechazado ? '<button type="button" class="enlace" data-otro-pedido>Hacer otro pedido</button>' : "") +
+      "</div></div>";
+  }
+  function actualizarEnviado(pintar) {
+    if (!enviado || !TIENDA.pedidos) return;
+    llamar({ accion: "estado", id: enviado.id, clave: enviado.clave, token: CUENTA && CUENTA.token }, function (st, r) {
+      if (st === 200 && r.pedido) {
+        enviado.estadoTexto = r.pedido.estadoTexto; enviado.pago = r.pedido.pago; enviado.modo = r.pedido.modo; enviado.total = r.pedido.total;
+        guardar(ENVIADO, enviado);
+      }
+      if (pintar !== false && dlgPedido.open) pintarPedido();
+    });
+  }
+
+  /* formas de pago */
+  function pagosDisponibles() {
+    var l = pedido.modo === "delivery" ? N.pagosDelivery : N.pagosRetiro;
+    return l && l.length ? l : N.pagos && N.pagos.length ? N.pagos : ["Efectivo", "Transferencia"];
+  }
+  function pagoHtml() {
+    if (pedido.pago === "Online" && !TIENDA.online) pedido.pago = "";
+    var cuando = pedido.modo === "delivery" ? "al recibir" : "al retirar";
+    var radio = function (v, t, sub) {
+      var sel = pedido.pago === v;
+      return '<label class="radio-tarjeta' + (sel ? " sel" : "") + (sub ? " radio-tarjeta--doble" : "") + '"><input type="radio" name="pago" value="' + esc(v) + '"' + (sel ? " checked" : "") + "> " +
+        (sub ? "<span><b>" + esc(t) + "</b><small>" + esc(sub) + "</small></span>" : esc(t)) + "</label>";
+    };
+    return '<fieldset class="campo"><legend class="campo-titulo">¿Cómo pagas?</legend>' +
+      (TIENDA.online ? radio("Online", "Pagar online ahora", "Webpay: tarjeta de débito, crédito o prepago") + '<p class="pagos-o">o paga ' + cuando + ":</p>" : "") +
+      '<div class="dos">' + pagosDisponibles().map(function (m) { return radio(m, m); }).join("") + "</div>" +
+      '<span class="campo-ayuda" data-ayuda="pago"></span></fieldset>';
+  }
+
+  /* delivery: zona de despacho y valor */
+  function dentro(u, poligono) {
+    var si = false;
+    for (var i = 0, j = poligono.length - 1; i < poligono.length; j = i++) {
+      var a = poligono[i], b = poligono[j];
+      if ((a[1] > u.lng) !== (b[1] > u.lng) && u.lat < (b[0] - a[0]) * (u.lng - a[1]) / (b[1] - a[1]) + a[0]) si = !si;
+    }
+    return si;
+  }
+  function zona() { var z = N.zonaDelivery; return z && z.poligono && z.poligono.length > 2 ? z : null; }
+  function fueraDeZona() { var z = zona(); return !!(pedido.modo === "delivery" && pedido.ubicacion && z && !dentro(pedido.ubicacion, z.poligono)); }
+  function costoDelivery() { return typeof N.valorDelivery === "number" && !fueraDeZona() ? N.valorDelivery : null; }
+  function pintarUbicacion() {
+    var el = $("[data-ubicacion-estado]", cuerpoPedido);
+    if (!el) return;
+    var z = zona(), u = pedido.ubicacion;
+    var mapa = u ? ' <a href="https://www.google.com/maps/search/?api=1&query=' + u.lat + "," + u.lng + '" target="_blank" rel="noopener">Ver en Google Maps</a>' : "";
+    el.className = "ubicacion-estado" + (u ? (fueraDeZona() ? " fuera" : " ok") : "");
+    el.innerHTML = u
+      ? (fueraDeZona() ? "Esta dirección queda fuera del " + esc(z.nombre || "sector de despacho") + ": el valor del delivery se confirma por WhatsApp."
+        : (pedido.ubicacionDe === "gps" ? "Usamos tu ubicación actual" : "Dirección ubicada en el mapa") + (z ? ", dentro del " + esc(z.nombre || "sector de despacho") : "") + ".") + mapa
+      : esc(ubicacionMsg || "Elige tu dirección en la lista o usa tu ubicación: así el repartidor llega directo." +
+        (z && typeof N.valorDelivery === "number" ? " Delivery " + plata(N.valorDelivery) + " en el " + (z.nombre || "sector de despacho") + "." : ""));
+  }
+
+  /* sugerencias de direcciones (OpenStreetMap, con Photon) cerca del local */
+  var BUSCADOR = "https://photon.komoot.io/api/";
+  var BUSCADOR_REVERSO = "https://photon.komoot.io/reverse";
+  var sug = { lista: [], activa: -1, timer: 0, pedido: null, cache: {}, texto: "" };
+  function buscarJson(url, listo) {
+    if (sug.pedido) sug.pedido.abort();
+    var x = new XMLHttpRequest();
+    sug.pedido = x;
+    x.open("GET", url);
+    x.timeout = 8000;
+    x.onload = function () { sug.pedido = null; var r = null; try { r = JSON.parse(x.responseText); } catch (e) {} listo(r); };
+    x.onerror = x.ontimeout = function () { sug.pedido = null; listo(null); };
+    x.send();
+  }
+  function centroZona() {
+    var z = zona();
+    if (N.mapaCentro) return N.mapaCentro;
+    if (!z) return null;
+    var la = 0, ln = 0;
+    z.poligono.forEach(function (p) { la += p[0]; ln += p[1]; });
+    return { lat: la / z.poligono.length, lng: ln / z.poligono.length };
+  }
+  function sugerenciaDe(f, escrito) {
+    var pr = f.properties || {};
+    var c = f.geometry && f.geometry.coordinates || [];
+    var calle = pr.street || pr.name || "";
+    var num = pr.housenumber || "";
+    var escritoNum = (String(escrito).match(/\b\d{1,5}\b/) || [""])[0];
+    if (!num && escritoNum && (pr.type === "street" || pr.osm_key === "highway")) num = escritoNum;
+    var principal = (pr.housenumber || pr.type === "street" || pr.osm_key === "highway" ? calle : pr.name || calle) + (num ? " " + num : "");
+    var zonas = [];
+    [pr.district, pr.locality, pr.city || pr.county].forEach(function (v) { if (v && zonas.indexOf(v) < 0 && v !== principal) zonas.push(v); });
+    return { principal: principal, zona: zonas.join(", "), texto: principal + (zonas.length ? ", " + zonas[zonas.length - 1] : ""), ubicacion: { lat: +(+c[1]).toFixed(6), lng: +(+c[0]).toFixed(6) } };
+  }
+  function escribioDireccion(input) {
+    if (pedido.ubicacionDe === "lista") { pedido.ubicacion = null; pedido.ubicacionDe = ""; pintarUbicacion(); pintarPiePedido(); }
+    clearTimeout(sug.timer);
+    var q = input.value.trim();
+    if (q.length < 4) { cerrarSugerencias(); return; }
+    sug.timer = setTimeout(function () { buscarDirecciones(q); }, 280);
+  }
+  function buscarDirecciones(q) {
+    var cz = centroZona();
+    var z = zona();
+    var url = BUSCADOR + "?limit=8&q=" + encodeURIComponent(q) + (cz ? "&lat=" + cz.lat + "&lon=" + cz.lng : "");
+    if (z) {
+      var la = z.poligono.map(function (p) { return p[0]; }), ln = z.poligono.map(function (p) { return p[1]; });
+      url += "&bbox=" + [Math.min.apply(0, ln) - 0.08, Math.min.apply(0, la) - 0.08, Math.max.apply(0, ln) + 0.08, Math.max.apply(0, la) + 0.08].join(",");
+    }
+    var listo = function (r) {
+      sug.cache[url] = r;
+      var vistos = {};
+      sug.lista = (r && r.features || []).map(function (f) { return sugerenciaDe(f, q); })
+        .filter(function (x) { var k = x.texto.toLowerCase(); if (!x.principal || vistos[k]) return false; vistos[k] = 1; return true; }).slice(0, 6);
+      sug.activa = -1;
+      pintarSugerencias();
+    };
+    if (sug.cache[url]) listo(sug.cache[url]); else buscarJson(url, listo);
+  }
+  function pintarSugerencias() {
+    var ul = $("[data-sugerencias]", cuerpoPedido), input = $('[data-campo="direccion"]', cuerpoPedido);
+    if (!ul || !input) return;
+    ul.hidden = !sug.lista.length;
+    input.setAttribute("aria-expanded", String(!!sug.lista.length));
+    ul.innerHTML = sug.lista.map(function (x, i) {
+      return '<li role="option" id="sug-' + i + '" data-sugerencia="' + i + '" aria-selected="' + (i === sug.activa) + '">' + icono("ubicacion") +
+        "<span><b>" + esc(x.principal) + "</b>" + (x.zona ? "<small>" + esc(x.zona) + "</small>" : "") + "</span></li>";
+    }).join("");
+    if (sug.activa >= 0) input.setAttribute("aria-activedescendant", "sug-" + sug.activa); else input.removeAttribute("aria-activedescendant");
+  }
+  function cerrarSugerencias() { sug.lista = []; sug.activa = -1; pintarSugerencias(); }
+  function teclaDireccion(e) {
+    if (!sug.lista.length) return;
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      sug.activa = (sug.activa + (e.key === "ArrowDown" ? 1 : -1) + sug.lista.length) % sug.lista.length;
+      pintarSugerencias();
+    } else if (e.key === "Enter" && sug.activa >= 0) { e.preventDefault(); elegirSugerencia(sug.activa); }
+    else if (e.key === "Escape") cerrarSugerencias();
+  }
+  function elegirSugerencia(i) {
+    var x = sug.lista[i];
+    if (!x) return;
+    pedido.direccion = x.texto;
+    pedido.ubicacion = x.ubicacion;
+    pedido.ubicacionDe = "lista";
+    ubicacionMsg = "";
+    cerrarSugerencias();
+    guardarPedido();
+    pintarPedido();
+  }
+
+  /* enviar: se registra el pedido (número para el aviso) y se abre WhatsApp o el pago online */
+  function datosPedido() {
+    var costo = pedido.modo === "delivery" ? costoDelivery() : null;
+    return {
+      nombre: pedido.nombre.trim(), email: CUENTA ? CUENTA.email : pedido.email.trim(), sucursal: pedido.sucursal,
+      modo: pedido.modo, direccion: pedido.direccion.trim(), ubicacion: pedido.modo === "delivery" ? pedido.ubicacion : null,
+      pago: pedido.pago, cupon: pedido.cupon,
+      items: pedido.items.map(function (it) { return { id: it.id, cant: it.cant, conf: it.conf, nota: it.nota }; }),
+      total: subtotal() - descuento() + (costo || 0)
+    };
+  }
+  function abrirWhatsapp(url, ventana) {
+    if (ventana && !ventana.closed) { ventana.location.href = url; return; }
+    // sin "noopener": con esa opción window.open siempre devuelve null y no se sabría si se abrió
+    var w = window.open(url, "_blank");
+    if (w) { try { w.opener = null; } catch (e) {} }
+    else location.href = url;
+  }
+  function enviarPedido(online) {
+    if (envio.cargando || faltaPedido()) return;
+    if (!online && enviadoVigente()) { abrirWhatsapp(wsp(mensaje(enviado))); return; }
+    // la pestaña de WhatsApp se abre ahora (al tocar), porque después del envío el navegador la bloquearía
+    var ventana = online ? null : window.open("", "_blank");
+    envio = { cargando: true, msg: "" };
+    pintarPiePedido();
+    llamar({ accion: "crear", pedido: datosPedido(), token: CUENTA && CUENTA.token }, function (st, r) {
+      envio.cargando = false;
+      if (st === 200 && r.id) {
+        enviado = { id: r.id, numero: r.numero, clave: r.clave, firma: firmaPedido(), modo: pedido.modo, total: r.total,
+          email: CUENTA ? CUENTA.email : pedido.email.trim(), estadoTexto: online ? "" : "Recibido", pago: { metodo: pedido.pago, estado: online ? "pendiente" : "" } };
+        guardar(ENVIADO, enviado);
+        if (online) { location.href = r.pagoUrl; return; }
+        abrirWhatsapp(wsp(mensaje(enviado)), ventana);
+        if (CUENTA) cargarPerfil();
+        pintarPedido();
+        return;
+      }
+      if (st === 0 || st >= 500 && !r.motivo) {
+        // sin conexión con el servidor: el pedido igual va por WhatsApp (sin número)
+        if (online) envio.msg = "No pudimos abrir el pago online. Revisa tu conexión o elige pagar " + (pedido.modo === "delivery" ? "al recibir." : "al retirar.");
+        else abrirWhatsapp(wsp(mensaje()), ventana);
+      } else {
+        if (ventana) ventana.close();
+        envio.msg = r.motivo || "No pudimos enviar el pedido. Inténtalo de nuevo.";
+      }
+      pintarPiePedido();
+    });
+  }
+  function revisarTienda() {
+    if (!/^https?:$/.test(location.protocol) || PREVIA) return;
+    var x = new XMLHttpRequest();
+    x.open("GET", API_PEDIDOS);
+    x.onload = function () {
+      var r = null; try { r = JSON.parse(x.responseText); } catch (e) {}
+      if (x.status !== 200 || !r) return;
+      TIENDA = { pedidos: !!r.pedidos, correo: !!r.correo, cuentas: !!r.cuentas, online: !!r.online };
+      if (TIENDA.cuentas) { CUENTA = leer(SESION); cargarPerfil(); }
+      volverDelPago();
+      if (dlgPedido.open) pintarPedido();
+    };
+    x.send();
+  }
+  /* vuelta de Flow: ?pedido=ID&c=CLAVE */
+  function volverDelPago() {
+    var m = /[?&]pedido=(\d+)&c=([\w-]+)/.exec(location.search);
+    if (!m) return;
+    history.replaceState(null, "", location.pathname + location.hash);
+    if (!enviado || String(enviado.id) !== m[1]) enviado = { id: +m[1], clave: m[2], numero: String(m[1]).padStart(4, "0"), firma: firmaPedido() };
+    else enviado.clave = m[2];
+    llamar({ accion: "estado", id: +m[1], clave: m[2], token: CUENTA && CUENTA.token }, function (st, r) {
+      if (st !== 200 || !r.pedido) return;
+      var x = r.pedido;
+      Object.assign(enviado, { numero: x.numero, estadoTexto: x.estadoTexto, pago: x.pago, modo: x.modo, total: x.total });
+      guardar(ENVIADO, enviado);
+      pintarPedido();
+      abrir(dlgPedido);
+    });
+  }
+
   /* ---------- mensaje de WhatsApp ---------- */
-  function mensaje() {
+  function mensaje(registro) {
     var l = [];
-    l.push("Hola, quiero hacer un pedido:");
+    l.push("Hola, quiero hacer un pedido" + (registro ? " (N° " + registro.numero + ")" : "") + ":");
     l.push("Nombre: " + pedido.nombre.trim());
+    var correoAviso = CUENTA ? CUENTA.email : pedido.email.trim();
+    if (registro && correoAviso) l.push("Correo para el aviso: " + correoAviso);
     var suc = sucursalElegida();
     if (suc) l.push("Sucursal: " + suc.nombre);
     if (pedido.modo === "retiro" && suc) {
@@ -1288,12 +1716,13 @@
     } else if (pedido.modo === "retiro") {
       l.push("Modalidad: Retiro en el local" + (N.direccion ? " (" + direccionCompleta() + ")" : ""));
     } else {
-      l.push("Modalidad: Delivery (consultar cobertura y costo)");
+      l.push("Modalidad: Delivery" + (fueraDeZona() ? " (fuera de la zona de despacho: consultar costo)" : typeof N.valorDelivery === "number" ? "" : " (consultar cobertura y costo)"));
       l.push("Dirección: " + pedido.direccion.trim());
       if (pedido.ubicacion) l.push("Ubicación: https://maps.google.com/?q=" + pedido.ubicacion.lat + "," + pedido.ubicacion.lng);
-      l.push("Delivery: " + (typeof N.valorDelivery === "number" ? plata(N.valorDelivery) : "valor " + (N.notaDelivery ? minus(N.notaDelivery) + ", " : "") + "por confirmar (no incluido en el subtotal)"));
-      l.push("Pago: " + pedido.pago);
+      var cd = costoDelivery();
+      l.push("Delivery: " + (cd !== null ? plata(cd) : fueraDeZona() ? "por confirmar: la dirección queda fuera de la zona de despacho" : "valor " + (N.notaDelivery ? minus(N.notaDelivery) + ", " : "") + "por confirmar (no incluido en el subtotal)"));
     }
+    if (pedido.pago) l.push("Pago: " + (pedido.pago === "Online" ? "online" + (registro && registro.pago && registro.pago.estado === "pagado" ? " (pagado)" : "") : pedido.pago + (pedido.modo === "delivery" ? " al recibir" : " al retirar")));
     l.push("");
     pedido.items.forEach(function (it, i) {
       var p = PRODUCTOS[it.id].p;
@@ -1316,11 +1745,13 @@
     l.push("");
     var sub = subtotal();
     var desc = descuento();
-    var fijo = pedido.modo === "delivery" && typeof N.valorDelivery === "number";
+    var costo = pedido.modo === "delivery" ? costoDelivery() : null;
+    var fijo = costo !== null;
     if (desc || fijo) {
       l.push("Subtotal: " + plata(sub));
       if (desc) l.push("Cupón " + pedido.cupon + " (" + nombreCupon(cuponActual()) + "): −" + plata(desc));
-      l.push("Total referencial: " + plata(sub - desc + (fijo ? N.valorDelivery : 0)) + (pedido.modo === "delivery" && !fijo ? " + delivery" : ""));
+      if (fijo) l.push("Delivery: " + plata(costo));
+      l.push("Total referencial: " + plata(sub - desc + (fijo ? costo : 0)) + (pedido.modo === "delivery" && !fijo ? " + delivery" : ""));
     } else {
       l.push("Subtotal referencial: " + plata(sub));
     }
@@ -1341,6 +1772,7 @@
       cuponMsg = "";
       pintarPedido();
       abrir(dlgPedido);
+      actualizarEnviado();
     } else if (t.hasAttribute("data-cerrar")) {
       cerrar(t.closest("dialog"));
     } else if (t.hasAttribute("data-seccion")) {
@@ -1478,6 +1910,7 @@
   if (EDITAR) carrusel.pausado = true;
   pintarTodo();
   revisarNav();
+  revisarTienda();
 
   /* ---------- vista previa y edición desde el panel (/admin) ---------- */
   if (!PREVIA) return;

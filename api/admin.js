@@ -12,6 +12,7 @@
                     Vercel, o main
 */
 const crypto = require("crypto");
+const T = require("./_tienda");
 
 const DEFAULT_USER = "rincondelsushi";
 const CONTENT_FILE = "carta.js";
@@ -161,6 +162,45 @@ async function publish(site, photos) {
   }
 }
 
+/* ---------- pedidos de la página ---------- */
+async function listaPedidos(body) {
+  const fecha = /^\d{4}-\d{2}-\d{2}$/.test(body.fecha || "") ? body.fecha : T.fecha();
+  const [ids] = await T.redis([["LRANGE", T.PREFIJO + "dia:" + fecha, 0, -1]]);
+  let pedidos = [];
+  if (ids && ids.length) {
+    const [vals] = await T.redis([["MGET", ...ids.map(id => T.PREFIJO + "pedido:" + id)]]);
+    pedidos = vals.filter(Boolean).map(v => JSON.parse(v)).reverse();
+  }
+  return { ok: true, fecha, hoy: T.fecha(), pedidos, correo: !!T.correoConf() };
+}
+/* Cambia el estado; con «listo» o «en camino» le avisa al cliente por correo (una vez por estado) */
+async function cambiarEstado(body) {
+  const id = Math.round(+body.id);
+  if (!T.ESTADOS[body.estado] || !(id > 0)) throw Object.assign(new Error("datos"), { client: "datos" });
+  const p = await T.leer("pedido:" + id);
+  if (!p) throw Object.assign(new Error("no existe"), { client: "no-existe" });
+  p.estado = body.estado;
+  p.historial = (p.historial || []).concat({ estado: body.estado, t: Date.now() });
+  p.avisos = p.avisos || [];
+  let avisado = false;
+  if ((p.estado === "listo" || p.estado === "en-camino") && p.email && !p.avisos.includes(p.estado)) {
+    const n = T.numero(p.id);
+    const hola = `Hola ${p.nombre}:`;
+    // si el correo falla, el estado se guarda igual (y el panel no dice «avisado»)
+    avisado = p.estado === "listo"
+      ? T.correo(p.email, `Tu pedido N° ${n} está listo para retirar`, "¡Tu pedido está listo!", [
+          `${hola} tu pedido N° ${n} ya está listo para retirar${p.sucursal ? " en la sucursal " + p.sucursal : ""}${p.sucursalDireccion ? " (" + p.sucursalDireccion + ")" : ""}.`,
+          `Total: ${T.plata(p.total)}.`, "¡Te esperamos!"], p.local)
+      : T.correo(p.email, `Tu pedido N° ${n} va en camino`, "¡Tu pedido va en camino!", [
+          `${hola} tu pedido N° ${n} ya salió${p.direccion ? " hacia " + p.direccion : ""}.`,
+          `Total: ${T.plata(p.total)}.`, "¡Que lo disfrutes!"], p.local);
+    avisado = await Promise.resolve(avisado).catch(() => false);
+    if (avisado) p.avisos.push(p.estado);
+  }
+  await T.redis([["SET", T.PREFIJO + "pedido:" + id, JSON.stringify(p), "KEEPTTL"]]);
+  return { ok: true, pedido: p, avisado };
+}
+
 /* ---------- estado ----------
    Abrir /api/admin en el navegador muestra qué configuración le llegó al servidor.
    Nunca muestra la clave: solo si está y si se pegó limpia. */
@@ -177,6 +217,8 @@ function estado() {
     rama: r.branch,
     usuario: process.env.ADMIN_USER ? "propio" : `de fábrica (${DEFAULT_USER})`,
     contrasena: process.env.ADMIN_PASSWORD ? "configurada" : "FALTA",
+    basePedidos: T.redisConf() ? "configurada" : "no (los pedidos van solo por WhatsApp)",
+    correoAvisos: T.correoConf() ? "configurado" : "no (no se mandan correos)",
     entorno: process.env.VERCEL_ENV || "desconocido",
     version: (process.env.VERCEL_GIT_COMMIT_SHA || "").slice(0, 7)
   };
@@ -194,6 +236,11 @@ module.exports = async (req, res) => {
   if (!checkCredentials(body.user, body.pass)) {
     await sleep(1200); // frena a quien intente adivinar la contraseña
     return send(res, 401, { error: "acceso" });
+  }
+  // los pedidos no usan GitHub: solo la base de datos
+  if (body.action === "pedidos" || body.action === "estado-pedido") {
+    try { return send(res, 200, await (body.action === "pedidos" ? listaPedidos(body) : cambiarEstado(body))); }
+    catch (e) { return send(res, e.client === "sin-base" ? 503 : e.client ? 400 : 502, { error: e.client || "servidor" }); }
   }
   if (!token()) return send(res, 500, { error: "config" });
 
