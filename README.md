@@ -27,6 +27,8 @@ transferencia, y cambia `img/logo.png`, `img/icono-192.png`, `img/icono-180.png`
   recargos de la sushi arepa y el sushipleto (su ficha no trae lista de precios).
 - **Tabla especial 5**: la ficha se corta en «Pollo… Ver más». Del afiche se lee «pollo, queso, frutil[la]» y
   así está cargada.
+- **Súper promociones**: la D1 dice «60 cortes mixtos + arrollados primavera», sin cantidad (está cargada con 5,
+  como las demás). La E1, E2, F1 y F2 no detallan los cortes: tienen los mismos de las otras de 50 y 60 cortes.
 - **Masago roll**: la descripción del catálogo sigue con «Extra…» y no se alcanza a leer.
 - **Sucursales**: nombre, WhatsApp, dirección, horario y delivery de cada una. Hoy todos los pedidos van al
   WhatsApp de la Sucursal del Portal (+56 9 4632 4426).

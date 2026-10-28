@@ -75,12 +75,12 @@ window.CARTA = {
     "portada": {
       "titulo": "Tablas de sushi",
       "destacado": "para compartir",
-      "bajada": "Tablas mixtas, calientes y especiales, cortes premium, hand rolls, gohan, sushiburger, sushi arepa y sushipleto. Arma tu pedido y mándalo por WhatsApp: el resto lo confirmamos contigo."
+      "bajada": "Súper promociones con bebida o arrollados, tablas mixtas, calientes y especiales, cortes premium, hand rolls y más. Arma tu pedido y mándalo por WhatsApp: el resto lo confirmamos contigo."
     },
     "carta": {
       "titulo": "Elige tu",
       "destacado": "tabla",
-      "bajada": "Tablas, cortes premium, hand rolls, especiales, box, aperitivos y salsas. Suma lo que quieras al pedido."
+      "bajada": "Súper promociones, tablas, cortes premium, hand rolls, especiales, box, aperitivos y salsas. Suma lo que quieras al pedido."
     },
     "cupones": {
       "titulo": "Cupones",
@@ -98,7 +98,7 @@ window.CARTA = {
       "lista": [
         {
           "titulo": "Elige o arma",
-          "texto": "Escoge tu tabla o tus cortes premium, o arma tus hand rolls, gohan y especiales como más te gusten."
+          "texto": "Escoge una súper promoción, tu tabla o tus cortes premium, o arma tus hand rolls, gohan y especiales como más te gusten."
         },
         {
           "titulo": "Revisa tu pedido",
@@ -123,6 +123,123 @@ window.CARTA = {
   },
   "secciones": [
     {
+      "nombre": "Súper promociones",
+      "categorias": [
+        {
+          "id": "promos-con-bebida",
+          "nombre": "Con Coca-Cola",
+          "productos": [
+            {
+              "id": "promocion-a1",
+              "nombre": "Promoción A1",
+              "precio": 17800,
+              "foto": "img/carta/promo-bandeja-bebida.webp",
+              "detalle": "10 cortes calientes: pollo, queso y cebollín\n10 cortes calientes: camarón, queso y aceituna\n10 cortes calientes: kanikama, queso y cebollín\n10 cortes fríos envueltos en queso: pollo, queso y morrón\n10 cortes fríos envueltos en palta: champiñón, queso y pepino",
+              "nota": "50 cortes mixtos + Coca-Cola 1,25 L.",
+              "destacado": true
+            },
+            {
+              "id": "promocion-a2",
+              "nombre": "Promoción A2",
+              "precio": 17800,
+              "foto": "img/carta/promo-panko-bebida.webp",
+              "detalle": "20 cortes calientes: pollo, queso y cebollín\n20 cortes calientes: camarón, queso y aceituna\n10 cortes calientes: kanikama, queso y cebollín",
+              "nota": "50 cortes calientes + Coca-Cola 1,25 L.",
+              "destacado": true
+            },
+            {
+              "id": "promocion-b1",
+              "nombre": "Promoción B1",
+              "precio": 19800,
+              "foto": "img/carta/promo-bandeja-bebida.webp",
+              "detalle": "20 cortes calientes: pollo, queso y cebollín\n10 cortes calientes: camarón, queso y aceituna\n10 cortes calientes: kanikama, queso y cebollín\n10 cortes fríos envueltos en queso: pollo, queso y morrón\n10 cortes fríos envueltos en palta: champiñón, queso y pepino",
+              "nota": "60 cortes mixtos + Coca-Cola 1,25 L."
+            },
+            {
+              "id": "promocion-b2",
+              "nombre": "Promoción B2",
+              "precio": 19800,
+              "foto": "img/carta/promo-panko-bebida.webp",
+              "detalle": "20 cortes calientes: pollo, queso y cebollín\n20 cortes calientes: camarón, queso y aceituna\n20 cortes calientes: kanikama, queso y cebollín",
+              "nota": "60 cortes calientes + Coca-Cola 1,25 L."
+            }
+          ]
+        },
+        {
+          "id": "promos-con-arrollados",
+          "nombre": "Con arrollados",
+          "productos": [
+            {
+              "id": "promocion-c1",
+              "nombre": "Promoción C1",
+              "precio": 19000,
+              "foto": "img/carta/promo-bandeja-arrollados.webp",
+              "detalle": "10 cortes calientes: pollo, queso y cebollín\n10 cortes calientes: camarón, queso y aceituna\n10 cortes calientes: kanikama, queso y cebollín\n10 cortes fríos envueltos en queso: pollo, queso y morrón\n10 cortes fríos envueltos en palta: champiñón, queso y pepino",
+              "nota": "50 cortes mixtos + 5 arrollados primavera.",
+              "destacado": true
+            },
+            {
+              "id": "promocion-c2",
+              "nombre": "Promoción C2",
+              "precio": 19000,
+              "foto": "img/carta/promo-panko-arrollados.webp",
+              "detalle": "20 cortes calientes: pollo, queso y cebollín\n20 cortes calientes: camarón, queso y aceituna\n10 cortes calientes: kanikama, queso y cebollín",
+              "nota": "50 cortes calientes + 5 arrollados primavera.",
+              "destacado": true
+            },
+            {
+              "id": "promocion-d1",
+              "nombre": "Promoción D1",
+              "precio": 21000,
+              "foto": "img/carta/promo-bandeja-arrollados.webp",
+              "detalle": "20 cortes calientes: pollo, queso y cebollín\n10 cortes calientes: camarón, queso y aceituna\n10 cortes calientes: kanikama, queso y cebollín\n10 cortes fríos envueltos en queso: pollo, queso y morrón\n10 cortes fríos envueltos en palta: champiñón, queso y pepino",
+              "nota": "60 cortes mixtos + 5 arrollados primavera."
+            },
+            {
+              "id": "promocion-d2",
+              "nombre": "Promoción D2",
+              "precio": 21000,
+              "foto": "img/carta/promo-panko-arrollados.webp",
+              "detalle": "20 cortes calientes: pollo, queso y cebollín\n20 cortes calientes: camarón, queso y aceituna\n20 cortes calientes: kanikama, queso y cebollín",
+              "nota": "60 cortes calientes + 5 arrollados primavera."
+            },
+            {
+              "id": "promocion-e1",
+              "nombre": "Promoción E1",
+              "precio": 19000,
+              "foto": "img/carta/promo-bandeja-arrollados.webp",
+              "detalle": "10 cortes calientes: pollo, queso y cebollín\n10 cortes calientes: camarón, queso y aceituna\n10 cortes calientes: kanikama, queso y cebollín\n10 cortes fríos envueltos en queso: pollo, queso y morrón\n10 cortes fríos envueltos en palta: champiñón, queso y pepino",
+              "nota": "50 cortes mixtos + 5 arrollados jamón queso."
+            },
+            {
+              "id": "promocion-e2",
+              "nombre": "Promoción E2",
+              "precio": 19000,
+              "foto": "img/carta/promo-panko-arrollados.webp",
+              "detalle": "20 cortes calientes: pollo, queso y cebollín\n20 cortes calientes: camarón, queso y aceituna\n10 cortes calientes: kanikama, queso y cebollín",
+              "nota": "50 cortes calientes + 5 arrollados jamón queso."
+            },
+            {
+              "id": "promocion-f1",
+              "nombre": "Promoción F1",
+              "precio": 21000,
+              "foto": "img/carta/promo-bandeja-arrollados.webp",
+              "detalle": "20 cortes calientes: pollo, queso y cebollín\n10 cortes calientes: camarón, queso y aceituna\n10 cortes calientes: kanikama, queso y cebollín\n10 cortes fríos envueltos en queso: pollo, queso y morrón\n10 cortes fríos envueltos en palta: champiñón, queso y pepino",
+              "nota": "60 cortes mixtos + 5 arrollados jamón queso."
+            },
+            {
+              "id": "promocion-f2",
+              "nombre": "Promoción F2",
+              "precio": 21000,
+              "foto": "img/carta/promo-panko-arrollados.webp",
+              "detalle": "20 cortes calientes: pollo, queso y cebollín\n20 cortes calientes: camarón, queso y aceituna\n20 cortes calientes: kanikama, queso y cebollín",
+              "nota": "60 cortes calientes + 5 arrollados jamón queso."
+            }
+          ]
+        }
+      ]
+    },
+    {
       "nombre": "Tablas",
       "categorias": [
         {
@@ -135,8 +252,7 @@ window.CARTA = {
               "nombre": "20 cortes mixtos",
               "detalle": "10 cortes calientes: pollo, queso y cebollín\n5 cortes fríos envueltos en queso: pollo, queso y morrón\n5 cortes fríos envueltos en palta: champiñón, queso y pepino",
               "precio": 9500,
-              "foto": "img/carta/tabla-20-cortes.webp",
-              "destacado": true
+              "foto": "img/carta/tabla-20-cortes.webp"
             },
             {
               "id": "tabla-30-mixtos",
@@ -150,8 +266,7 @@ window.CARTA = {
               "nombre": "40 cortes mixtos",
               "detalle": "10 cortes calientes: pollo, queso y cebollín\n10 cortes calientes: camarón, queso y aceituna\n10 cortes calientes: kanikama, queso y cebollín\n5 cortes fríos envueltos en queso: pollo, queso y morrón\n5 cortes fríos envueltos en palta: champiñón, queso y pepino",
               "precio": 14500,
-              "foto": "img/carta/tabla-40-cortes.webp",
-              "destacado": true
+              "foto": "img/carta/tabla-40-cortes.webp"
             },
             {
               "id": "tabla-40-mixtos-sin-kanikama",
@@ -179,8 +294,7 @@ window.CARTA = {
               "nombre": "60 cortes mixtos",
               "detalle": "20 cortes calientes: pollo, queso y cebollín\n10 cortes calientes: camarón, queso y aceituna\n10 cortes calientes: kanikama, queso y cebollín\n10 cortes fríos envueltos en queso: pollo, queso y morrón\n10 cortes fríos envueltos en palta: champiñón, queso y pepino",
               "precio": 19000,
-              "foto": "img/carta/tabla-60-cortes.webp",
-              "destacado": true
+              "foto": "img/carta/tabla-60-cortes.webp"
             },
             {
               "id": "tabla-60-mixtos-sin-kanikama",
@@ -194,8 +308,7 @@ window.CARTA = {
               "nombre": "70 cortes mixtos",
               "detalle": "20 cortes calientes: pollo, queso y cebollín\n20 cortes calientes: camarón, queso y aceituna\n10 cortes calientes: kanikama, queso y cebollín\n10 cortes fríos envueltos en queso: pollo, queso y morrón\n10 cortes fríos envueltos en palta: champiñón, queso y pepino",
               "precio": 22000,
-              "foto": "img/carta/tabla-70-cortes.webp",
-              "destacado": true
+              "foto": "img/carta/tabla-70-cortes.webp"
             },
             {
               "id": "tabla-70-mixtos-sin-kanikama",
@@ -223,8 +336,7 @@ window.CARTA = {
               "nombre": "100 cortes mixtos",
               "detalle": "20 cortes calientes: pollo, queso y cebollín\n20 cortes calientes: camarón, queso y aceituna\n20 cortes calientes: kanikama, queso y cebollín\n20 cortes fríos envueltos en queso: pollo, queso y morrón\n20 cortes fríos envueltos en palta: champiñón, queso y pepino",
               "precio": 27000,
-              "foto": "img/carta/tabla-100-cortes.webp",
-              "destacado": true
+              "foto": "img/carta/tabla-100-cortes.webp"
             },
             {
               "id": "tabla-100-mixtos-sin-kanikama",
