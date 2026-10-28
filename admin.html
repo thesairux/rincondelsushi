@@ -373,7 +373,6 @@ const TEXTOS = {
   pasos: { titulo: "Haz tu pedido", destacado: "en 3 pasos.", bajada: "", lista: [{ titulo: "", texto: "" }, { titulo: "", texto: "" }, { titulo: "", texto: "" }] },
   ubicacion: { titulo: "Te esperamos" },
   antojo: { titulo: "¿Qué se te", destacado: "antoja hoy?" },
-  pie: { nota: "" },
   cupones: { titulo: "Cupones", destacado: "de la semana", bajada: "" }
 };
 
@@ -865,7 +864,6 @@ const GROUPS = [
     }, body: cuponesBody },
   { id: "negocio", title: "Local y contacto", icon: SVG.shop, sub: () => "Nombre, colores, WhatsApp, dirección y delivery", body: () =>
       field("Nombre del local", "negocio.nombre") +
-      field("Frase corta", "negocio.lema", { ph: "Sushi, burgers y más" }) +
       `<div class="f">Colores de la marca<small>El principal va en botones y detalles; el destacado, en los títulos de color. Elige un principal oscuro o intenso para que el texto blanco se lea bien.</small></div>
       <div class="dos">${colorField("Color principal", "tema.color", "#d01c23")}${colorField("Color destacado", "tema.colorDestacado", "#ffcc1f")}</div>
       <div class="adds"><button class="add" type="button" data-action="clear-tema">Volver a los colores de la plantilla</button></div>` +
@@ -880,8 +878,7 @@ const GROUPS = [
       field("Enlace de Google Maps", "negocio.mapa", { type: "url", hint: "Se abre con «Abrir en Google Maps» y «Ver cómo llegar»" }) +
       field("Búsqueda para el mapa de la página", "negocio.mapaBusqueda", { hint: "Nombre del local y dirección, como en Google Maps" }) +
       `<div class="dos">${field("Valor del delivery", "negocio.valorDelivery", { num: "opcional", hint: "Vacío si depende del sector" })}${field("Texto del delivery", "negocio.notaDelivery", { ph: "Según el sector" })}</div>` +
-      field("Datos para transferencia", "negocio.datosTransferencia", { area: true, rows: 4, hint: "Se muestran cuando el cliente elige pagar con transferencia", ph: "Banco…\nCuenta…\nRUT…" }) +
-      check("Mostrar el aviso «Carta de referencia»", "negocio.cartaReferencial") },
+      field("Datos para transferencia", "negocio.datosTransferencia", { area: true, rows: 4, hint: "Se muestran cuando el cliente elige pagar con transferencia", ph: "Banco…\nCuenta…\nRUT…" }) },
   { id: "horario", title: "Horario", icon: SVG.clock, sub: () => state.horarioConfirmado ? "Confirmado" : "Referencial, por confirmar", body: horarioBody },
   { id: "textos", title: "Textos de la página", icon: SVG.text, sub: () => "Títulos y textos de cada parte", body: () => {
       const t = state.textos;
@@ -894,8 +891,7 @@ const GROUPS = [
         ${par("textos.pasos", "Cómo pedir")}${field("Texto de cómo pedir", "textos.pasos.bajada", { area: true, rows: 2 })}
         ${t.pasos.lista.map((p, i) => `<div class="item"><strong>Paso ${i + 1}</strong>${field("Título", `textos.pasos.lista.${i}.titulo`)}${field("Texto", `textos.pasos.lista.${i}.texto`, { area: true, rows: 2 })}</div>`).join("")}
         ${field("Ubicación: título", "textos.ubicacion.titulo")}
-        ${par("textos.antojo", "Final")}
-        ${field("Pie de página", "textos.pie.nota", { area: true, rows: 2 })}`;
+        ${par("textos.antojo", "Final")}`;
     } }
 ];
 

@@ -69,11 +69,6 @@
       </div>
       <div class="destacados" data-destacados></div>
     </div>
-    <div class="contenedor portada-pie">
-      <span data-dato="lema">Tablas de sushi por WhatsApp</span>
-      <a class="bajar" href="#carta" aria-label="Bajar a la carta"><svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
-      <span class="portada-pie-der">Elige tu promo</span>
-    </div>
   </section>
 
   <section class="carta" id="carta" aria-labelledby="carta-titulo">
@@ -89,7 +84,6 @@
           <input type="search" data-buscar placeholder="Busca en la carta" autocomplete="off" enterkeyhint="search">
         </label>
       </div>
-      <p class="aviso-carta" data-aviso-carta><span class="aviso-i" aria-hidden="true">i</span><span><b>Carta de referencia.</b> Precios y fotos pueden cambiar. Confirma disponibilidad por WhatsApp.</span></p>
     </div>
     <nav class="secciones" aria-label="Secciones de la carta">
       <div class="contenedor"><div class="pildoras pildoras--grandes" data-secciones></div></div>
@@ -99,10 +93,11 @@
       <div class="carta-lista" data-lista aria-live="polite">
         <p class="sin-js">Cargando la carta…</p>
       </div>
-      <p class="carta-otra">
-        <span>¿Buscabas otra cosa?</span>
-        <a data-wsp href="https://wa.me/56946324426" target="_blank" rel="noopener">Pregúntanos por WhatsApp <svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      </p>
+      <div class="carta-otra">
+        <span class="carta-otra-ico"><svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 19.5 5.6 16A8 8 0 1 1 8.4 18.6Z"/><path d="M9.2 8.6c.3 2.7 2.4 5 5.2 5.6l1.2-1.3-1.8-1-1 .7c-.9-.5-1.7-1.3-2.2-2.2l.7-1-1-1.8Z"/></svg></span>
+        <div class="carta-otra-texto"><b>¿Buscabas otra cosa?</b><span>Escríbenos y te ayudamos a armar tu pedido.</span></div>
+        <a class="boton boton--wsp" data-wsp href="https://wa.me/56946324426" target="_blank" rel="noopener"><svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 19.5 5.6 16A8 8 0 1 1 8.4 18.6Z"/><path d="M9.2 8.6c.3 2.7 2.4 5 5.2 5.6l1.2-1.3-1.8-1-1 .7c-.9-.5-1.7-1.3-2.2-2.2l.7-1-1-1.8Z"/></svg> Pregúntanos por WhatsApp</a>
+      </div>
     </div>
   </section>
 
@@ -131,14 +126,23 @@
 
   <section class="pasos" id="como-pedir" aria-labelledby="pasos-titulo">
     <div class="contenedor pasos-grilla">
-      <div>
+      <div class="pasos-cabeza">
         <h2 class="titulo-grande" id="pasos-titulo"><span data-texto="pasos.titulo">Haz tu pedido</span> <span class="acento" data-texto="pasos.destacado">en 3 pasos.</span></h2>
         <p class="pasos-bajada" data-texto="pasos.bajada">Retiro en tu sucursal o delivery en el sector urbano de Ovalle. Pagas online o al recibir, y te avisamos cuando esté listo.</p>
       </div>
       <ol class="pasos-lista">
-        <li><span class="pasos-num">01</span><div><h3 data-texto="pasos.lista.0.titulo">Elige o arma</h3><p data-texto="pasos.lista.0.texto">Escoge una promo, tu tabla o tus cortes, o arma tus hand rolls y especiales como más te gusten.</p></div></li>
-        <li><span class="pasos-num">02</span><div><h3 data-texto="pasos.lista.1.titulo">Retiro o delivery</h3><p data-texto="pasos.lista.1.texto">Elige tu sucursal, Villa Los Naranjos o Villa El Portal, o escribe tu dirección y elígela en la lista.</p></div></li>
-        <li><span class="pasos-num">03</span><div><h3 data-texto="pasos.lista.2.titulo">Paga y envía</h3><p data-texto="pasos.lista.2.texto">Paga online o al recibir. El pedido llega al WhatsApp de la sucursal y te avisamos por correo.</p></div></li>
+        <li>
+          <div class="pasos-cab"><span class="pasos-ico"><svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></span><span class="pasos-num">01</span></div>
+          <h3 data-texto="pasos.lista.0.titulo">Elige o arma</h3><p data-texto="pasos.lista.0.texto">Escoge una promo, tu tabla o tus cortes, o arma tus hand rolls y especiales como más te gusten.</p>
+        </li>
+        <li>
+          <div class="pasos-cab"><span class="pasos-ico"><svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z"/><circle cx="12" cy="10" r="2.3"/></svg></span><span class="pasos-num">02</span></div>
+          <h3 data-texto="pasos.lista.1.titulo">Retiro o delivery</h3><p data-texto="pasos.lista.1.texto">Elige tu sucursal, Villa Los Naranjos o Villa El Portal, o escribe tu dirección y elígela en la lista.</p>
+        </li>
+        <li>
+          <div class="pasos-cab"><span class="pasos-ico"><svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="6" width="17" height="12" rx="1.5"/><path d="M3.5 10h17M7 14.5h3"/></svg></span><span class="pasos-num">03</span></div>
+          <h3 data-texto="pasos.lista.2.titulo">Paga y envía</h3><p data-texto="pasos.lista.2.texto">Paga online o al recibir. El pedido llega al WhatsApp de la sucursal y te avisamos por correo.</p>
+        </li>
       </ol>
     </div>
   </section>
@@ -192,15 +196,18 @@
     <div class="pie-fila">
       <div class="pie-marca">
         <img class="marca-logo marca-logo--ancho" src="img/logo.png" width="400" height="240" alt="El Rincón del Sushi">
-        <span class="pie-lema">Pedidos por WhatsApp: <span data-dato="whatsapp">+56 9 4632 4426</span></span>
+      </div>
+      <div class="pie-wsp">
+        <span class="pie-wsp-titulo">Pide por WhatsApp a tu sucursal</span>
+        <div class="pie-wsp-botones" data-pie-wsp>
+          <a class="wsp-sucursal" data-wsp href="https://wa.me/56946324426" target="_blank" rel="noopener"><svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 19.5 5.6 16A8 8 0 1 1 8.4 18.6Z"/><path d="M9.2 8.6c.3 2.7 2.4 5 5.2 5.6l1.2-1.3-1.8-1-1 .7c-.9-.5-1.7-1.3-2.2-2.2l.7-1-1-1.8Z"/></svg><span><b>WhatsApp</b></span><svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
       </div>
       <nav class="pie-enlaces" aria-label="Redes">
         <a data-facebook data-si="facebook" hidden href="#" target="_blank" rel="noopener">Facebook <svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <a data-instagram data-si="instagram" hidden href="#" target="_blank" rel="noopener">Instagram <svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        <a data-wsp href="https://wa.me/56946324426" target="_blank" rel="noopener">WhatsApp <svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </nav>
     </div>
-    <p class="pie-nota" data-texto="pie.nota">Precios y promociones sujetos a confirmación por WhatsApp.</p>
   </div>
 </footer>
 

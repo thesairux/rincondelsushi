@@ -204,7 +204,6 @@ personalizacion      → grupos que el cliente elige: punto de la carne, agregad
 - **Delivery**: con `"valorDelivery": null` y `"notaDelivery": "Según el sector"` el valor se confirma por WhatsApp;
   con un valor fijo (`"valorDelivery": 2000`) se suma al total.
 - **Transferencia**: `"datosTransferencia": "Banco …\nCuenta …\nRUT …"` se muestra cuando el cliente elige ese pago.
-- **Aviso «Carta de referencia»**: se quita con `"cartaReferencial": false`.
 
 Al editar a mano, cuida las comillas y las comas: cada elemento de una lista va separado por una coma.
 Si la carta deja de aparecer, lo más probable es que falte o sobre una coma en el último cambio.

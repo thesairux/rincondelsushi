@@ -48,7 +48,6 @@
 window.CARTA = {
   "negocio": {
     "nombre": "El Rincón del Sushi",
-    "lema": "Tablas de sushi por WhatsApp",
     "whatsapp": "56976400876",
     "whatsappVisible": "+56 9 7640 0876",
     "facebook": "",
@@ -59,7 +58,6 @@ window.CARTA = {
     "region": "",
     "mapa": "",
     "mapaBusqueda": "",
-    "cartaReferencial": true,
     "valorDelivery": 2500,
     "notaDelivery": "Sector urbano de Ovalle",
     "datosTransferencia": "",
@@ -177,9 +175,6 @@ window.CARTA = {
     "antojo": {
       "titulo": "¿Qué se te",
       "destacado": "antoja hoy?"
-    },
-    "pie": {
-      "nota": "Precios y promociones sujetos a confirmación por WhatsApp."
     }
   },
   "secciones": [

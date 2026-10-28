@@ -52,7 +52,10 @@
     pausa: '<path d="M9 6v12M15 6v12"/>',
     play: '<path d="M8 5.5v13l10-6.5-10-6.5Z"/>',
     ubicacion: '<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z"/><circle cx="12" cy="10" r="2.3"/>',
-    cupon: '<path d="M3.5 7h17v3a2 2 0 0 0 0 4v3h-17v-3a2 2 0 0 0 0-4Z"/><path d="M10 7.5v1.5M10 11.25v1.5M10 15v1.5"/>'
+    cupon: '<path d="M3.5 7h17v3a2 2 0 0 0 0 4v3h-17v-3a2 2 0 0 0 0-4Z"/><path d="M10 7.5v1.5M10 11.25v1.5M10 15v1.5"/>',
+    wsp: '<path d="M4.5 19.5 5.6 16A8 8 0 1 1 8.4 18.6Z"/><path d="M9.2 8.6c.3 2.7 2.4 5 5.2 5.6l1.2-1.3-1.8-1-1 .7c-.9-.5-1.7-1.3-2.2-2.2l.7-1-1-1.8Z"/>',
+    izquierda: '<path d="m15 6-6 6 6 6"/>',
+    derecha: '<path d="m9 6 6 6-6 6"/>'
   };
   function icono(nombre) { return '<svg class="icono" viewBox="0 0 24 24" aria-hidden="true">' + ICONOS[nombre] + "</svg>"; }
 
@@ -376,7 +379,7 @@
   function pintarDatos() {
     var direccionCiudad = [N.direccion, N.sector, N.ciudad].filter(Boolean).join(", ");
     var datos = {
-      nombre: N.nombre, lema: N.lema, direccion: N.direccion, ciudad: N.ciudad, region: N.region,
+      nombre: N.nombre, direccion: N.direccion, ciudad: N.ciudad, region: N.region,
       "direccion-ciudad": direccionCiudad, horario: horarioCorto(),
       instagram: N.instagram ? "@" + N.instagram : "",
       facebook: N.facebook,
@@ -402,6 +405,15 @@
           "<span>" + esc(s.nombre) + "</span> " + esc(s.whatsappVisible || "+" + s.whatsapp) + "</a>";
       }).join("");
     });
+    // en el pie, un botón de WhatsApp por sucursal
+    var pieWsp = $("[data-pie-wsp]");
+    var numeros = ss.length ? ss : N.whatsapp ? [{ nombre: "WhatsApp", whatsapp: N.whatsapp, whatsappVisible: N.whatsappVisible }] : [];
+    if (pieWsp && numeros.length) {
+      pieWsp.innerHTML = numeros.map(function (s) {
+        return '<a class="wsp-sucursal" href="https://wa.me/' + esc(String(s.whatsapp).replace(/\D/g, "")) + '" target="_blank" rel="noopener">' + icono("wsp") +
+          "<span><b>" + esc(s.nombre) + "</b><small>" + esc(s.whatsappVisible || "+" + s.whatsapp) + "</small></span>" + icono("flecha") + "</a>";
+      }).join("");
+    }
     // lo que no tiene datos (dirección, horario, Instagram) no se muestra
     $$("[data-si]").forEach(function (el) { el.hidden = !datos[el.getAttribute("data-si")]; });
     $$("[data-wsp]").forEach(function (a) { a.href = wsp(""); });
@@ -416,8 +428,6 @@
     }
     var largo = $("[data-horario-largo]");
     if (largo) largo.innerHTML = horarioLargo();
-    var aviso = $("[data-aviso-carta]");
-    if (aviso) aviso.hidden = N.cartaReferencial === false;
   }
 
   /* Títulos y textos fijos de la página ("textos" en carta.js) */
@@ -480,7 +490,9 @@
           return '<button type="button" data-ir="' + i + '" aria-label="Ver promoción ' + (i + 1) + ": " + esc(q.nombre) + '" class="' +
             (i < carrusel.i ? "hecha" : i === carrusel.i ? "activa" : "") + '"><span><i></i></span></button>';
         }).join("") + "</div>" +
-        '<button class="destacado-pausa" type="button" data-pausa aria-label="' + (carrusel.pausado ? "Reanudar" : "Pausar") + ' rotación de promociones">' + icono(carrusel.pausado ? "play" : "pausa") + "</button>" : "") +
+        '<button class="destacado-pausa" type="button" data-pausa aria-label="' + (carrusel.pausado ? "Reanudar" : "Pausar") + ' rotación de promociones">' + icono(carrusel.pausado ? "play" : "pausa") + "</button>" +
+        '<button class="destacado-flecha anterior" type="button" data-carrusel="-1" aria-label="Promoción anterior">' + icono("izquierda") + "</button>" +
+        '<button class="destacado-flecha siguiente" type="button" data-carrusel="1" aria-label="Promoción siguiente">' + icono("derecha") + "</button>" : "") +
         '<div class="destacado-foto"><img src="' + esc(p.foto) + '" alt="Foto de ' + esc(p.nombre) + '" width="1000" height="725"></div>' +
         '<div class="destacado-panel">' +
           '<span class="destacado-etiqueta">Promo destacada</span>' +
@@ -1814,6 +1826,13 @@
     } else if (t.hasAttribute("data-ir")) {
       carrusel.i = +t.getAttribute("data-ir");
       pintarDestacados();
+    } else if (t.hasAttribute("data-carrusel")) {
+      var paso = t.getAttribute("data-carrusel"), total = carrusel.lista.length;
+      carrusel.i = (carrusel.i + +paso + total) % total;
+      pintarDestacados();
+      // el botón se vuelve a dibujar: queda enfocado para seguir con el teclado
+      var mismo = $('[data-carrusel="' + paso + '"]');
+      if (mismo) mismo.focus({ preventScroll: true });
     }
   });
 
