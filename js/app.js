@@ -1194,6 +1194,7 @@
       (envio.msg ? '<p class="pedido-error" role="alert">' + esc(envio.msg) + "</p>" : "");
     if (falta) html += '<button class="boton boton--grande" type="button" aria-disabled="true" data-falta="' + falta.campo + '">' + esc(falta.texto) + "</button>";
     else if (envio.cargando) html += '<button class="boton boton--grande" type="button" aria-disabled="true">' + (online ? "Abriendo el pago…" : "Enviando…") + "</button>";
+    else if (online && pagadoYa()) html += '<button class="boton boton--grande" type="button" data-enviar-pedido>Avisar al local por WhatsApp ' + icono("flecha") + "</button>";
     else if (online) html += '<button class="boton boton--grande" type="button" data-pagar-online>Pagar ' + plata(total) + " online " + icono("flecha") + "</button>";
     else if (TIENDA.pedidos) html += '<button class="boton boton--grande" type="button" data-enviar-pedido>' + (enviadoVigente() ? "Volver a enviar por WhatsApp " : "Enviar pedido por WhatsApp ") + icono("flecha") + "</button>";
     else html += '<a class="boton boton--grande" href="' + esc(wsp(mensaje())) + '" target="_blank" rel="noopener" data-enviar>Enviar pedido por WhatsApp ' + icono("flecha") + "</a>";
@@ -1460,6 +1461,8 @@
     return JSON.stringify([pedido.items.map(function (it) { return [it.id, it.cant, claveConf(it.conf), it.nota]; }), pedido.modo, pedido.sucursal, pedido.direccion, pedido.pago, pedido.cupon]);
   }
   function enviadoVigente() { return enviado && enviado.firma === firmaPedido() && pedido.items.length; }
+  // el mismo pedido ya se pagó online: no se vuelve a cobrar, solo se avisa al local
+  function pagadoYa() { return !!(enviadoVigente() && enviado.pago && enviado.pago.estado === "pagado"); }
   function enviadoHtml() {
     if (!enviado) return "";
     var e = enviado;
@@ -1643,7 +1646,7 @@
   }
   function enviarPedido(online) {
     if (envio.cargando || faltaPedido()) return;
-    if (!online && enviadoVigente()) { abrirWhatsapp(wsp(mensaje(enviado))); return; }
+    if (enviadoVigente() && (!online || pagadoYa())) { abrirWhatsapp(wsp(mensaje(enviado))); return; }
     // la pestaña de WhatsApp se abre ahora (al tocar), porque después del envío el navegador la bloquearía
     var ventana = online ? null : window.open("", "_blank");
     envio = { cargando: true, msg: "" };
