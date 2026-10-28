@@ -196,6 +196,42 @@ window.CARTA = {
               "precio": 22000,
               "foto": "img/carta/tabla-70-cortes.webp",
               "destacado": true
+            },
+            {
+              "id": "tabla-70-mixtos-sin-kanikama",
+              "nombre": "70 cortes mixtos sin kanikama",
+              "detalle": "20 cortes calientes: pollo, queso y cebollín\n20 cortes calientes: camarón, queso y aceituna\n10 cortes calientes: pollo, queso y palta\n10 cortes fríos envueltos en queso: pollo, queso y morrón\n10 cortes fríos envueltos en palta: champiñón, queso y pepino",
+              "precio": 23000,
+              "foto": "img/carta/tabla-70-cortes.webp"
+            },
+            {
+              "id": "tabla-80-mixtos",
+              "nombre": "80 cortes mixtos",
+              "detalle": "20 cortes calientes: pollo, queso y cebollín\n20 cortes calientes: camarón, queso y aceituna\n20 cortes calientes: kanikama, queso y cebollín\n10 cortes fríos envueltos en queso: pollo, queso y morrón\n10 cortes fríos envueltos en palta: champiñón, queso y pepino",
+              "precio": 24000,
+              "foto": "img/carta/tabla-80-cortes.webp"
+            },
+            {
+              "id": "tabla-80-mixtos-sin-kanikama",
+              "nombre": "80 cortes mixtos sin kanikama",
+              "detalle": "20 cortes calientes: pollo, queso y cebollín\n20 cortes calientes: camarón, queso y aceituna\n20 cortes calientes: pollo, queso y palta\n10 cortes fríos envueltos en queso: pollo, queso y morrón\n10 cortes fríos envueltos en palta: champiñón, queso y pepino",
+              "precio": 25000,
+              "foto": "img/carta/tabla-80-cortes.webp"
+            },
+            {
+              "id": "tabla-100-mixtos",
+              "nombre": "100 cortes mixtos",
+              "detalle": "20 cortes calientes: pollo, queso y cebollín\n20 cortes calientes: camarón, queso y aceituna\n20 cortes calientes: kanikama, queso y cebollín\n20 cortes fríos envueltos en queso: pollo, queso y morrón\n20 cortes fríos envueltos en palta: champiñón, queso y pepino",
+              "precio": 27000,
+              "foto": "img/carta/tabla-100-cortes.webp",
+              "destacado": true
+            },
+            {
+              "id": "tabla-100-mixtos-sin-kanikama",
+              "nombre": "100 cortes mixtos sin kanikama",
+              "detalle": "20 cortes calientes: pollo, queso y cebollín\n20 cortes calientes: camarón, queso y aceituna\n20 cortes calientes: pollo, queso y palta\n20 cortes fríos envueltos en queso: pollo, queso y morrón\n20 cortes fríos envueltos en palta: champiñón, queso y pepino",
+              "precio": 29000,
+              "foto": "img/carta/tabla-100-cortes.webp"
             }
           ]
         },
@@ -252,6 +288,48 @@ window.CARTA = {
               "detalle": "20 cortes calientes: pollo, queso y cebollín\n20 cortes calientes: camarón, queso y aceituna\n20 cortes calientes: pollo, queso y palta",
               "precio": 20000,
               "foto": "img/carta/tabla-60-cortes.webp"
+            },
+            {
+              "id": "tabla-70-calientes",
+              "nombre": "70 cortes calientes",
+              "detalle": "20 cortes calientes: pollo, queso y cebollín\n20 cortes calientes: camarón, queso y aceituna\n20 cortes calientes: kanikama, queso y cebollín\n10 cortes calientes: champiñón, queso y pepino",
+              "precio": 22000,
+              "foto": "img/carta/tabla-70-cortes.webp"
+            },
+            {
+              "id": "tabla-70-calientes-sin-kanikama",
+              "nombre": "70 cortes calientes sin kanikama",
+              "detalle": "20 cortes calientes: pollo, queso y cebollín\n20 cortes calientes: camarón, queso y aceituna\n20 cortes calientes: pollo, queso y palta\n10 cortes calientes: champiñón, queso y pepino",
+              "precio": 23000,
+              "foto": "img/carta/tabla-70-cortes.webp"
+            },
+            {
+              "id": "tabla-80-calientes",
+              "nombre": "80 cortes calientes",
+              "detalle": "20 cortes calientes: pollo, queso y cebollín\n20 cortes calientes: camarón, queso y aceituna\n20 cortes calientes: kanikama, queso y cebollín\n20 cortes calientes: champiñón, queso y pepino",
+              "precio": 24000,
+              "foto": "img/carta/tabla-80-cortes.webp"
+            },
+            {
+              "id": "tabla-80-calientes-sin-kanikama",
+              "nombre": "80 cortes calientes sin kanikama",
+              "detalle": "20 cortes calientes: pollo, queso y cebollín\n20 cortes calientes: camarón, queso y aceituna\n20 cortes calientes: pollo, queso y palta\n20 cortes calientes: champiñón, queso y pepino",
+              "precio": 25000,
+              "foto": "img/carta/tabla-80-cortes.webp"
+            },
+            {
+              "id": "tabla-100-calientes",
+              "nombre": "100 cortes calientes",
+              "detalle": "40 cortes calientes: pollo, queso y cebollín\n40 cortes calientes: camarón, queso y aceituna\n20 cortes calientes: kanikama, queso y cebollín",
+              "precio": 27000,
+              "foto": "img/carta/tabla-100-cortes.webp"
+            },
+            {
+              "id": "tabla-100-calientes-sin-kanikama",
+              "nombre": "100 cortes calientes sin kanikama",
+              "detalle": "40 cortes calientes: pollo, queso y cebollín\n40 cortes calientes: camarón, queso y aceituna\n20 cortes calientes: pollo, queso y palta",
+              "precio": 29000,
+              "foto": "img/carta/tabla-100-cortes.webp"
             }
           ]
         }
