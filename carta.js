@@ -75,7 +75,7 @@ window.CARTA = {
     "portada": {
       "titulo": "Tablas de sushi",
       "destacado": "para compartir",
-      "bajada": "Tablas mixtas y calientes (con o sin kanikama), cortes premium, hand rolls, gohan, sushiburger, sushi arepa y sushipleto. Arma tu pedido y mándalo por WhatsApp: el resto lo confirmamos contigo."
+      "bajada": "Tablas mixtas, calientes y especiales, cortes premium, hand rolls, gohan, sushiburger, sushi arepa y sushipleto. Arma tu pedido y mándalo por WhatsApp: el resto lo confirmamos contigo."
     },
     "carta": {
       "titulo": "Elige tu",
@@ -330,6 +330,110 @@ window.CARTA = {
               "detalle": "40 cortes calientes: pollo, queso y cebollín\n40 cortes calientes: camarón, queso y aceituna\n20 cortes calientes: pollo, queso y palta",
               "precio": 29000,
               "foto": "img/carta/tabla-100-cortes.webp"
+            }
+          ]
+        },
+        {
+          "id": "tablas-especiales",
+          "nombre": "Tablas especiales",
+          "productos": [
+            {
+              "id": "tabla-especial-1",
+              "nombre": "Tabla especial 1",
+              "precio": 11500,
+              "foto": "img/carta/tabla-especial-1.webp",
+              "detalle": "10 cortes envueltos en salmón: camarón, queso y palta\n10 cortes envueltos en tempura: pollo, queso y champiñón"
+            },
+            {
+              "id": "tabla-especial-2",
+              "nombre": "Tabla especial 2",
+              "precio": 10000,
+              "foto": "img/carta/tabla-especial-2.webp",
+              "detalle": "10 cortes envueltos en panko merkén: pollo, queso y cebollín\n10 cortes envueltos en tempura: pollo, queso y palta"
+            },
+            {
+              "id": "tabla-especial-3",
+              "nombre": "Tabla especial 3",
+              "precio": 13000,
+              "foto": "img/carta/tabla-especial-3.webp",
+              "detalle": "10 cortes envueltos en queso crema: salmón, queso y palta\n10 cortes envueltos en tempura: pollo, queso y almendra"
+            },
+            {
+              "id": "tabla-especial-4",
+              "nombre": "Tabla especial 4",
+              "precio": 11500,
+              "foto": "img/carta/tabla-especial-4.webp",
+              "detalle": "10 cortes envueltos en tempura: salmón, queso y cebollín\n10 cortes envueltos en ciboulette: vacuno, queso y palta"
+            },
+            {
+              "id": "tabla-especial-5",
+              "nombre": "Tabla especial 5",
+              "precio": 20000,
+              "foto": "img/carta/tabla-especial-5.webp",
+              "detalle": "10 cortes envueltos en tempura: salmón, queso y palta\n10 cortes envueltos en palta: camarón, queso y cebollín\n10 cortes envueltos en queso crema: pollo, queso y frutilla"
+            },
+            {
+              "id": "tabla-fria",
+              "nombre": "Tabla fría (20 cortes)",
+              "precio": 12500,
+              "foto": "img/carta/tabla-fria.webp",
+              "detalle": "10 cortes envueltos en queso crema: pollo, queso y palmito\n10 cortes envueltos en palta: camarón, queso y champiñón"
+            },
+            {
+              "id": "tabla-panko-pollo-vacuno",
+              "nombre": "Tabla panko pollo vacuno",
+              "precio": 15500,
+              "foto": "img/carta/tabla-panko-pollo-vacuno.webp",
+              "detalle": "10 cortes: pollo, queso crema y cebollín\n10 cortes: pollo, queso crema y champiñones\n10 cortes: vacuno, queso crema y palta"
+            },
+            {
+              "id": "tabla-vegetariana",
+              "nombre": "Tabla vegetariana (30 cortes)",
+              "precio": 16000,
+              "foto": "img/carta/tabla-vegetariana.webp",
+              "detalle": "10 cortes envueltos en panko: palta, queso crema y cebollín\n10 cortes envueltos en panko: palmito, queso crema y aceituna\n10 cortes envueltos en palta: cebollín, queso crema y aceituna"
+            },
+            {
+              "id": "tabla-vegana",
+              "nombre": "Tabla vegana (30 cortes)",
+              "precio": 17000,
+              "foto": "img/carta/tabla-vegana.webp",
+              "detalle": "10 cortes envueltos en palta: palmito y choclito\n10 cortes envueltos en panko: palta y aceituna\n10 cortes envueltos en panko: aceituna y choclito"
+            },
+            {
+              "id": "tabla-panko-sin-nori",
+              "nombre": "Tabla panko sin nori (30 cortes)",
+              "precio": 15500,
+              "foto": "img/carta/tabla-panko-sin-nori.webp",
+              "detalle": "10 cortes: pollo, queso crema y palta\n10 cortes: pollo, queso crema y cebollín\n10 cortes: camarón, queso crema y aceituna"
+            },
+            {
+              "id": "tabla-panko",
+              "nombre": "Tabla panko (30 cortes)",
+              "precio": 15500,
+              "foto": "img/carta/tabla-panko.webp",
+              "detalle": "10 cortes: pollo, queso crema y cebollín\n10 cortes: pollo, queso crema y palmito\n10 cortes envueltos en palta: pollo, queso crema y aceituna"
+            },
+            {
+              "id": "tabla-panko-especial",
+              "nombre": "Tabla panko especial (40 cortes)",
+              "precio": 19000,
+              "foto": "img/carta/tabla-panko-especial.webp",
+              "detalle": "10 cortes: pollo, queso crema y palmito\n10 cortes: pollo, queso crema y aceituna\n10 cortes: camarón, queso crema y palta\n10 cortes: champiñón, queso crema y aceituna"
+            },
+            {
+              "id": "tabla-pollo-panko",
+              "nombre": "Tabla pollo panko (50 cortes)",
+              "precio": 23500,
+              "foto": "img/carta/tabla-pollo-panko.webp",
+              "detalle": "20 cortes: pollo, queso crema y palta\n20 cortes: pollo, queso crema y aceituna\n10 cortes: pollo, queso crema y cebollín"
+            },
+            {
+              "id": "tabla-fria-especial",
+              "nombre": "Tabla fría especial (40 cortes)",
+              "precio": 24500,
+              "foto": "img/carta/tabla-fria-especial.webp",
+              "detalle": "10 cortes envueltos en nori: queso crema, champiñón y aceituna\n10 cortes envueltos en palta: queso crema, camarón y aceituna\n10 cortes envueltos en sésamo: camarón, queso crema y palta\n10 cortes envueltos en queso crema: pollo, queso crema y palmito"
             }
           ]
         }
