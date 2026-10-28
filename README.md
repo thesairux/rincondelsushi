@@ -19,19 +19,25 @@ transferencia, y cambia `img/logo.png`, `img/icono-192.png`, `img/icono-180.png`
 
 ## Pendiente de confirmar con el local
 
-- **Hand roll de vacuno**: el cartel dice «Vacuno $5.500». Está cargado como +$2.000 sobre el hand roll
-  de $3.500 (total $5.500).
-- **Cuadro «Proteínas que aplican»** del cartel de hand rolls (pepino, morrón, aceituna, cebollín, champiñones):
-  falta saber si limita los agregados de la promoción 3 × $10.000. Por ahora la promo acepta todos.
-- **Sushiburger**: confirmado que vale $7.500 también con vacuno. Las demás proteínas y agregados tienen los
-  recargos de la sushi arepa y el sushipleto (su ficha no trae lista de precios).
-- **Tabla especial 5**: la ficha se corta en «Pollo… Ver más». Del afiche se lee «pollo, queso, frutil[la]» y
-  así está cargada.
-- **Súper promociones**: la D1 dice «60 cortes mixtos + arrollados primavera», sin cantidad (está cargada con 5,
-  como las demás). La E1, E2, F1 y F2 no detallan los cortes: tienen los mismos de las otras de 50 y 60 cortes.
-- **Sucursales**: nombre, WhatsApp, dirección, horario y delivery de cada una. Hoy todos los pedidos van al
-  WhatsApp de la Sucursal del Portal (+56 9 4632 4426).
-- Dirección, horario, redes, datos de transferencia, logo y colores del local.
+La carta combina el catálogo de WhatsApp con la carta en PDF del local. Donde no coincidían, quedó lo del PDF
+(es la más reciente), salvo lo que el local confirmó aparte:
+
+- **Sushiburger**: confirmado que vale $7.500 también con vacuno (el PDF dice vacuno +$2.000). Las demás
+  proteínas y agregados tienen los recargos del PDF.
+- **Masago roll**: el PDF pone «EXTRA: camarón ecuatoriano apanado, salmón apanado o atún rojo $7.000». Está
+  cargado como agregado opcional de +$7.000; falta saber si es eso o si son otras versiones del roll.
+- **Arma tu roll**: el PDF no dice cuántos rellenos lleva (está cargado con 1, y se pueden sumar extras) y pone
+  «Relleno extra $1.000» en la columna de envolturas (está cargado como extra).
+- **Rolls con topping**: el PDF no dice los cortes; están cargados como 10 cortes, igual que «Arma tu roll».
+  Dos del topping al olivo (vacuno, queso y palta $8.200; pollo, queso y aceituna $6.700) no dicen la envoltura.
+- **Tablas de 200 cortes**: el PDF no detalla los cortes. La de 50 cortes calientes tiene los de la
+  Promoción A2 (y la sin kanikama cambia la kanikama por pollo, queso y palta).
+- **Hand roll de vacuno**: «Vacuno $5.500» está cargado como +$2.000 sobre el hand roll de $3.500 (total
+  $5.500), igual que en «Arma tu roll», donde $5.500 es el precio del roll con vacuno.
+- **Sucursales**: falta la dirección y el horario de Villa Los Naranjos y de Villa El Portal, y si las dos hacen
+  delivery. El enlace de Facebook («Rincon Delsushi») tampoco está: se agrega en el panel.
+- **Fotos**: las bebidas, los jugos, la coctelería y las tablas de 200 cortes no tienen foto (queda el espacio).
+- Datos de transferencia, logo y colores del local.
 
 ## Panel de administración
 
@@ -88,6 +94,8 @@ personalizacion      → grupos que el cliente elige: punto de la carne, agregad
 - **Promo en la portada**: `"destacado": true` y una `"foto"`.
 - **Fotos**: en `img/carta/`, con `"foto": "img/carta/mi-foto.webp"`. Si una categoría tiene al menos un producto
   con foto, se muestra en tarjetas; si no, en lista. Se ven mejor en formato horizontal (1000 × 725).
+  Con `"tarjetas": true` en la categoría, va en tarjetas aunque no tenga fotos: queda el espacio de la imagen
+  con el logo hasta que se suba la foto.
 - **Producto nuevo**: copia uno parecido y cambia `id` (no se puede repetir), `nombre`, `detalle` y `precio`.
 
 **Opciones para elegir** (`personalizacion`)
@@ -118,6 +126,11 @@ personalizacion      → grupos que el cliente elige: punto de la carne, agregad
 - Si no hay cupones activos y visibles, la sección **Cupones** y su enlace del menú no aparecen.
 
 **Local, horario y delivery**
+- **Sucursales**: en `negocio`, `"sucursales": [{ "nombre": "Villa El Portal", "whatsapp": "56946324426",
+  "whatsappVisible": "+56 9 4632 4426", "direccion": "…" }]`. Con dos o más, el cliente elige la sucursal al
+  pedir y el pedido llega al WhatsApp de esa sucursal; en la portada y el pie aparecen todos los números.
+  Se editan en el panel, en «Local y contacto».
+- **Formas de pago del delivery**: `"pagos": ["Efectivo", "Transferencia", "Link de pago (Webpay)"]`.
 - **Horario**: `"lunes": "12:30-23:00"`, `"domingo": "cerrado"` o dos turnos `"12:00-15:30, 19:00-23:00"`.
   Con `"horarioConfirmado": false` se muestra como *horario referencial, por confirmar* y no bloquea pedidos;
   con `true` aparece *Abierto ahora / Cerrado ahora* y fuera de horario no se puede agregar.

@@ -31,7 +31,17 @@
   function dos(n) { return (n < 10 ? "0" : "") + n; }
   function leer(clave) { try { return JSON.parse(localStorage.getItem(clave) || "null"); } catch (e) { return null; } }
   function guardar(clave, valor) { try { localStorage.setItem(clave, JSON.stringify(valor)); } catch (e) { /* sin almacenamiento */ } }
-  function wsp(texto) { return "https://wa.me/" + String(N.whatsapp || "").replace(/\D/g, "") + (texto ? "?text=" + encodeURIComponent(texto) : ""); }
+  /* Con "sucursales" en carta.js, el pedido va al WhatsApp de la sucursal elegida; sin elegir, a la primera. */
+  function sucursales() { return (N.sucursales || []).filter(function (s) { return s && s.nombre && s.whatsapp; }); }
+  function sucursalElegida() {
+    var ss = sucursales();
+    var elegida = typeof pedido === "object" && pedido ? pedido.sucursal : "";
+    return ss.filter(function (s) { return s.nombre === elegida; })[0] || null;
+  }
+  function wsp(texto) {
+    var s = sucursalElegida() || sucursales()[0];
+    return "https://wa.me/" + String((s || N).whatsapp || "").replace(/\D/g, "") + (texto ? "?text=" + encodeURIComponent(texto) : "");
+  }
 
   var ICONOS = {
     mas: '<path d="M12 5v14M5 12h14"/>',
@@ -377,9 +387,19 @@
       mapa: N.mapa,
       whatsapp: N.whatsappVisible || (N.whatsapp ? "+" + N.whatsapp : "")
     };
+    var ss = sucursales();
+    if (ss.length) datos.whatsapp = ss.map(function (s) { return s.nombre + ": " + (s.whatsappVisible || "+" + s.whatsapp); }).join(" · ");
     $$("[data-dato]").forEach(function (el) {
       var v = datos[el.getAttribute("data-dato")];
       if (v) el.textContent = v;
+    });
+    // con varias sucursales, cada número abre el WhatsApp de su sucursal
+    $$('[data-dato="whatsapp"]').forEach(function (el) {
+      if (ss.length < 2) return;
+      el.innerHTML = ss.map(function (s) {
+        return '<a class="sucursal-wsp" href="https://wa.me/' + esc(String(s.whatsapp).replace(/\D/g, "")) + '" target="_blank" rel="noopener">' +
+          "<span>" + esc(s.nombre) + "</span> " + esc(s.whatsappVisible || "+" + s.whatsapp) + "</a>";
+      }).join("");
     });
     // lo que no tiene datos (dirección, horario, Instagram) no se muestra
     $$("[data-si]").forEach(function (el) { el.hidden = !datos[el.getAttribute("data-si")]; });
@@ -533,7 +553,8 @@
       '<div class="tarjeta-pie"><span class="precio">' + precioLista(p) + "</span>" + botonAgregar(p, "tarjeta") + "</div></div></li>";
   }
   function bloque(cat, productos, titulo) {
-    var conFotos = productos.some(function (p) { return p.foto; });
+    // con "tarjetas": true la categoría va en tarjetas aunque falten las fotos (queda el espacio de la imagen)
+    var conFotos = cat.tarjetas || productos.some(function (p) { return p.foto; });
     return '<section class="bloque" id="cat-' + esc(cat.id) + '" aria-label="' + esc(titulo || cat.nombre) + '">' +
       '<header class="bloque-cab"><h3' + ruta(RUTA_CAT[cat.id] + ".nombre") + ">" + esc(titulo || cat.nombre) + "</h3>" +
       (cat.nota ? "<p" + ruta(RUTA_CAT[cat.id] + ".nota") + ">" + esc(cat.nota) + "</p>" : "") + "</header>" +
@@ -579,11 +600,11 @@
   }
 
   /* ---------- pedido ---------- */
-  var pedido = { items: [], nombre: "", modo: "retiro", direccion: "", pago: "", cupon: "", ubicacion: null };
+  var pedido = { items: [], nombre: "", modo: "retiro", direccion: "", pago: "", cupon: "", sucursal: "", ubicacion: null };
   (function cargar() {
     var g = leer(GUARDADO);
     if (!g || typeof g !== "object") return;
-    ["nombre", "direccion", "pago"].forEach(function (k) { if (typeof g[k] === "string") pedido[k] = g[k]; });
+    ["nombre", "direccion", "pago", "sucursal"].forEach(function (k) { if (typeof g[k] === "string") pedido[k] = g[k]; });
     if (typeof g.cupon === "string") pedido.cupon = codigo(g.cupon);
     if (g.modo === "delivery") pedido.modo = "delivery";
     if (Array.isArray(g.items)) {
@@ -595,7 +616,7 @@
     }
   })();
   function guardarPedido() {
-    guardar(GUARDADO, { items: pedido.items, nombre: pedido.nombre, modo: pedido.modo, direccion: pedido.direccion, pago: pedido.pago, cupon: pedido.cupon });
+    guardar(GUARDADO, { items: pedido.items, nombre: pedido.nombre, modo: pedido.modo, direccion: pedido.direccion, pago: pedido.pago, cupon: pedido.cupon, sucursal: pedido.sucursal });
   }
   /* Descarta opciones que ya no existen en la carta (por si cambió desde la última visita). */
   function limpiarConf(id, conf) {
@@ -1062,12 +1083,26 @@
     var html = '<div class="formulario">' + cuponHtml() +
       '<label class="campo"><span class="campo-titulo">Tu nombre, para el pedido</span>' +
       '<input type="text" data-campo="nombre" autocomplete="given-name" maxlength="60" placeholder="Ej: Ana" value="' + esc(pedido.nombre) + '">' +
-      '<span class="campo-ayuda" data-ayuda="nombre"></span></label>' +
-      '<fieldset class="campo"><legend class="campo-titulo">¿Cómo prefieres pedir?</legend><div class="dos">' +
+      '<span class="campo-ayuda" data-ayuda="nombre"></span></label>';
+    var ss = sucursales();
+    if (ss.length > 1) {
+      html += '<fieldset class="campo"><legend class="campo-titulo">¿A qué sucursal pides?</legend><div class="dos">' +
+        ss.map(function (s) {
+          var sel = pedido.sucursal === s.nombre;
+          return '<label class="radio-tarjeta' + (sel ? " sel" : "") + '"><input type="radio" name="sucursal" value="' + esc(s.nombre) + '"' + (sel ? " checked" : "") + "> " + esc(s.nombre) + "</label>";
+        }).join("") +
+        '</div><span class="campo-ayuda" data-ayuda="sucursal"></span></fieldset>';
+    }
+    html += '<fieldset class="campo"><legend class="campo-titulo">¿Cómo prefieres pedir?</legend><div class="dos">' +
         '<label class="radio-tarjeta' + (pedido.modo === "retiro" ? " sel" : "") + '"><input type="radio" name="modo" value="retiro"' + (pedido.modo === "retiro" ? " checked" : "") + "> Retiro</label>" +
         '<label class="radio-tarjeta' + (pedido.modo === "delivery" ? " sel" : "") + '"><input type="radio" name="modo" value="delivery"' + (pedido.modo === "delivery" ? " checked" : "") + "> Consultar delivery</label>" +
       "</div></fieldset>";
-    if (pedido.modo === "retiro") {
+    var suc = sucursalElegida();
+    if (pedido.modo === "retiro" && suc) {
+      html += '<div class="retiro-info"><b>Retiras en la sucursal ' + esc(suc.nombre) + "</b>" +
+        "<span>" + esc(suc.direccion || "Te confirmamos la dirección y la hora de retiro por WhatsApp.") + "</span>" +
+        (suc.mapa ? '<a href="' + esc(suc.mapa) + '" target="_blank" rel="noopener">Ver cómo llegar</a>' : "") + "</div>";
+    } else if (pedido.modo === "retiro") {
       html += '<div class="retiro-info">' + (N.direccion
         ? "<b>Retiras en " + esc(direccionCompleta()) + "</b>" + (CON_HORARIO ? "<span>" + esc(horarioCorto()) + (HORARIO_ACTIVO ? "" : " (por confirmar)") + "</span>" : "")
         : "<b>Retiro en el local</b><span>Te confirmamos la dirección y la hora de retiro por WhatsApp.</span>") +
@@ -1080,7 +1115,7 @@
         '<span class="ubicacion-estado' + (pedido.ubicacion ? " ok" : "") + '" data-ubicacion-estado>' +
         esc(ubicacionMsg || "Si estás donde quieres recibirlo, comparte tu ubicación para el repartidor. El valor del despacho " + (N.notaDelivery ? "va " + minus(N.notaDelivery) + " y " : "") + "te lo confirmamos por WhatsApp.") + "</span></div>" +
         '<fieldset class="campo"><legend class="campo-titulo">¿Cómo pagas el delivery?</legend><div class="dos">' +
-          ["Efectivo", "Transferencia"].map(function (m) {
+          (N.pagos && N.pagos.length ? N.pagos : ["Efectivo", "Transferencia"]).map(function (m) {
             return '<label class="radio-tarjeta' + (pedido.pago === m ? " sel" : "") + '"><input type="radio" name="pago" value="' + m + '"' + (pedido.pago === m ? " checked" : "") + "> " + m + "</label>";
           }).join("") +
         '</div><span class="campo-ayuda" data-ayuda="pago"></span></fieldset>' +
@@ -1090,6 +1125,7 @@
   }
   function faltaPedido() {
     if (!pedido.nombre.trim()) return { campo: "nombre", texto: "Falta tu nombre", ayuda: "Escribe tu nombre para poder enviar el pedido." };
+    if (sucursales().length > 1 && !sucursalElegida()) return { campo: "sucursal", texto: "Elige tu sucursal", ayuda: "Elige la sucursal: el pedido llega a su WhatsApp." };
     if (pedido.modo === "delivery") {
       if (!pedido.direccion.trim()) return { campo: "direccion", texto: "Falta tu dirección de entrega", ayuda: "Escribe tu dirección para poder enviar el pedido." };
       if (!pedido.pago) return { campo: "pago", texto: "Elige cómo pagas", ayuda: "Elige cómo pagas para poder enviar el pedido." };
@@ -1098,7 +1134,7 @@
   }
   function pintarAyudas() {
     var falta = faltaPedido();
-    var normal = { nombre: "Así sabemos a nombre de quién dejarlo.", direccion: "", pago: "" };
+    var normal = { nombre: "Así sabemos a nombre de quién dejarlo.", direccion: "", pago: "", sucursal: "" };
     $$("[data-ayuda]", cuerpoPedido).forEach(function (el) {
       var campo = el.getAttribute("data-ayuda");
       var mal = falta && falta.campo === campo;
@@ -1206,6 +1242,7 @@
   cuerpoPedido.addEventListener("change", function (e) {
     var t = e.target;
     if (t.name === "modo") { pedido.modo = t.value; cambioPedido(); }
+    else if (t.name === "sucursal") { pedido.sucursal = t.value; cambioPedido(); pintarDatos(); }
     else if (t.name === "pago") { pedido.pago = t.value; cambioPedido(); }
   });
   cuerpoPedido.addEventListener("keydown", function (e) {
@@ -1217,7 +1254,7 @@
     var b = e.target.closest("[data-falta]");
     if (!b) return;
     var campo = b.getAttribute("data-falta");
-    var input = $(campo === "pago" ? 'input[name="pago"]' : '[data-campo="' + campo + '"]', cuerpoPedido);
+    var input = $(campo === "pago" || campo === "sucursal" ? 'input[name="' + campo + '"]' : '[data-campo="' + campo + '"]', cuerpoPedido);
     if (input) { input.scrollIntoView({ block: "center", behavior: "smooth" }); input.focus({ preventScroll: true }); }
   });
 
@@ -1244,7 +1281,11 @@
     var l = [];
     l.push("Hola, quiero hacer un pedido:");
     l.push("Nombre: " + pedido.nombre.trim());
-    if (pedido.modo === "retiro") {
+    var suc = sucursalElegida();
+    if (suc) l.push("Sucursal: " + suc.nombre);
+    if (pedido.modo === "retiro" && suc) {
+      l.push("Modalidad: Retiro en la sucursal" + (suc.direccion ? " (" + suc.direccion + ")" : ""));
+    } else if (pedido.modo === "retiro") {
       l.push("Modalidad: Retiro en el local" + (N.direccion ? " (" + direccionCompleta() + ")" : ""));
     } else {
       l.push("Modalidad: Delivery (consultar cobertura y costo)");

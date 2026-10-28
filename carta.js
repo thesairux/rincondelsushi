@@ -49,10 +49,10 @@ window.CARTA = {
   "negocio": {
     "nombre": "El Rincón del Sushi",
     "lema": "Tablas de sushi por WhatsApp",
-    "whatsapp": "56946324426",
-    "whatsappVisible": "+56 9 4632 4426",
+    "whatsapp": "56976400876",
+    "whatsappVisible": "+56 9 7640 0876",
     "facebook": "",
-    "instagram": "",
+    "instagram": "_rincondelsushi",
     "direccion": "",
     "sector": "",
     "ciudad": "",
@@ -62,7 +62,24 @@ window.CARTA = {
     "cartaReferencial": true,
     "valorDelivery": null,
     "notaDelivery": "Según el sector",
-    "datosTransferencia": ""
+    "datosTransferencia": "",
+    "sucursales": [
+      {
+        "nombre": "Villa Los Naranjos",
+        "whatsapp": "56976400876",
+        "whatsappVisible": "+56 9 7640 0876"
+      },
+      {
+        "nombre": "Villa El Portal",
+        "whatsapp": "56946324426",
+        "whatsappVisible": "+56 9 4632 4426"
+      }
+    ],
+    "pagos": [
+      "Efectivo",
+      "Transferencia",
+      "Link de pago (Webpay)"
+    ]
   },
   "tema": {
     "color": "#d01c23",
@@ -75,12 +92,12 @@ window.CARTA = {
     "portada": {
       "titulo": "Tablas de sushi",
       "destacado": "para compartir",
-      "bajada": "Súper promociones con bebida o arrollados, tablas mixtas, calientes y especiales, cortes premium, hand rolls y más. Arma tu pedido y mándalo por WhatsApp: el resto lo confirmamos contigo."
+      "bajada": "Súper promociones, tablas, cortes premium, rolls con topping, hand rolls, gohan, sushiburger y más. Elige tu sucursal y manda tu pedido por WhatsApp: el resto lo confirmamos contigo."
     },
     "carta": {
       "titulo": "Elige tu",
       "destacado": "tabla",
-      "bajada": "Súper promociones, tablas, cortes premium, hand rolls, especiales, box, aperitivos y salsas. Suma lo que quieras al pedido."
+      "bajada": "Súper promociones, tablas, cortes premium, rolls con topping, hand rolls, especiales, box, aperitivos, bebidas y salsas. Suma lo que quieras al pedido."
     },
     "cupones": {
       "titulo": "Cupones",
@@ -106,7 +123,7 @@ window.CARTA = {
         },
         {
           "titulo": "Envíalo por WhatsApp",
-          "texto": "Te respondemos para confirmar el pedido y el total."
+          "texto": "Elige tu sucursal, Villa Los Naranjos o Villa El Portal, y te respondemos para confirmar el pedido y el total."
         }
       ]
     },
@@ -166,74 +183,40 @@ window.CARTA = {
           ]
         },
         {
-          "id": "promos-con-arrollados",
-          "nombre": "Con arrollados",
+          "id": "promos-con-acompanamiento",
+          "nombre": "Con arrollados o gyozas",
           "productos": [
             {
-              "id": "promocion-c1",
-              "nombre": "Promoción C1",
+              "id": "promocion-c",
+              "nombre": "Promoción C",
               "precio": 19000,
               "foto": "img/carta/promo-bandeja-arrollados.webp",
-              "detalle": "10 cortes calientes: pollo, queso y cebollín\n10 cortes calientes: camarón, queso y aceituna\n10 cortes calientes: kanikama, queso y cebollín\n10 cortes fríos envueltos en queso: pollo, queso y morrón\n10 cortes fríos envueltos en palta: champiñón, queso y pepino",
-              "nota": "50 cortes mixtos + 5 arrollados primavera.",
+              "detalle": "50 cortes mixtos o en panko, a elección\nMixtos: 10 pollo, 10 camarón y 10 kanikama calientes; 10 fríos en queso y 10 en palta\nEn panko: 20 pollo, 20 camarón y 10 kanikama\n5 arrollados (primavera o jamón queso) o 5 gyozas (pollo, cerdo, camarón o vegetarianas)",
+              "nota": "50 cortes + arrollados o gyozas.",
+              "opciones": [
+                "Mixtos",
+                "En panko"
+              ],
+              "personalizar": [
+                "promo-acompanamiento"
+              ],
               "destacado": true
             },
             {
-              "id": "promocion-c2",
-              "nombre": "Promoción C2",
-              "precio": 19000,
+              "id": "promocion-d",
+              "nombre": "Promoción D",
+              "precio": 21000,
               "foto": "img/carta/promo-panko-arrollados.webp",
-              "detalle": "20 cortes calientes: pollo, queso y cebollín\n20 cortes calientes: camarón, queso y aceituna\n10 cortes calientes: kanikama, queso y cebollín",
-              "nota": "50 cortes calientes + 5 arrollados primavera.",
+              "detalle": "60 cortes mixtos o en panko, a elección\nMixtos: 20 pollo, 10 camarón y 10 kanikama calientes; 10 fríos en queso y 10 en palta\nEn panko: 20 pollo, 20 camarón y 20 kanikama\n5 arrollados (primavera o jamón queso) o 5 gyozas (pollo, cerdo, camarón o vegetarianas)",
+              "nota": "60 cortes + arrollados o gyozas.",
+              "opciones": [
+                "Mixtos",
+                "En panko"
+              ],
+              "personalizar": [
+                "promo-acompanamiento"
+              ],
               "destacado": true
-            },
-            {
-              "id": "promocion-d1",
-              "nombre": "Promoción D1",
-              "precio": 21000,
-              "foto": "img/carta/promo-bandeja-arrollados.webp",
-              "detalle": "20 cortes calientes: pollo, queso y cebollín\n10 cortes calientes: camarón, queso y aceituna\n10 cortes calientes: kanikama, queso y cebollín\n10 cortes fríos envueltos en queso: pollo, queso y morrón\n10 cortes fríos envueltos en palta: champiñón, queso y pepino",
-              "nota": "60 cortes mixtos + 5 arrollados primavera."
-            },
-            {
-              "id": "promocion-d2",
-              "nombre": "Promoción D2",
-              "precio": 21000,
-              "foto": "img/carta/promo-panko-arrollados.webp",
-              "detalle": "20 cortes calientes: pollo, queso y cebollín\n20 cortes calientes: camarón, queso y aceituna\n20 cortes calientes: kanikama, queso y cebollín",
-              "nota": "60 cortes calientes + 5 arrollados primavera."
-            },
-            {
-              "id": "promocion-e1",
-              "nombre": "Promoción E1",
-              "precio": 19000,
-              "foto": "img/carta/promo-bandeja-arrollados.webp",
-              "detalle": "10 cortes calientes: pollo, queso y cebollín\n10 cortes calientes: camarón, queso y aceituna\n10 cortes calientes: kanikama, queso y cebollín\n10 cortes fríos envueltos en queso: pollo, queso y morrón\n10 cortes fríos envueltos en palta: champiñón, queso y pepino",
-              "nota": "50 cortes mixtos + 5 arrollados jamón queso."
-            },
-            {
-              "id": "promocion-e2",
-              "nombre": "Promoción E2",
-              "precio": 19000,
-              "foto": "img/carta/promo-panko-arrollados.webp",
-              "detalle": "20 cortes calientes: pollo, queso y cebollín\n20 cortes calientes: camarón, queso y aceituna\n10 cortes calientes: kanikama, queso y cebollín",
-              "nota": "50 cortes calientes + 5 arrollados jamón queso."
-            },
-            {
-              "id": "promocion-f1",
-              "nombre": "Promoción F1",
-              "precio": 21000,
-              "foto": "img/carta/promo-bandeja-arrollados.webp",
-              "detalle": "20 cortes calientes: pollo, queso y cebollín\n10 cortes calientes: camarón, queso y aceituna\n10 cortes calientes: kanikama, queso y cebollín\n10 cortes fríos envueltos en queso: pollo, queso y morrón\n10 cortes fríos envueltos en palta: champiñón, queso y pepino",
-              "nota": "60 cortes mixtos + 5 arrollados jamón queso."
-            },
-            {
-              "id": "promocion-f2",
-              "nombre": "Promoción F2",
-              "precio": 21000,
-              "foto": "img/carta/promo-panko-arrollados.webp",
-              "detalle": "20 cortes calientes: pollo, queso y cebollín\n20 cortes calientes: camarón, queso y aceituna\n20 cortes calientes: kanikama, queso y cebollín",
-              "nota": "60 cortes calientes + 5 arrollados jamón queso."
             }
           ]
         }
@@ -344,6 +327,18 @@ window.CARTA = {
               "detalle": "20 cortes calientes: pollo, queso y cebollín\n20 cortes calientes: camarón, queso y aceituna\n20 cortes calientes: pollo, queso y palta\n20 cortes fríos envueltos en queso: pollo, queso y morrón\n20 cortes fríos envueltos en palta: champiñón, queso y pepino",
               "precio": 29000,
               "foto": "img/carta/tabla-100-cortes.webp"
+            },
+            {
+              "id": "tabla-200-mixtos",
+              "nombre": "200 cortes mixtos",
+              "precio": 50000,
+              "detalle": "200 cortes mixtos, calientes y fríos."
+            },
+            {
+              "id": "tabla-200-mixtos-sin-kanikama",
+              "nombre": "200 cortes mixtos sin kanikama",
+              "precio": 51000,
+              "detalle": "200 cortes mixtos, calientes y fríos, sin kanikama: con pollo, palta y queso crema."
             }
           ]
         },
@@ -386,6 +381,20 @@ window.CARTA = {
               "detalle": "20 cortes calientes: pollo, queso y cebollín\n10 cortes calientes: camarón, queso y aceituna\n10 cortes calientes: pollo, queso y palta",
               "precio": 15500,
               "foto": "img/carta/tabla-40-cortes.webp"
+            },
+            {
+              "id": "tabla-50-calientes",
+              "nombre": "50 cortes calientes",
+              "precio": 17000,
+              "detalle": "20 cortes calientes: pollo, queso y cebollín\n20 cortes calientes: camarón, queso y aceituna\n10 cortes calientes: kanikama, queso y cebollín",
+              "foto": "img/carta/tabla-50-cortes.webp"
+            },
+            {
+              "id": "tabla-50-calientes-sin-kanikama",
+              "nombre": "50 cortes calientes sin kanikama",
+              "precio": 18500,
+              "detalle": "20 cortes calientes: pollo, queso y cebollín\n20 cortes calientes: camarón, queso y aceituna\n10 cortes calientes: pollo, queso y palta",
+              "foto": "img/carta/tabla-50-cortes.webp"
             },
             {
               "id": "tabla-60-calientes",
@@ -442,6 +451,18 @@ window.CARTA = {
               "detalle": "40 cortes calientes: pollo, queso y cebollín\n40 cortes calientes: camarón, queso y aceituna\n20 cortes calientes: pollo, queso y palta",
               "precio": 29000,
               "foto": "img/carta/tabla-100-cortes.webp"
+            },
+            {
+              "id": "tabla-200-calientes",
+              "nombre": "200 cortes calientes",
+              "precio": 50000,
+              "detalle": "200 cortes calientes, fritos en panko."
+            },
+            {
+              "id": "tabla-200-calientes-sin-kanikama",
+              "nombre": "200 cortes calientes sin kanikama",
+              "precio": 51000,
+              "detalle": "200 cortes calientes, fritos en panko, sin kanikama: con pollo, palta y queso crema."
             }
           ]
         },
@@ -475,7 +496,7 @@ window.CARTA = {
               "nombre": "Tabla especial 4",
               "precio": 11500,
               "foto": "img/carta/tabla-especial-4.webp",
-              "detalle": "10 cortes envueltos en tempura: salmón, queso y cebollín\n10 cortes envueltos en ciboulette: vacuno, queso y palta"
+              "detalle": "10 cortes envueltos en tempura: salmón, queso y cebollín\n10 cortes envueltos en tempura: vacuno, queso y palta"
             },
             {
               "id": "tabla-especial-5",
@@ -545,7 +566,38 @@ window.CARTA = {
               "nombre": "Tabla fría especial (40 cortes)",
               "precio": 24500,
               "foto": "img/carta/tabla-fria-especial.webp",
-              "detalle": "10 cortes envueltos en nori: queso crema, champiñón y aceituna\n10 cortes envueltos en palta: queso crema, camarón y aceituna\n10 cortes envueltos en sésamo: camarón, queso crema y palta\n10 cortes envueltos en queso crema: pollo, queso crema y palmito"
+              "detalle": "10 cortes envueltos en nori: queso crema, champiñón y aceituna\n10 cortes envueltos en palta: queso crema, camarón y aceituna\n10 cortes envueltos en sésamo: queso crema, champiñón y palta\n10 cortes envueltos en queso crema: pollo, queso crema y palmito"
+            }
+          ]
+        },
+        {
+          "id": "tortas",
+          "nombre": "Tortas de sushi",
+          "nota": "Para celebrar: con velas incluidas. Solo retiro.",
+          "productos": [
+            {
+              "id": "torta-corazon",
+              "nombre": "Torta de corazón",
+              "precio": 19500,
+              "foto": "img/carta/torta-corazon.webp",
+              "detalle": "60 cortes mixtos\nVelas incluidas",
+              "nota": "Solo retiro."
+            },
+            {
+              "id": "torta-corona",
+              "nombre": "Torta de corona",
+              "precio": 20500,
+              "foto": "img/carta/torta-corona.webp",
+              "detalle": "60 cortes mixtos\nVelas incluidas",
+              "nota": "Solo retiro."
+            },
+            {
+              "id": "torta-familiar",
+              "nombre": "Torta familiar",
+              "precio": 28500,
+              "foto": "img/carta/torta-familiar.webp",
+              "detalle": "100 cortes mixtos\nVelas incluidas",
+              "nota": "Solo retiro."
             }
           ]
         }
@@ -595,6 +647,9 @@ window.CARTA = {
               "opciones": [
                 "Cebollín",
                 "Palta"
+              ],
+              "personalizar": [
+                "masago-extra"
               ]
             },
             {
@@ -644,6 +699,435 @@ window.CARTA = {
               "detalle": "10 cortes envueltos en panko de salmón, queso y palta.",
               "precio": 6500,
               "foto": "img/carta/panko-salmon.webp"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "nombre": "Rolls",
+      "categorias": [
+        {
+          "id": "topping-spicy",
+          "nombre": "Topping spicy",
+          "productos": [
+            {
+              "id": "topping-spicy-1",
+              "nombre": "Camarón, queso y palta",
+              "precio": 5700,
+              "foto": "img/carta/topping-spicy-1.webp",
+              "detalle": "10 cortes fritos en panko con topping spicy."
+            },
+            {
+              "id": "topping-spicy-2",
+              "nombre": "Pollo, queso y cebollín",
+              "precio": 5200,
+              "foto": "img/carta/topping-spicy-2.webp",
+              "detalle": "10 cortes fritos en panko con topping spicy."
+            },
+            {
+              "id": "topping-spicy-3",
+              "nombre": "Pollo, queso y aceituna",
+              "precio": 5200,
+              "foto": "img/carta/topping-spicy-3.webp",
+              "detalle": "10 cortes fritos en panko con topping spicy."
+            },
+            {
+              "id": "topping-spicy-4",
+              "nombre": "Pollo, queso y palta",
+              "precio": 5700,
+              "foto": "img/carta/topping-spicy-4.webp",
+              "detalle": "10 cortes fritos en panko con topping spicy."
+            },
+            {
+              "id": "topping-spicy-5",
+              "nombre": "Salmón, queso y cebollín",
+              "precio": 6700,
+              "foto": "img/carta/topping-spicy-5.webp",
+              "detalle": "10 cortes fritos en panko con topping spicy."
+            },
+            {
+              "id": "topping-spicy-6",
+              "nombre": "Vacuno, queso y champiñón",
+              "precio": 6200,
+              "foto": "img/carta/topping-spicy-6.webp",
+              "detalle": "10 cortes fritos en panko con topping spicy."
+            },
+            {
+              "id": "topping-spicy-7",
+              "nombre": "Choclito, queso y cebollín",
+              "precio": 5700,
+              "foto": "img/carta/topping-spicy-7.webp",
+              "detalle": "10 cortes fritos en panko con topping spicy.",
+              "nota": "Vegetariano."
+            },
+            {
+              "id": "topping-spicy-8",
+              "nombre": "Champiñón y palta",
+              "precio": 5700,
+              "foto": "img/carta/topping-spicy-8.webp",
+              "detalle": "10 cortes fritos en panko con topping spicy.",
+              "nota": "Vegano."
+            },
+            {
+              "id": "topping-spicy-9",
+              "nombre": "Vacuno, queso y cebollín en palta",
+              "precio": 7700,
+              "foto": "img/carta/topping-spicy-9.webp",
+              "detalle": "10 cortes envueltos en palta con topping spicy."
+            },
+            {
+              "id": "topping-spicy-10",
+              "nombre": "Camarón, queso y champiñón en palta",
+              "precio": 6700,
+              "foto": "img/carta/topping-spicy-10.webp",
+              "detalle": "10 cortes envueltos en palta con topping spicy."
+            },
+            {
+              "id": "topping-spicy-11",
+              "nombre": "Pollo, queso y aceituna en palta",
+              "precio": 6700,
+              "foto": "img/carta/topping-spicy-11.webp",
+              "detalle": "10 cortes envueltos en palta con topping spicy."
+            }
+          ]
+        },
+        {
+          "id": "topping-acevichada",
+          "nombre": "Topping salsa acevichada",
+          "productos": [
+            {
+              "id": "topping-acevichada-1",
+              "nombre": "Vacuno, queso y palta",
+              "precio": 6700,
+              "foto": "img/carta/topping-acevichada-1.webp",
+              "detalle": "10 cortes fritos en panko con topping de salsa acevichada."
+            },
+            {
+              "id": "topping-acevichada-2",
+              "nombre": "Camarón, queso y palta",
+              "precio": 5700,
+              "foto": "img/carta/topping-acevichada-2.webp",
+              "detalle": "10 cortes fritos en panko con topping de salsa acevichada."
+            },
+            {
+              "id": "topping-acevichada-3",
+              "nombre": "Camarón, queso y aceituna",
+              "precio": 5200,
+              "foto": "img/carta/topping-acevichada-3.webp",
+              "detalle": "10 cortes fritos en panko con topping de salsa acevichada."
+            },
+            {
+              "id": "topping-acevichada-4",
+              "nombre": "Palmito, queso y champiñón",
+              "precio": 5700,
+              "foto": "img/carta/topping-acevichada-4.webp",
+              "detalle": "10 cortes fritos en panko con topping de salsa acevichada.",
+              "nota": "Vegetariano."
+            },
+            {
+              "id": "topping-acevichada-5",
+              "nombre": "Pollo, queso y champiñón",
+              "precio": 5200,
+              "foto": "img/carta/topping-acevichada-5.webp",
+              "detalle": "10 cortes fritos en panko con topping de salsa acevichada."
+            },
+            {
+              "id": "topping-acevichada-6",
+              "nombre": "Pollo, queso y cebollín",
+              "precio": 5200,
+              "foto": "img/carta/topping-acevichada-6.webp",
+              "detalle": "10 cortes fritos en panko con topping de salsa acevichada."
+            },
+            {
+              "id": "topping-acevichada-7",
+              "nombre": "Pollo, queso y palta",
+              "precio": 5700,
+              "foto": "img/carta/topping-acevichada-7.webp",
+              "detalle": "10 cortes fritos en panko con topping de salsa acevichada."
+            },
+            {
+              "id": "topping-acevichada-8",
+              "nombre": "Salmón, queso y cebollín",
+              "precio": 6700,
+              "foto": "img/carta/topping-acevichada-8.webp",
+              "detalle": "10 cortes fritos en panko con topping de salsa acevichada."
+            },
+            {
+              "id": "topping-acevichada-9",
+              "nombre": "Vacuno, queso y morrón",
+              "precio": 6200,
+              "foto": "img/carta/topping-acevichada-9.webp",
+              "detalle": "10 cortes fritos en panko con topping de salsa acevichada."
+            },
+            {
+              "id": "topping-acevichada-10",
+              "nombre": "Choclito y aceituna",
+              "precio": 5200,
+              "foto": "img/carta/topping-acevichada-10.webp",
+              "detalle": "10 cortes fritos en panko con topping de salsa acevichada.",
+              "nota": "Vegano."
+            }
+          ]
+        },
+        {
+          "id": "topping-olivo",
+          "nombre": "Topping al olivo",
+          "productos": [
+            {
+              "id": "topping-olivo-1",
+              "nombre": "Camarón, queso y choclito",
+              "precio": 5700,
+              "foto": "img/carta/topping-olivo-1.webp",
+              "detalle": "10 cortes fritos en panko con topping al olivo."
+            },
+            {
+              "id": "topping-olivo-2",
+              "nombre": "Palmito y palta",
+              "precio": 6200,
+              "foto": "img/carta/topping-olivo-2.webp",
+              "detalle": "10 cortes fritos en panko con topping al olivo.",
+              "nota": "Vegano."
+            },
+            {
+              "id": "topping-olivo-3",
+              "nombre": "Choclito, queso y palta",
+              "precio": 6200,
+              "foto": "img/carta/topping-olivo-3.webp",
+              "detalle": "10 cortes fritos en panko con topping al olivo.",
+              "nota": "Vegetariano."
+            },
+            {
+              "id": "topping-olivo-4",
+              "nombre": "Pollo, queso y palta",
+              "precio": 5700,
+              "foto": "img/carta/topping-olivo-4.webp",
+              "detalle": "10 cortes fritos en panko con topping al olivo."
+            },
+            {
+              "id": "topping-olivo-5",
+              "nombre": "Vacuno, queso y champiñón",
+              "precio": 6200,
+              "foto": "img/carta/topping-olivo-5.webp",
+              "detalle": "10 cortes fritos en panko con topping al olivo."
+            },
+            {
+              "id": "topping-olivo-6",
+              "nombre": "Salmón, queso y cebollín",
+              "precio": 6700,
+              "foto": "img/carta/topping-olivo-6.webp",
+              "detalle": "10 cortes fritos en panko con topping al olivo."
+            },
+            {
+              "id": "topping-olivo-7",
+              "nombre": "Vacuno, queso y palta",
+              "precio": 8200,
+              "foto": "img/carta/topping-olivo-7.webp",
+              "detalle": "10 cortes con topping al olivo."
+            },
+            {
+              "id": "topping-olivo-8",
+              "nombre": "Pollo, queso y aceituna",
+              "precio": 6700,
+              "foto": "img/carta/topping-olivo-8.webp",
+              "detalle": "10 cortes con topping al olivo."
+            },
+            {
+              "id": "topping-olivo-9",
+              "nombre": "Vacuno, queso y cebollín en palta",
+              "precio": 7700,
+              "foto": "img/carta/topping-olivo-9.webp",
+              "detalle": "10 cortes envueltos en palta con topping al olivo."
+            },
+            {
+              "id": "topping-olivo-10",
+              "nombre": "Pollo, queso y palmito en palta",
+              "precio": 7200,
+              "foto": "img/carta/topping-olivo-10.webp",
+              "detalle": "10 cortes envueltos en palta con topping al olivo."
+            }
+          ]
+        },
+        {
+          "id": "topping-acevichado",
+          "nombre": "Topping acevichado",
+          "productos": [
+            {
+              "id": "topping-acevichado-1",
+              "nombre": "Vacuno, queso y champiñón",
+              "precio": 7500,
+              "foto": "img/carta/topping-acevichado-1.webp",
+              "detalle": "10 cortes fritos en panko con topping acevichado (ceviche)."
+            },
+            {
+              "id": "topping-acevichado-2",
+              "nombre": "Camarón, queso y palta",
+              "precio": 7000,
+              "foto": "img/carta/topping-acevichado-2.webp",
+              "detalle": "10 cortes fritos en panko con topping acevichado (ceviche)."
+            },
+            {
+              "id": "topping-acevichado-3",
+              "nombre": "Pollo, queso y palta",
+              "precio": 7000,
+              "foto": "img/carta/topping-acevichado-3.webp",
+              "detalle": "10 cortes fritos en panko con topping acevichado (ceviche)."
+            },
+            {
+              "id": "topping-acevichado-4",
+              "nombre": "Camarón, queso y aceituna en palta",
+              "precio": 8000,
+              "foto": "img/carta/topping-acevichado-4.webp",
+              "detalle": "10 cortes envueltos en palta con topping acevichado (ceviche)."
+            },
+            {
+              "id": "topping-acevichado-5",
+              "nombre": "Vacuno, queso y palta en palta",
+              "precio": 9500,
+              "foto": "img/carta/topping-acevichado-5.webp",
+              "detalle": "10 cortes envueltos en palta con topping acevichado (ceviche)."
+            },
+            {
+              "id": "topping-acevichado-6",
+              "nombre": "Camarón, queso y champiñón en palta",
+              "precio": 8500,
+              "foto": "img/carta/topping-acevichado-6.webp",
+              "detalle": "10 cortes envueltos en palta con topping acevichado (ceviche)."
+            },
+            {
+              "id": "topping-acevichado-7",
+              "nombre": "Pollo, queso y palta en palta",
+              "precio": 8500,
+              "foto": "img/carta/topping-acevichado-7.webp",
+              "detalle": "10 cortes envueltos en palta con topping acevichado (ceviche)."
+            }
+          ]
+        },
+        {
+          "id": "topping-guacamole",
+          "nombre": "Topping guacamole",
+          "productos": [
+            {
+              "id": "topping-guacamole-1",
+              "nombre": "Vacuno, queso y champiñón",
+              "precio": 7500,
+              "foto": "img/carta/topping-guacamole-1.webp",
+              "detalle": "10 cortes fritos en panko con topping de guacamole."
+            },
+            {
+              "id": "topping-guacamole-2",
+              "nombre": "Pollo, queso y aceituna",
+              "precio": 6500,
+              "foto": "img/carta/topping-guacamole-2.webp",
+              "detalle": "10 cortes fritos en panko con topping de guacamole."
+            },
+            {
+              "id": "topping-guacamole-3",
+              "nombre": "Pollo, queso y choclito",
+              "precio": 7000,
+              "foto": "img/carta/topping-guacamole-3.webp",
+              "detalle": "10 cortes fritos en panko con topping de guacamole."
+            },
+            {
+              "id": "topping-guacamole-4",
+              "nombre": "Camarón, queso y aceituna",
+              "precio": 6500,
+              "foto": "img/carta/topping-guacamole-4.webp",
+              "detalle": "10 cortes fritos en panko con topping de guacamole."
+            },
+            {
+              "id": "topping-guacamole-5",
+              "nombre": "Vacuno, queso y aceituna en palta",
+              "precio": 9000,
+              "foto": "img/carta/topping-guacamole-5.webp",
+              "detalle": "10 cortes envueltos en palta con topping de guacamole."
+            },
+            {
+              "id": "topping-guacamole-6",
+              "nombre": "Palta, queso y aceituna",
+              "precio": 7000,
+              "foto": "img/carta/topping-guacamole-6.webp",
+              "detalle": "10 cortes fritos en panko con topping de guacamole.",
+              "nota": "Vegetariano."
+            },
+            {
+              "id": "topping-guacamole-7",
+              "nombre": "Palta y champiñón",
+              "precio": 7000,
+              "foto": "img/carta/topping-guacamole-7.webp",
+              "detalle": "10 cortes fritos en panko con topping de guacamole.",
+              "nota": "Vegano."
+            }
+          ]
+        },
+        {
+          "id": "topping-papas-hilo",
+          "nombre": "Topping papas hilo",
+          "productos": [
+            {
+              "id": "topping-papas-hilo-1",
+              "nombre": "Salmón, queso y palta",
+              "precio": 7500,
+              "foto": "img/carta/topping-papas-hilo-1.webp",
+              "detalle": "10 cortes fritos en panko con topping de papas hilo."
+            },
+            {
+              "id": "topping-papas-hilo-2",
+              "nombre": "Camarón, queso y palta",
+              "precio": 6000,
+              "foto": "img/carta/topping-papas-hilo-2.webp",
+              "detalle": "10 cortes fritos en panko con topping de papas hilo."
+            },
+            {
+              "id": "topping-papas-hilo-3",
+              "nombre": "Vacuno, queso y palta",
+              "precio": 7000,
+              "foto": "img/carta/topping-papas-hilo-3.webp",
+              "detalle": "10 cortes fritos en panko con topping de papas hilo."
+            },
+            {
+              "id": "topping-papas-hilo-4",
+              "nombre": "Pollo, queso y palta",
+              "precio": 6000,
+              "foto": "img/carta/topping-papas-hilo-4.webp",
+              "detalle": "10 cortes fritos en panko con topping de papas hilo."
+            },
+            {
+              "id": "topping-papas-hilo-5",
+              "nombre": "Palmito y palta",
+              "precio": 6500,
+              "foto": "img/carta/topping-papas-hilo-5.webp",
+              "detalle": "10 cortes fritos en panko con topping de papas hilo.",
+              "nota": "Vegano."
+            },
+            {
+              "id": "topping-papas-hilo-6",
+              "nombre": "Champiñón, queso y morrón",
+              "precio": 5500,
+              "foto": "img/carta/topping-papas-hilo-6.webp",
+              "detalle": "10 cortes fritos en panko con topping de papas hilo.",
+              "nota": "Vegetariano."
+            }
+          ]
+        },
+        {
+          "id": "arma-tu-roll",
+          "nombre": "Arma tu roll",
+          "productos": [
+            {
+              "id": "arma-tu-roll",
+              "nombre": "Arma tu roll",
+              "precio": 4500,
+              "foto": "img/carta/arma-tu-roll.webp",
+              "detalle": "10 cortes: elige envoltura, proteína, relleno y topping.",
+              "personalizar": [
+                "ar-envoltura",
+                "ar-proteina",
+                "ar-relleno",
+                "ar-topping",
+                "ar-nori",
+                "ar-extras"
+              ]
             }
           ]
         }
@@ -733,7 +1217,7 @@ window.CARTA = {
           "productos": [
             {
               "id": "gohan",
-              "nombre": "Gohan pollo o camarón",
+              "nombre": "Gohan",
               "precio": 7000,
               "foto": "img/carta/gohan.webp",
               "detalle": "Arma tu gohan seleccionando 1 relleno y 1 agregado. Base de palta y queso.",
@@ -959,14 +1443,159 @@ window.CARTA = {
               "nombre": "Pote de ceviche",
               "precio": 6000,
               "foto": "img/carta/pote-ceviche.webp",
-              "detalle": "Pote de ceviche de salmón y camarón ecuatoriano."
+              "detalle": "Pote de 350 cc de ceviche de salmón y camarón ecuatoriano."
             }
           ]
         }
       ]
     },
     {
-      "nombre": "Salsas",
+      "nombre": "Bebidas",
+      "categorias": [
+        {
+          "id": "bebidas",
+          "nombre": "Bebidas",
+          "tarjetas": true,
+          "productos": [
+            {
+              "id": "bebida-1250",
+              "nombre": "Bebida 1.250 cc",
+              "precio": 2000
+            },
+            {
+              "id": "monster",
+              "nombre": "Monster",
+              "precio": 2000
+            },
+            {
+              "id": "jugo-1400",
+              "nombre": "Jugo 1.400 cc",
+              "precio": 1900
+            },
+            {
+              "id": "coca-cola-express",
+              "nombre": "Coca-Cola express",
+              "precio": 1500
+            },
+            {
+              "id": "score",
+              "nombre": "Score",
+              "precio": 1500
+            },
+            {
+              "id": "aloe-vera",
+              "nombre": "Aloe vera",
+              "precio": 1500
+            },
+            {
+              "id": "jugo-jumex",
+              "nombre": "Jugo Jumex",
+              "precio": 1500
+            },
+            {
+              "id": "nectar-400",
+              "nombre": "Néctar 400 cc",
+              "precio": 1500
+            },
+            {
+              "id": "agua-con-gas",
+              "nombre": "Agua con gas 600 cc",
+              "precio": 1000
+            },
+            {
+              "id": "agua-sin-gas",
+              "nombre": "Agua sin gas 600 cc",
+              "precio": 1000
+            },
+            {
+              "id": "kapo",
+              "nombre": "Kapo",
+              "precio": 500
+            }
+          ]
+        },
+        {
+          "id": "jugos",
+          "nombre": "Jugos",
+          "tarjetas": true,
+          "productos": [
+            {
+              "id": "jugo",
+              "nombre": "Jugo",
+              "precio": 2500,
+              "detalle": "Frutilla, piña o mango.",
+              "opciones": [
+                "Frutilla",
+                "Piña",
+                "Mango"
+              ]
+            },
+            {
+              "id": "jugo-con-leche",
+              "nombre": "Jugo con leche",
+              "precio": 3500,
+              "detalle": "Frutilla, mango o piña con leche.",
+              "opciones": [
+                "Frutilla",
+                "Mango",
+                "Piña"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "cocteleria",
+          "nombre": "Coctelería sin alcohol",
+          "tarjetas": true,
+          "productos": [
+            {
+              "id": "mojito-tradicional",
+              "nombre": "Mojito tradicional",
+              "precio": 5000,
+              "detalle": "1 litro, sin alcohol."
+            },
+            {
+              "id": "mojito-sabores",
+              "nombre": "Mojito de sabores",
+              "precio": 6000,
+              "detalle": "1 litro, sin alcohol: maracuyá, mango, piña o frutilla.",
+              "opciones": [
+                "Maracuyá",
+                "Mango",
+                "Piña",
+                "Frutilla"
+              ]
+            },
+            {
+              "id": "pina-colada",
+              "nombre": "Piña colada",
+              "precio": 9000,
+              "detalle": "1 litro, sin alcohol."
+            },
+            {
+              "id": "limonada",
+              "nombre": "Limonada",
+              "precio": 4500,
+              "detalle": "1 litro."
+            },
+            {
+              "id": "limonada-menta",
+              "nombre": "Limonada menta",
+              "precio": 5000,
+              "detalle": "1 litro."
+            },
+            {
+              "id": "limonada-menta-jengibre",
+              "nombre": "Limonada menta jengibre",
+              "precio": 5000,
+              "detalle": "1 litro."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "nombre": "Salsas y extras",
       "categorias": [
         {
           "id": "salsas",
@@ -1007,6 +1636,19 @@ window.CARTA = {
               "nombre": "Pote de jengibre",
               "precio": 500,
               "foto": "img/carta/jengibre.webp"
+            }
+          ]
+        },
+        {
+          "id": "extras",
+          "nombre": "Extras",
+          "productos": [
+            {
+              "id": "ayuda-palitos",
+              "nombre": "Ayuda para palitos",
+              "precio": 700,
+              "foto": "img/carta/ayuda-palitos.webp",
+              "detalle": "2 unidades, para comer más fácil con palitos."
             }
           ]
         }
@@ -1762,7 +2404,7 @@ window.CARTA = {
         {
           "id": "vacuno",
           "nombre": "Vacuno",
-          "precio": 1000
+          "precio": 2000
         },
         {
           "id": "salmon",
@@ -1893,7 +2535,7 @@ window.CARTA = {
         {
           "id": "vacuno",
           "nombre": "Vacuno",
-          "precio": 1000
+          "precio": 2000
         },
         {
           "id": "salmon",
@@ -1975,6 +2617,11 @@ window.CARTA = {
         {
           "id": "nuez",
           "nombre": "Nuez",
+          "precio": 500
+        },
+        {
+          "id": "pepinillo",
+          "nombre": "Pepinillo",
           "precio": 500
         },
         {
@@ -2194,6 +2841,411 @@ window.CARTA = {
           "id": "frutilla",
           "nombre": "Frutilla",
           "precio": 1500
+        }
+      ]
+    },
+    {
+      "id": "ar-envoltura",
+      "nombre": "Envoltura",
+      "tipo": "elegir",
+      "min": 1,
+      "max": 1,
+      "opciones": [
+        {
+          "id": "tempura",
+          "nombre": "Tempura",
+          "precio": 0
+        },
+        {
+          "id": "panko",
+          "nombre": "Panko",
+          "precio": 0
+        },
+        {
+          "id": "masago",
+          "nombre": "Masago",
+          "precio": 2000
+        },
+        {
+          "id": "salmon",
+          "nombre": "Salmón",
+          "precio": 2000
+        },
+        {
+          "id": "palta",
+          "nombre": "Palta",
+          "precio": 1500
+        },
+        {
+          "id": "queso-crema",
+          "nombre": "Queso crema",
+          "precio": 1500
+        },
+        {
+          "id": "nori",
+          "nombre": "Nori",
+          "precio": 1500
+        },
+        {
+          "id": "sesamo-mixto",
+          "nombre": "Sésamo mixto",
+          "precio": 1000
+        },
+        {
+          "id": "sesamo-blanco",
+          "nombre": "Sésamo blanco",
+          "precio": 500
+        },
+        {
+          "id": "sesamo-negro",
+          "nombre": "Sésamo negro",
+          "precio": 500
+        },
+        {
+          "id": "salsa-spicy",
+          "nombre": "Salsa spicy",
+          "precio": 600
+        },
+        {
+          "id": "salsa-olivo",
+          "nombre": "Salsa al olivo",
+          "precio": 600
+        },
+        {
+          "id": "nori-panko",
+          "nombre": "Nori panko",
+          "precio": 500
+        },
+        {
+          "id": "panko-merken",
+          "nombre": "Panko merkén",
+          "precio": 500
+        },
+        {
+          "id": "panko-coco",
+          "nombre": "Panko coco",
+          "precio": 500
+        },
+        {
+          "id": "coco-rallado",
+          "nombre": "Coco rallado",
+          "precio": 500
+        },
+        {
+          "id": "merken",
+          "nombre": "Merkén",
+          "precio": 500
+        }
+      ]
+    },
+    {
+      "id": "ar-proteina",
+      "nombre": "Proteína",
+      "tipo": "elegir",
+      "min": 1,
+      "max": 1,
+      "ayuda": "El precio depende de la proteína: $4.500 con pollo, camarón, kanikama, vegetariano o vegano.",
+      "opciones": [
+        {
+          "id": "pollo",
+          "nombre": "Pollo",
+          "precio": 0
+        },
+        {
+          "id": "camaron",
+          "nombre": "Camarón",
+          "precio": 0
+        },
+        {
+          "id": "kanikama",
+          "nombre": "Kanikama",
+          "precio": 0
+        },
+        {
+          "id": "vegetariano",
+          "nombre": "Vegetariano",
+          "precio": 0
+        },
+        {
+          "id": "vegano",
+          "nombre": "Vegano",
+          "precio": 0
+        },
+        {
+          "id": "pollo-crispy",
+          "nombre": "Pollo crispy",
+          "precio": 500
+        },
+        {
+          "id": "camaron-apanado",
+          "nombre": "Camarón apanado",
+          "precio": 500
+        },
+        {
+          "id": "vacuno",
+          "nombre": "Vacuno",
+          "precio": 1000
+        },
+        {
+          "id": "salmon",
+          "nombre": "Salmón",
+          "precio": 1500
+        },
+        {
+          "id": "pulpo",
+          "nombre": "Pulpo",
+          "precio": 1500
+        },
+        {
+          "id": "salmon-apanado",
+          "nombre": "Salmón apanado",
+          "precio": 2000
+        }
+      ]
+    },
+    {
+      "id": "ar-relleno",
+      "nombre": "Relleno",
+      "tipo": "elegir",
+      "min": 1,
+      "max": 1,
+      "opciones": [
+        {
+          "id": "cebollin",
+          "nombre": "Cebollín",
+          "precio": 0
+        },
+        {
+          "id": "aceituna",
+          "nombre": "Aceituna",
+          "precio": 0
+        },
+        {
+          "id": "champinon",
+          "nombre": "Champiñón",
+          "precio": 0
+        },
+        {
+          "id": "pimenton",
+          "nombre": "Pimentón",
+          "precio": 0
+        },
+        {
+          "id": "pepinillo",
+          "nombre": "Pepinillo",
+          "precio": 500
+        },
+        {
+          "id": "palta",
+          "nombre": "Palta",
+          "precio": 500
+        },
+        {
+          "id": "palmitos",
+          "nombre": "Palmitos",
+          "precio": 500
+        },
+        {
+          "id": "choclito",
+          "nombre": "Choclito",
+          "precio": 500
+        },
+        {
+          "id": "nuez",
+          "nombre": "Nuez",
+          "precio": 500
+        },
+        {
+          "id": "almendra",
+          "nombre": "Almendra",
+          "precio": 500
+        },
+        {
+          "id": "frutilla",
+          "nombre": "Frutilla",
+          "precio": 1000
+        }
+      ]
+    },
+    {
+      "id": "ar-topping",
+      "nombre": "Topping",
+      "tipo": "elegir",
+      "min": 1,
+      "max": 1,
+      "opciones": [
+        {
+          "id": "sin-topping",
+          "nombre": "Sin topping",
+          "precio": 0,
+          "porDefecto": true
+        },
+        {
+          "id": "salsa-acevichada",
+          "nombre": "Salsa acevichada",
+          "precio": 700
+        },
+        {
+          "id": "al-olivo",
+          "nombre": "Al olivo",
+          "precio": 700
+        },
+        {
+          "id": "spicy",
+          "nombre": "Spicy",
+          "precio": 700
+        },
+        {
+          "id": "papas-hilo",
+          "nombre": "Papas al hilo",
+          "precio": 1000
+        },
+        {
+          "id": "acevichado",
+          "nombre": "Acevichado",
+          "precio": 2000
+        },
+        {
+          "id": "guacamole",
+          "nombre": "Guacamole",
+          "precio": 2000
+        }
+      ]
+    },
+    {
+      "id": "ar-nori",
+      "nombre": "Nori",
+      "tipo": "elegir",
+      "min": 1,
+      "max": 1,
+      "opciones": [
+        {
+          "id": "con-nori",
+          "nombre": "Con nori",
+          "precio": 0,
+          "porDefecto": true
+        },
+        {
+          "id": "sin-nori",
+          "nombre": "Sin nori",
+          "precio": 500
+        }
+      ]
+    },
+    {
+      "id": "ar-extras",
+      "nombre": "Extras",
+      "tipo": "extra",
+      "min": 0,
+      "max": 10,
+      "opciones": [
+        {
+          "id": "pollo-extra",
+          "nombre": "Pollo extra",
+          "precio": 1000
+        },
+        {
+          "id": "camaron-extra",
+          "nombre": "Camarón extra",
+          "precio": 1000
+        },
+        {
+          "id": "kanikama-extra",
+          "nombre": "Kanikama extra",
+          "precio": 1000
+        },
+        {
+          "id": "pepino-extra",
+          "nombre": "Pepino extra",
+          "precio": 500
+        },
+        {
+          "id": "morron-extra",
+          "nombre": "Morrón extra",
+          "precio": 500
+        },
+        {
+          "id": "aceituna-extra",
+          "nombre": "Aceituna extra",
+          "precio": 500
+        },
+        {
+          "id": "cebollin-extra",
+          "nombre": "Cebollín extra",
+          "precio": 500
+        },
+        {
+          "id": "champinones-extra",
+          "nombre": "Champiñones extra",
+          "precio": 500
+        },
+        {
+          "id": "relleno-extra",
+          "nombre": "Relleno extra",
+          "precio": 1000
+        }
+      ]
+    },
+    {
+      "id": "promo-acompanamiento",
+      "nombre": "Acompañamiento",
+      "tipo": "elegir",
+      "min": 1,
+      "max": 1,
+      "opciones": [
+        {
+          "id": "arrollados-primavera",
+          "nombre": "5 arrollados primavera",
+          "precio": 0
+        },
+        {
+          "id": "arrollados-jamon-queso",
+          "nombre": "5 arrollados jamón queso",
+          "precio": 0
+        },
+        {
+          "id": "gyozas-pollo",
+          "nombre": "5 gyozas de pollo",
+          "precio": 0
+        },
+        {
+          "id": "gyozas-cerdo",
+          "nombre": "5 gyozas de cerdo",
+          "precio": 0
+        },
+        {
+          "id": "gyozas-camaron",
+          "nombre": "5 gyozas de camarón",
+          "precio": 0
+        },
+        {
+          "id": "gyozas-vegetarianas",
+          "nombre": "5 gyozas vegetarianas",
+          "precio": 0
+        }
+      ]
+    },
+    {
+      "id": "masago-extra",
+      "nombre": "Extra",
+      "tipo": "extra",
+      "min": 0,
+      "max": 3,
+      "opciones": [
+        {
+          "id": "camaron-ecuatoriano-apanado",
+          "nombre": "Camarón ecuatoriano apanado",
+          "precio": 7000
+        },
+        {
+          "id": "salmon-apanado",
+          "nombre": "Salmón apanado",
+          "precio": 7000
+        },
+        {
+          "id": "atun-rojo",
+          "nombre": "Atún rojo",
+          "precio": 7000
         }
       ]
     }

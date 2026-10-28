@@ -821,6 +821,9 @@ const GROUPS = [
       <div class="dos">${colorField("Color principal", "tema.color", "#d01c23")}${colorField("Color destacado", "tema.colorDestacado", "#ffcc1f")}</div>
       <div class="adds"><button class="add" type="button" data-action="clear-tema">Volver a los colores de la plantilla</button></div>` +
       `<div class="dos">${field("WhatsApp para pedidos", "negocio.whatsapp", { type: "tel", hint: "Solo números, con 56", ph: "56912345678" })}${field("Número como se muestra", "negocio.whatsappVisible", { ph: "+56 9 1234 5678" })}</div>` +
+      (state.negocio.sucursales || []).map((x, i) => `<p class="note">Sucursal ${i + 1}: el cliente la elige al pedir y el pedido llega a su WhatsApp.</p>` +
+        `<div class="dos">${field("Nombre de la sucursal", `negocio.sucursales.${i}.nombre`)}${field("Dirección de la sucursal", `negocio.sucursales.${i}.direccion`)}</div>` +
+        `<div class="dos">${field("WhatsApp de la sucursal", `negocio.sucursales.${i}.whatsapp`, { type: "tel", hint: "Solo números, con 56", ph: "56912345678" })}${field("Número como se muestra", `negocio.sucursales.${i}.whatsappVisible`, { ph: "+56 9 1234 5678" })}</div>`).join("") +
       field("Enlace de Facebook", "negocio.facebook", { type: "url" }) +
       field("Instagram", "negocio.instagram", { hint: "Solo el usuario, sin @", type: "url" }) +
       `<div class="dos">${field("Dirección", "negocio.direccion")}${field("Sector", "negocio.sector")}</div>` +
@@ -1045,6 +1048,10 @@ function cleanSite(vista) {
   const s = clone(state);
   const n = s.negocio;
   n.whatsapp = String(n.whatsapp || "").replace(/\D/g, "");
+  if (Array.isArray(n.sucursales)) {
+    n.sucursales.forEach(x => { x.whatsapp = String(x.whatsapp || "").replace(/\D/g, ""); if (!x.direccion) delete x.direccion; });
+    if (!vista) n.sucursales = n.sucursales.filter(x => String(x.nombre || "").trim() && x.whatsapp.length >= 8);
+  }
   n.instagram = String(n.instagram || "").trim().replace(/^@/, "").replace(/^https?:\/\/(www\.)?instagram\.com\//, "").replace(/\/.*$/, "");
   n.valorDelivery = typeof n.valorDelivery === "number" ? n.valorDelivery : null;
   if (!n.datosTransferencia) n.datosTransferencia = null;

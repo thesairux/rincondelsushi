@@ -698,3 +698,10 @@ html.editando .brillo[contenteditable] { -webkit-text-fill-color: currentColor; 
 @media (max-width: 380px) {
   .tarjetas { grid-template-columns: 1fr; }
 }
+
+/* sucursales: cada número abre el WhatsApp de su sucursal */
+.sucursal-wsp { display: block; color: inherit; text-decoration: none; }
+.sucursal-wsp:hover { text-decoration: underline; }
+.sucursal-wsp span { opacity: .7; }
+.pie-lema .sucursal-wsp { display: inline; }
+.pie-lema .sucursal-wsp + .sucursal-wsp::before { content: " · "; }
