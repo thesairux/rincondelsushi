@@ -582,14 +582,14 @@ window.CARTA = {
             {
               "id": "pulpo-al-olivo",
               "nombre": "Pulpo al olivo",
-              "detalle": "10 cortes envueltos en panko de pulpo, queso y palta (salsa al olivo).",
+              "detalle": "10 cortes envueltos en panko de pulpo, queso y palta con topping de salsa al olivo.",
               "precio": 7000,
               "foto": "img/carta/pulpo-al-olivo.webp"
             },
             {
               "id": "masago-roll",
               "nombre": "Masago roll",
-              "detalle": "Salmón, queso crema y cebollín o palta.",
+              "detalle": "10 cortes envueltos en masago con salmón, queso crema y cebollín o palta.",
               "precio": 8500,
               "foto": "img/carta/masago-roll.webp",
               "opciones": [
@@ -606,10 +606,23 @@ window.CARTA = {
             },
             {
               "id": "roll-sin-arroz",
-              "nombre": "Roll sin arroz",
+              "nombre": "Roll sin arroz predeterminado",
               "detalle": "10 cortes sin arroz envueltos en palta, de pollo, queso, palmito, cebollín y aceituna.",
               "precio": 8000,
               "foto": "img/carta/roll-sin-arroz.webp"
+            },
+            {
+              "id": "sin-arroz-a-eleccion",
+              "nombre": "Sin arroz a elección",
+              "precio": 6000,
+              "foto": "img/carta/sin-arroz-a-eleccion.webp",
+              "detalle": "Base de queso crema: tiene que ser 1 envoltura, 1 proteína y 3 agregados.",
+              "personalizar": [
+                "sa-envoltura",
+                "sa-proteina",
+                "sa-agregados",
+                "esp-extras"
+              ]
             },
             {
               "id": "panko-vacuno",
@@ -2018,6 +2031,169 @@ window.CARTA = {
           "id": "champinones-extra",
           "nombre": "Champiñones extra",
           "precio": 500
+        }
+      ]
+    },
+    {
+      "id": "sa-envoltura",
+      "nombre": "Envoltura",
+      "tipo": "elegir",
+      "min": 1,
+      "max": 1,
+      "opciones": [
+        {
+          "id": "palta",
+          "nombre": "Palta",
+          "precio": 1500
+        },
+        {
+          "id": "queso-crema",
+          "nombre": "Queso crema",
+          "precio": 1500
+        },
+        {
+          "id": "nori",
+          "nombre": "Nori",
+          "precio": 0
+        },
+        {
+          "id": "panko",
+          "nombre": "Panko",
+          "precio": 0
+        }
+      ]
+    },
+    {
+      "id": "sa-proteina",
+      "nombre": "Proteína",
+      "tipo": "elegir",
+      "min": 1,
+      "max": 1,
+      "opciones": [
+        {
+          "id": "pollo",
+          "nombre": "Pollo",
+          "precio": 0
+        },
+        {
+          "id": "camaron",
+          "nombre": "Camarón",
+          "precio": 0
+        },
+        {
+          "id": "kanikama",
+          "nombre": "Kanikama",
+          "precio": 0
+        },
+        {
+          "id": "vacuno",
+          "nombre": "Vacuno",
+          "precio": 500
+        },
+        {
+          "id": "pollo-apanado",
+          "nombre": "Pollo apanado",
+          "precio": 500
+        },
+        {
+          "id": "camaron-apanado",
+          "nombre": "Camarón apanado",
+          "precio": 500
+        },
+        {
+          "id": "salmon",
+          "nombre": "Salmón",
+          "precio": 2500
+        },
+        {
+          "id": "salmon-apanado",
+          "nombre": "Salmón apanado",
+          "precio": 3000
+        },
+        {
+          "id": "vegetariano",
+          "nombre": "Vegetariano (+1 agregado)",
+          "precio": 0,
+          "suma": {
+            "sa-agregados": 1
+          }
+        },
+        {
+          "id": "vegano",
+          "nombre": "Vegano (+1 agregado)",
+          "precio": 0,
+          "suma": {
+            "sa-agregados": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "sa-agregados",
+      "nombre": "Agregados",
+      "tipo": "elegir",
+      "min": 3,
+      "max": 3,
+      "opciones": [
+        {
+          "id": "cebollin",
+          "nombre": "Cebollín",
+          "precio": 0
+        },
+        {
+          "id": "aceituna",
+          "nombre": "Aceituna",
+          "precio": 0
+        },
+        {
+          "id": "morron",
+          "nombre": "Morrón",
+          "precio": 0
+        },
+        {
+          "id": "pepino",
+          "nombre": "Pepino",
+          "precio": 0
+        },
+        {
+          "id": "champinon",
+          "nombre": "Champiñón",
+          "precio": 0
+        },
+        {
+          "id": "pepinillo",
+          "nombre": "Pepinillo",
+          "precio": 500
+        },
+        {
+          "id": "nuez",
+          "nombre": "Nuez",
+          "precio": 500
+        },
+        {
+          "id": "almendra",
+          "nombre": "Almendra",
+          "precio": 500
+        },
+        {
+          "id": "palta",
+          "nombre": "Palta",
+          "precio": 500
+        },
+        {
+          "id": "choclito",
+          "nombre": "Choclito",
+          "precio": 500
+        },
+        {
+          "id": "palmito",
+          "nombre": "Palmito",
+          "precio": 500
+        },
+        {
+          "id": "frutilla",
+          "nombre": "Frutilla",
+          "precio": 1500
         }
       ]
     }
