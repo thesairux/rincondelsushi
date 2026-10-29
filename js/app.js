@@ -626,7 +626,7 @@
       ? '<div class="tarjeta-foto"><img class="carga" src="' + esc(p.foto) + '"' +
         (chica ? ' srcset="' + esc(chica) + " 600w, " + esc(p.foto) + ' 1000w" sizes="(max-width: 380px) calc(100vw - 56px), (max-width: 640px) calc(50vw - 33px), 300px"' : "") +
         ' alt="Foto de ' + esc(p.nombre) + '" width="1000" height="725" loading="lazy"></div>'
-      : '<div class="tarjeta-foto tarjeta-foto--vacia"><img src="img/logo.png" alt="" width="399" height="240" loading="lazy"></div>';
+      : '<div class="tarjeta-foto tarjeta-foto--vacia"><img src="img/logo-rincon.webp" alt="" width="1200" height="179" loading="lazy"></div>';
     return '<li class="tarjeta' + (p.disponible === false ? " fila--agotada" : "") + '">' + foto +
       '<div class="tarjeta-cuerpo"><h4 class="fila-nombre"' + rutaDe(p, "nombre") + ">" + esc(p.nombre) + "</h4>" + detalleLista(p) + notaProducto(p) +
       '<div class="tarjeta-pie"><span class="precio">' + precioLista(p) + "</span>" + botonAgregar(p, "tarjeta") + "</div></div></li>";

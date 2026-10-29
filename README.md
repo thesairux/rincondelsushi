@@ -22,8 +22,8 @@ abriendo `index.html` directo en el navegador.
 2. Activa el panel (ver abajo): `GITHUB_TOKEN` y `ADMIN_PASSWORD` en Vercel, y **Redeploy**.
 
 Antes de publicar, revisa en `carta.js` → `negocio` el WhatsApp, la dirección, el mapa, las redes y los datos de
-transferencia, y cambia `img/logo.png`, `img/icono-192.png`, `img/icono-180.png` y `favicon.ico` por el logo del local
-(los que vienen son provisorios, con el nombre en letras).
+transferencia, y cambia `img/icono-192.png`, `img/icono-180.png` y `favicon.ico` por el ícono del local (los que
+vienen son provisorios, con el nombre en letras). El logo (`img/logo-rincon.webp`) ya es el del local.
 
 ## Pendiente de confirmar con el local
 

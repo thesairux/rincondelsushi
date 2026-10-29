@@ -118,7 +118,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .cabecera-fila { display: flex; align-items: center; gap: 24px; height: calc(var(--alto-cabecera) - 2px); }
 .marca { display: flex; align-items: center; gap: 12px; text-decoration: none; margin-right: auto; }
 .marca-logo { width: 62px; height: 62px; border-radius: 50%; }
-.marca-logo--ancho { width: auto; height: 76px; border-radius: 0; }
+.marca-logo--ancho { width: auto; height: 44px; border-radius: 0; }
 .marca-texto { display: flex; flex-direction: column; line-height: 1.05; }
 .marca-texto b { font-size: 1.45rem; font-weight: 700; letter-spacing: -.02em; }
 .marca-texto small { font-size: .8rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; margin-top: 3px; }
@@ -334,7 +334,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .tarjeta-foto img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
 .tarjeta:hover .tarjeta-foto img { transform: scale(1.04); }
 .tarjeta-foto--vacia { display: grid; place-items: center; background: linear-gradient(160deg, var(--tinta-3), var(--tinta)); }
-.tarjeta-foto--vacia img { width: 120px; height: auto; opacity: .55; }
+.tarjeta-foto--vacia img { width: 64%; max-width: 240px; height: auto; opacity: .8; }
 /* fotos de la carta y de la ficha: un brillo claro en el marco mientras bajan, y aparecen suaves al llegar */
 .tarjeta-foto img.carga, .ficha-foto img.carga { opacity: 0; transition: opacity .35s ease, transform .4s; }
 .tarjeta-foto img.carga.lista, .ficha-foto img.carga.lista { opacity: 1; }
@@ -524,7 +524,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .pie-fila { display: flex; align-items: center; justify-content: space-between; gap: 24px 32px; flex-wrap: wrap; padding: 8px 0; }
 .pie-marca { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .pie-marca .marca-logo { width: 46px; height: 46px; }
-.pie-marca .marca-logo--ancho { width: auto; height: 56px; }
+.pie-marca .marca-logo--ancho { width: auto; height: 48px; }
 .pie-marca .marca-texto b { font-size: 1.15rem; }
 .pie-marca .marca-texto small { font-size: .74rem; }
 .pie-enlaces { display: flex; gap: 24px; }
@@ -745,7 +745,8 @@ html.editando .brillo[contenteditable] { -webkit-text-fill-color: currentColor; 
   :root { --alto-cabecera: 66px; }
   html { scroll-padding-top: calc(var(--alto-cabecera) + 58px); }
   .marca-logo { width: 46px; height: 46px; }
-  .marca-logo--ancho { width: auto; height: 60px; }
+  .marca-logo--ancho { width: min(230px, 58vw); height: auto; }
+  .pie-marca .marca-logo--ancho { width: min(300px, 100%); height: auto; }
   .marca-texto b { font-size: 1.15rem; }
   .marca-texto small { font-size: .72rem; }
   .boton-pedido-texto { display: none; }

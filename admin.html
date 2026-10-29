@@ -91,7 +91,7 @@ a{color:var(--red-soft)}
 .studio{position:fixed;inset:0;display:grid;grid-template-columns:auto auto minmax(0,1fr) auto;grid-template-rows:var(--top) auto minmax(0,1fr);
   grid-template-areas:"brand mid actions side" "hint hint hint hint" "stage stage stage stage";background:var(--bg)}
 .tb-brand{grid-area:brand;display:flex;align-items:center;gap:.7rem;padding:0 1rem}
-.tb-brand img{height:46px;width:auto;flex:none}
+.tb-brand img{height:28px;width:auto;flex:none}
 .tb-brand small{display:block;color:var(--muted);font-size:.84rem;white-space:nowrap}
 .tb-mid{grid-area:mid;display:flex;align-items:center;padding-left:.75rem}
 .seg{display:inline-flex;padding:3px;border-radius:999px;border:1px solid var(--line);background:var(--card-2)}
@@ -202,7 +202,8 @@ input.in:focus,textarea.in:focus,select.in:focus{border-color:var(--red-soft);ou
   .studio{grid-template-columns:minmax(0,1fr) auto;grid-template-rows:var(--top) auto minmax(0,1fr) auto;
     grid-template-areas:"brand side" "hint hint" "stage stage" "actions actions"}
   .tb-mid{display:none}
-  .tb-brand img{height:40px}
+  .tb-brand{min-width:0}
+  .tb-brand img{width:161px;max-width:100%;height:auto;flex:0 1 auto;min-width:0}
   .tb-side{padding-right:.75rem}
   .tb-actions{display:grid;grid-template-columns:auto 1fr 1fr;gap:.5rem;padding:.6rem .75rem calc(.6rem + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--bg)}
   .tb-actions .status{grid-column:1 / -1;margin:0}
@@ -213,9 +214,10 @@ input.in:focus,textarea.in:focus,select.in:focus{border-color:var(--red-soft);ou
   .drawer-head{padding-top:1.1rem}
 }
 @media (max-width:420px){.dos{grid-template-columns:1fr}}
+@media (max-width:520px){.tb-brand small{display:none}}
 @media (min-width:861px){.scrim{display:none}}
 .lbl-short{display:none}
-@media (max-width:1279px){.seg-l{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.seg button{padding-inline:.65rem}}
+@media (max-width:1399px){.seg-l{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.seg button{padding-inline:.65rem}}
 @media (max-width:1180px){.lbl-long{display:none}.lbl-short{display:inline}#client-lbl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}}
 @media (min-width:861px) and (max-width:1023px){.tb-brand small{display:none}}
 
@@ -265,7 +267,7 @@ input.in:focus,textarea.in:focus,select.in:focus{border-color:var(--red-soft);ou
 <!-- ============ Ingreso ============ -->
 <main class="login" id="login">
   <div class="login-box">
-    <img class="login-logo" id="logo" src="img/logo.png" width="400" height="240" alt="El Rincón del Sushi">
+    <img class="login-logo" id="logo" src="img/logo-rincon.webp" width="1200" height="179" alt="El Rincón del Sushi">
     <p class="login-sub">Panel de administración</p>
 
     <form class="login-card" id="login-form" autocomplete="on">
@@ -294,7 +296,7 @@ input.in:focus,textarea.in:focus,select.in:focus{border-color:var(--red-soft);ou
 <!-- ============ Editor: tu página, lista para editar ============ -->
 <div class="studio" id="editor" hidden>
   <div class="tb-brand">
-    <img src="img/logo.png" alt="El Rincón del Sushi" width="400" height="240">
+    <img src="img/logo-rincon.webp" alt="El Rincón del Sushi" width="1200" height="179">
     <small>Editando tu página</small>
   </div>
 
