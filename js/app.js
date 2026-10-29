@@ -470,7 +470,17 @@
   }
 
   /* ---------- portada: promos destacadas ---------- */
-  var carrusel = { lista: [], i: 0, pausado: false, timer: null, ms: 6000 };
+  var carrusel = { lista: [], i: 0, pausado: false, timer: null, ms: 6000, turno: 0 };
+  // las fotos de las promos se bajan de antemano, para que al cambiar no quede el cuadro en negro
+  var fotosPromo = {};
+  function precargarPromos() {
+    carrusel.lista.forEach(function (p) {
+      if (fotosPromo[p.foto]) return;
+      var im = new Image();
+      im.src = p.foto;
+      fotosPromo[p.foto] = im;
+    });
+  }
   function pintarDestacados() {
     var caja = $("[data-destacados]");
     if (!caja) return;
@@ -481,6 +491,10 @@
     var p = carrusel.lista[carrusel.i];
     var varias = carrusel.lista.length > 1;
     caja.classList.toggle("pausado", carrusel.pausado);
+    // la foto que se estaba viendo queda debajo hasta que la nueva termina de cargar
+    var anterior = caja.querySelector(".destacado-foto img.actual");
+    var antes = anterior && anterior.classList.contains("lista") ? anterior.getAttribute("src") : "";
+    var misma = antes === p.foto;
     caja.innerHTML =
       '<div class="destacado" aria-roledescription="carrusel" aria-label="Promos destacadas">' +
         (varias ? '<div class="destacado-barras" style="--duracion:' + carrusel.ms + 'ms">' + carrusel.lista.map(function (q, i) {
@@ -490,7 +504,8 @@
         '<button class="destacado-pausa" type="button" data-pausa aria-label="' + (carrusel.pausado ? "Reanudar" : "Pausar") + ' rotación de promociones">' + icono(carrusel.pausado ? "play" : "pausa") + "</button>" +
         '<button class="destacado-flecha anterior" type="button" data-carrusel="-1" aria-label="Promoción anterior">' + icono("izquierda") + "</button>" +
         '<button class="destacado-flecha siguiente" type="button" data-carrusel="1" aria-label="Promoción siguiente">' + icono("derecha") + "</button>" : "") +
-        '<div class="destacado-foto"><img src="' + esc(p.foto) + '" alt="Foto de ' + esc(p.nombre) + '" width="1000" height="725"></div>' +
+        '<div class="destacado-foto">' + (antes && !misma ? '<img class="previa" src="' + esc(antes) + '" alt="" width="1000" height="725">' : "") +
+          '<img class="actual' + (misma ? " lista" : "") + '" src="' + esc(p.foto) + '" alt="Foto de ' + esc(p.nombre) + '" width="1000" height="725"></div>' +
         '<div class="destacado-panel">' +
           '<span class="destacado-etiqueta">Promo destacada</span>' +
           '<h2 class="destacado-nombre">' + esc(p.nombre) + "</h2>" +
@@ -498,15 +513,39 @@
           botonAgregar(p, "destacado") +
         "</div>" +
       "</div>";
+    medirPanelPromo();
+    var foto = caja.querySelector(".destacado-foto img.actual"), marco = foto.parentNode;
+    var mostrar = function () {
+      requestAnimationFrame(function () { foto.classList.add("lista"); marco.classList.remove("esperando"); });
+      precargarPromos();
+    };
+    if (misma) precargarPromos();
+    else if (foto.complete && foto.naturalWidth) mostrar();
+    else { marco.classList.add("esperando"); foto.addEventListener("load", mostrar); foto.addEventListener("error", mostrar); }
     programarCarrusel();
   }
+  // las flechas van al medio de la parte de la foto que no tapa el recuadro blanco
+  function medirPanelPromo() {
+    var d = $(".destacado"), panel = d && d.querySelector(".destacado-panel");
+    if (panel) d.style.setProperty("--alto-panel", panel.offsetHeight + 16 + "px");
+  }
+  window.addEventListener("resize", medirPanelPromo);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(medirPanelPromo);
   function programarCarrusel() {
     clearTimeout(carrusel.timer);
     var quieto = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (carrusel.lista.length < 2 || carrusel.pausado || quieto) return;
+    var turno = ++carrusel.turno;
     carrusel.timer = setTimeout(function () {
-      carrusel.i = (carrusel.i + 1) % carrusel.lista.length;
-      pintarDestacados();
+      // si la foto siguiente todavía no llega, espera a que cargue antes de pasar
+      var sig = (carrusel.i + 1) % carrusel.lista.length, im = fotosPromo[carrusel.lista[sig].foto];
+      var pasar = function () {
+        if (turno !== carrusel.turno || carrusel.pausado) return;
+        carrusel.i = sig;
+        pintarDestacados();
+      };
+      if (!im || im.complete) pasar();
+      else { im.addEventListener("load", pasar, { once: true }); im.addEventListener("error", pasar, { once: true }); }
     }, carrusel.ms);
   }
 

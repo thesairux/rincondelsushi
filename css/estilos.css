@@ -195,7 +195,12 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 }
 .destacado { position: relative; background: #000; box-shadow: 0 30px 60px rgba(0, 0, 0, .45); }
 .destacado-foto { position: relative; aspect-ratio: 4 / 4.1; overflow: hidden; }
-.destacado-foto img { width: 100%; height: 100%; object-fit: cover; transition: opacity .5s; }
+.destacado-foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* la foto nueva aparece con un fundido sobre la anterior; mientras carga, un brillo suave en vez de negro */
+.destacado-foto img.actual { opacity: 0; transition: opacity .5s ease; }
+.destacado-foto img.actual.lista { opacity: 1; }
+.destacado-foto.esperando { background: linear-gradient(100deg, #141217 30%, #2a252f 50%, #141217 70%) 0 0 / 220% 100%; animation: cargando 1.3s linear infinite; }
+@keyframes cargando { from { background-position: 100% 0; } to { background-position: -120% 0; } }
 .destacado-foto::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0, 0, 0, .55) 0%, transparent 38%); }
 .destacado-frase {
   position: absolute; z-index: 1; left: 22px; top: 50px; font: 800 2.05rem/.95 var(--titulo); text-transform: uppercase;
@@ -216,7 +221,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 }
 /* flechas para pasar a la promo anterior o siguiente */
 .destacado-flecha {
-  position: absolute; z-index: 2; top: 38%; width: 44px; height: 44px; transform: translateY(-50%);
+  position: absolute; z-index: 2; top: calc((100% - var(--alto-panel, 40%)) / 2 + 14px); width: 44px; height: 44px; transform: translateY(-50%);
   display: grid; place-items: center; border: 0; border-radius: 50%; cursor: pointer;
   background: rgba(18, 16, 22, .62); color: var(--blanco); box-shadow: 0 8px 20px rgba(0, 0, 0, .35);
   -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); transition: background .2s, transform .2s;
@@ -230,11 +235,11 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .destacado-panel {
   position: absolute; left: 16px; right: 16px; bottom: 16px; z-index: 1;
   background: var(--blanco); color: var(--texto); padding: 14px 16px 16px;
-  display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 6px 12px;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px;
 }
-.destacado-etiqueta { grid-column: 1 / -1; display: flex; align-items: center; gap: 6px; font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--principal); }
+.destacado-etiqueta { flex-basis: 100%; display: flex; align-items: center; gap: 6px; font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--principal); }
 .destacado-etiqueta::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #9a93a0; }
-.destacado-nombre { grid-column: 1 / -1; font: 700 1.55rem/1 var(--titulo); text-transform: uppercase; }
+.destacado-nombre { flex-basis: 100%; font: 700 1.55rem/1 var(--titulo); text-transform: uppercase; }
 .destacado-precio { font-weight: 700; font-size: 1.55rem; letter-spacing: -.02em; }
 .destacado-panel .agregar { background: var(--principal); color: var(--blanco); padding: 10px 12px 10px 16px; min-height: 44px; }
 .destacado-panel .agregar .mas { border-color: rgba(255, 255, 255, .7); color: var(--blanco); }
