@@ -388,30 +388,27 @@
       "nota-horario": !CON_HORARIO ? "" : HORARIO_ACTIVO
         ? "Estado según el horario publicado; puede variar, confirma por WhatsApp."
         : "Horario referencial, por confirmar. Escríbenos por WhatsApp antes de venir.",
-      mapa: N.mapa,
-      whatsapp: N.whatsappVisible || (N.whatsapp ? "+" + N.whatsapp : "")
+      mapa: N.mapa
     };
     var ss = sucursales();
-    if (ss.length) datos.whatsapp = ss.map(function (s) { return s.nombre + ": " + (s.whatsappVisible || "+" + s.whatsapp); }).join(" · ");
     $$("[data-dato]").forEach(function (el) {
       var v = datos[el.getAttribute("data-dato")];
       if (v) el.textContent = v;
     });
-    // con varias sucursales, cada número abre el WhatsApp de su sucursal
-    $$('[data-dato="whatsapp"]').forEach(function (el) {
-      if (ss.length < 2) return;
-      el.innerHTML = ss.map(function (s) {
-        return '<a class="sucursal-wsp" href="https://wa.me/' + esc(String(s.whatsapp).replace(/\D/g, "")) + '" target="_blank" rel="noopener">' +
-          "<span>" + esc(s.nombre) + "</span> " + esc(s.whatsappVisible || "+" + s.whatsapp) + "</a>";
-      }).join("");
-    });
-    // en el pie, un botón de WhatsApp por sucursal
-    var pieWsp = $("[data-pie-wsp]");
+    // un botón de WhatsApp por sucursal: en la portada con su nombre, en el pie también con el número
     var numeros = ss.length ? ss : N.whatsapp ? [{ nombre: "WhatsApp", whatsapp: N.whatsapp, whatsappVisible: N.whatsappVisible }] : [];
+    var botonWsp = function (s, clase, texto) {
+      return '<a class="' + clase + '" href="https://wa.me/' + esc(String(s.whatsapp).replace(/\D/g, "")) + '" target="_blank" rel="noopener">' + icono("wsp") + texto + "</a>";
+    };
+    var portadaWsp = $("[data-portada-wsp]"), pieWsp = $("[data-pie-wsp]");
+    if (portadaWsp && numeros.length) {
+      portadaWsp.innerHTML = numeros.map(function (s) {
+        return botonWsp(s, "wsp-sucursal wsp-sucursal--portada", "<span><small>Pedir por WhatsApp</small><b>" + esc(s.nombre) + "</b></span>");
+      }).join("");
+    }
     if (pieWsp && numeros.length) {
       pieWsp.innerHTML = numeros.map(function (s) {
-        return '<a class="wsp-sucursal" href="https://wa.me/' + esc(String(s.whatsapp).replace(/\D/g, "")) + '" target="_blank" rel="noopener">' + icono("wsp") +
-          "<span><b>" + esc(s.nombre) + "</b><small>" + esc(s.whatsappVisible || "+" + s.whatsapp) + "</small></span>" + icono("flecha") + "</a>";
+        return botonWsp(s, "wsp-sucursal", "<span><b>" + esc(s.nombre) + "</b><small>" + esc(s.whatsappVisible || "+" + s.whatsapp) + "</small></span>" + icono("flecha"));
       }).join("");
     }
     // lo que no tiene datos (dirección, horario, Instagram) no se muestra

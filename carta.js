@@ -132,9 +132,9 @@ window.CARTA = {
   "diasCerrados": [],
   "textos": {
     "portada": {
-      "titulo": "Tablas de sushi",
-      "destacado": "para compartir",
-      "bajada": "Promos de la semana, súper promociones, menú del día, tablas, rolls, hand rolls y más. Elige tu sucursal, retiro o delivery, y paga online o al recibir."
+      "titulo": "¿Pedimos",
+      "destacado": "sushi?",
+      "bajada": "Elige tus favoritos, pide para retiro o delivery y paga como te acomode."
     },
     "carta": {
       "titulo": "Elige tu",

@@ -65,6 +65,19 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .icono--acento { color: var(--acento); }
 .acento { color: var(--acento); }
 .brillo { color: var(--amarillo); text-shadow: 0 0 26px rgb(var(--amarillo-rgb) / .25); }
+/* brillo que cruza la palabra en loop (portada y final) */
+.brillo--vivo {
+  display: inline-block; text-shadow: none;
+  background: linear-gradient(100deg, var(--amarillo) 0%, var(--amarillo) 40%, #fff3c4 47%, #fffdf5 50%, #fff3c4 53%, var(--amarillo) 60%, var(--amarillo) 100%) 100% 0 / 300% 100%;
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 14px rgb(var(--amarillo-rgb) / .3));
+  animation: brillo 4s ease-in-out 1s infinite;
+}
+@keyframes brillo {
+  0% { background-position: 100% 0; filter: drop-shadow(0 0 14px rgb(var(--amarillo-rgb) / .3)); }
+  35% { filter: drop-shadow(0 0 30px rgb(var(--amarillo-rgb) / .65)); }
+  65%, 100% { background-position: 0 0; filter: drop-shadow(0 0 14px rgb(var(--amarillo-rgb) / .3)); }
+}
 
 /* ---------- títulos y botones ---------- */
 .titulo-grande {
@@ -153,16 +166,25 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .estado .estado-mas { color: #cfc8d4; }
 .estado button { background: none; border: 0; color: #a69fab; padding: 0 2px; line-height: 1; font-size: 1.05rem; }
 .portada-titulo {
-  font: 800 clamp(3.6rem, 9.5vw, 6.6rem)/.88 var(--titulo); text-transform: uppercase; letter-spacing: -.01em;
+  font: 800 clamp(4.4rem, 19vw, 8.4rem)/.86 var(--titulo); text-transform: uppercase; letter-spacing: -.01em;
 }
-.portada-bajada { max-width: 470px; margin-top: 22px; color: #dcd6e0; font-size: 1.05rem; }
-.portada-acciones { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; margin-top: 30px; }
-.enlace-wsp { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; font-size: .95rem; text-decoration: none; }
-.enlace-wsp .icono { color: var(--acento); width: 22px; height: 22px; }
-.enlace-wsp:hover { color: var(--acento-claro); }
-.portada-datos { display: flex; flex-wrap: wrap; gap: 14px 40px; margin: 38px 0 0; }
-.portada-datos dt { font-size: .74rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--acento); }
-.portada-datos dd { font-size: .92rem; font-weight: 500; margin-top: 2px; }
+.portada-bajada { max-width: 440px; margin-top: 24px; color: #dcd6e0; font-size: 1.12rem; }
+.portada-acciones { display: grid; justify-items: start; gap: 16px; margin-top: 32px; }
+/* un botón de WhatsApp por sucursal, con su nombre */
+.portada-wsp { display: flex; flex-wrap: wrap; gap: 12px; }
+.wsp-sucursal.wsp-sucursal--portada {
+  min-height: 56px; padding: 9px 18px 9px 10px; gap: 10px;
+  background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 255, 255, .2); box-shadow: none;
+}
+.wsp-sucursal.wsp-sucursal--portada:hover { background: rgb(22 138 70 / .22); border-color: #3fdc7e; }
+.wsp-sucursal--portada.wsp-sucursal > .icono:first-child { width: 36px; height: 36px; background: #168a46; }
+.wsp-sucursal.wsp-sucursal--portada small { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; opacity: .7; }
+.wsp-sucursal.wsp-sucursal--portada b { font-size: .95rem; }
+/* la portada entra de a poco al cargar */
+.portada-titulo, .portada-bajada, .portada-acciones { animation: entrar .8s cubic-bezier(.2, .7, .2, 1) both; }
+.portada-bajada { animation-delay: .15s; }
+.portada-acciones { animation-delay: .28s; }
+@keyframes entrar { from { opacity: 0; transform: translateY(22px); } }
 .portada-nota { margin-top: 14px; font-size: .78rem; color: #9d96a3; }
 
 /* promos destacadas */
@@ -472,6 +494,13 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
     repeating-linear-gradient(-28deg, rgba(0, 0, 0, .06) 0 3px, transparent 3px 16px),
     linear-gradient(135deg, var(--principal) 0%, var(--principal-oscuro) 100%);
 }
+/* un destello que pasa por el fondo, en loop */
+.antojo-fondo::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, .13) 50%, transparent 62%) 130% 0 / 260% 100% no-repeat;
+  animation: destello 6s ease-in-out infinite;
+}
+@keyframes destello { 0% { background-position: 130% 0; } 55%, 100% { background-position: -30% 0; } }
 .antojo-centro { position: relative; display: grid; justify-items: center; gap: 30px; }
 .antojo .titulo-grande { font-size: clamp(3.4rem, 9vw, 5.4rem); }
 
@@ -691,7 +720,7 @@ html.editando .brillo[contenteditable] { -webkit-text-fill-color: currentColor; 
   .marca-texto small { font-size: .72rem; }
   .boton-pedido-texto { display: none; }
   .portada-grilla { gap: 30px; padding: 40px 0 24px; }
-  .portada-titulo { font-size: clamp(3.4rem, 17vw, 4.6rem); }
+  .portada-titulo { font-size: clamp(4rem, 20vw, 5.6rem); }
   .portada-bajada { font-size: .95rem; }
   .destacados::before { display: none; }
   .destacado-frase { font-size: 1.7rem; }
@@ -751,9 +780,6 @@ html.editando .brillo[contenteditable] { -webkit-text-fill-color: currentColor; 
 }
 
 /* sucursales: cada número abre el WhatsApp de su sucursal */
-.sucursal-wsp { display: block; color: inherit; text-decoration: none; }
-.sucursal-wsp:hover { text-decoration: underline; }
-.sucursal-wsp span { opacity: .7; }
 
 /* cuenta, pedido registrado, dirección con sugerencias y pago */
 .enlace { justify-self: start; padding: 2px 0; border: 0; background: none; color: var(--principal); font-weight: 700; font-size: .82rem; text-decoration: underline; cursor: pointer; }

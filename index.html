@@ -51,20 +51,14 @@
     <div class="contenedor portada-grilla">
       <div class="portada-texto">
         <p class="estado" data-estado hidden></p>
-        <h1 class="portada-titulo"><span data-texto="portada.titulo">Tablas de sushi</span> <span class="brillo" data-texto="portada.destacado">para compartir</span></h1>
-        <p class="portada-bajada" data-texto="portada.bajada">Promos de la semana, súper promociones, menú del día, tablas, rolls, hand rolls y más. Elige tu sucursal, retiro o delivery, y paga online o al recibir.</p>
+        <h1 class="portada-titulo"><span data-texto="portada.titulo">¿Pedimos</span> <span class="brillo brillo--vivo" data-texto="portada.destacado">sushi?</span></h1>
+        <p class="portada-bajada" data-texto="portada.bajada">Elige tus favoritos, pide para retiro o delivery y paga como te acomode.</p>
         <div class="portada-acciones">
           <a class="boton" href="#carta">Ver la carta <svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-          <a class="enlace-wsp" data-wsp href="https://wa.me/56946324426" target="_blank" rel="noopener">
-            <svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 19.5 5.6 16A8 8 0 1 1 8.4 18.6Z"/><path d="M9.2 8.6c.3 2.7 2.4 5 5.2 5.6l1.2-1.3-1.8-1-1 .7c-.9-.5-1.7-1.3-2.2-2.2l.7-1-1-1.8Z"/></svg>
-            Pedir por WhatsApp
-          </a>
+          <div class="portada-wsp" data-portada-wsp>
+            <a class="wsp-sucursal wsp-sucursal--portada" data-wsp href="https://wa.me/56946324426" target="_blank" rel="noopener"><svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 19.5 5.6 16A8 8 0 1 1 8.4 18.6Z"/><path d="M9.2 8.6c.3 2.7 2.4 5 5.2 5.6l1.2-1.3-1.8-1-1 .7c-.9-.5-1.7-1.3-2.2-2.2l.7-1-1-1.8Z"/></svg><span><small>Pedir por</small><b>WhatsApp</b></span></a>
+          </div>
         </div>
-        <dl class="portada-datos">
-          <div><dt>Pedidos</dt><dd data-dato="whatsapp">+56 9 4632 4426</dd></div>
-          <div data-si="direccion" hidden><dt>Dónde</dt><dd data-dato="direccion-ciudad"></dd></div>
-          <div data-si="horario" hidden><dt>Horario</dt><dd data-dato="horario"></dd></div>
-        </dl>
         <p class="portada-nota" data-si="horario" data-dato="nota-horario" hidden></p>
       </div>
       <div class="destacados" data-destacados></div>
@@ -183,7 +177,7 @@
   <section class="antojo" aria-labelledby="antojo-titulo">
     <div class="antojo-fondo" aria-hidden="true"></div>
     <div class="contenedor antojo-centro">
-      <h2 class="titulo-grande titulo-grande--claro" id="antojo-titulo"><span data-texto="antojo.titulo">¿Qué se te</span> <span class="brillo" data-texto="antojo.destacado">antoja hoy?</span></h2>
+      <h2 class="titulo-grande titulo-grande--claro" id="antojo-titulo"><span data-texto="antojo.titulo">¿Qué se te</span> <span class="brillo brillo--vivo" data-texto="antojo.destacado">antoja hoy?</span></h2>
       <a class="boton boton--claro" href="#carta">Armar mi pedido <svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
   </section>
