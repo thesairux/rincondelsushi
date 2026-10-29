@@ -154,6 +154,8 @@ personalizacion      → grupos que el cliente elige: punto de la carne, agregad
   con foto, se muestra en tarjetas; si no, en lista. Se ven mejor en formato horizontal (1000 × 725).
   Con `"tarjetas": true` en la categoría, va en tarjetas aunque no tenga fotos: queda el espacio de la imagen
   con el logo hasta que se suba la foto.
+  Al agregar o cambiar una foto en `img/carta/`, corre `python3 herramientas/miniaturas.py`: crea la copia liviana
+  de 600 px (`img/carta/600/`) que usan las tarjetas para cargar rápido. Si falta, la tarjeta usa la foto original.
 - **Producto nuevo**: copia uno parecido y cambia `id` (no se puede repetir), `nombre`, `detalle` y `precio`.
 
 **Opciones para elegir** (`personalizacion`)
@@ -215,7 +217,8 @@ Si la carta deja de aparecer, lo más probable es que falte o sobre una coma en 
 - `css/estilos.css`: diseño (computador y celular). Los colores se cambian desde `carta.js` → `tema`.
 - `js/app.js`: carta, buscador, pedido, horario de apertura y mensaje de WhatsApp.
 - `js/tema.js`: aplica los colores de la marca.
-- `img/`: logo e íconos; en `img/carta/` las imágenes de los productos.
+- `img/`: logo e íconos; en `img/carta/` las imágenes de los productos y en `img/carta/600/` sus copias livianas.
+- `herramientas/miniaturas.py`: crea esas copias livianas.
 - `admin.html`: el panel de administración.
 - `api/admin.js`: el servidor del panel (revisa la contraseña, guarda los cambios en GitHub y cambia el estado de
   los pedidos).

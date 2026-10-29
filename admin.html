@@ -1051,7 +1051,7 @@ async function prepareImage(file) {
     const img = new Image();
     img.src = url;
     await img.decode();
-    const max = 1400;
+    const max = 1000; // la página muestra las fotos a 1000 px como máximo
     const s = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
     const w = Math.round(img.naturalWidth * s), h = Math.round(img.naturalHeight * s);
     const c = document.createElement("canvas");

@@ -549,6 +549,30 @@
     }, carrusel.ms);
   }
 
+  /* ---------- fotos de la carta ---------- */
+  // las tarjetas usan la copia de 600 px que está en img/carta/600/ (herramientas/miniaturas.py)
+  var CHICA = /^img\/carta\/([\w.-]+\.webp)$/;
+  function fotoChica(src) { var m = CHICA.exec(src || ""); return m ? "img/carta/600/" + m[1] : ""; }
+  // mientras baja, el marco muestra un brillo de carga y la foto aparece suave al llegar
+  var fotoVista = {};
+  function fotoLista(img) {
+    img.classList.add("lista");
+    if (img.currentSrc) fotoVista[img.getAttribute("src")] = img.currentSrc;
+  }
+  function marcarFotos(raiz) {
+    $$("img.carga:not(.lista)", raiz).forEach(function (img) { if (img.complete && img.naturalWidth) fotoLista(img); });
+  }
+  document.addEventListener("load", function (e) {
+    if (e.target.matches && e.target.matches("img.carga")) fotoLista(e.target);
+  }, true);
+  document.addEventListener("error", function (e) {
+    var img = e.target;
+    if (!img.matches || !img.matches("img.carga")) return;
+    // si falta la copia chica vuelve a la foto original; si tampoco está, queda el texto alternativo
+    if (img.hasAttribute("srcset")) { img.removeAttribute("sizes"); img.removeAttribute("srcset"); }
+    else img.classList.add("lista");
+  }, true);
+
   /* ---------- carta ---------- */
   var vista = { seccion: 0, categoria: null, busqueda: "" };
 
@@ -597,8 +621,11 @@
       '<div class="fila-lado"><span class="precio">' + precioLista(p) + "</span>" + botonAgregar(p, "fila") + "</div></li>";
   }
   function tarjeta(p) {
+    var chica = fotoChica(p.foto);
     var foto = p.foto
-      ? '<div class="tarjeta-foto"><img src="' + esc(p.foto) + '" alt="Foto de ' + esc(p.nombre) + '" width="1000" height="725" loading="lazy"></div>'
+      ? '<div class="tarjeta-foto"><img class="carga" src="' + esc(p.foto) + '"' +
+        (chica ? ' srcset="' + esc(chica) + " 600w, " + esc(p.foto) + ' 1000w" sizes="(max-width: 380px) calc(100vw - 56px), (max-width: 640px) calc(50vw - 33px), 300px"' : "") +
+        ' alt="Foto de ' + esc(p.nombre) + '" width="1000" height="725" loading="lazy"></div>'
       : '<div class="tarjeta-foto tarjeta-foto--vacia"><img src="img/logo.png" alt="" width="399" height="240" loading="lazy"></div>';
     return '<li class="tarjeta' + (p.disponible === false ? " fila--agotada" : "") + '">' + foto +
       '<div class="tarjeta-cuerpo"><h4 class="fila-nombre"' + rutaDe(p, "nombre") + ">" + esc(p.nombre) + "</h4>" + detalleLista(p) + notaProducto(p) +
@@ -641,6 +668,7 @@
       });
     }
     lista.innerHTML = html;
+    marcarFotos(lista);
   }
   function pintarCarta() { pintarNavegacion(); pintarLista(); }
   function subirALista() {
@@ -939,7 +967,11 @@
     var rolls = rollsDe(ficha.id);
     var lineasEnRolls = rolls.length > 1 && rolls.every(function (r) { return r.texto; });
     var html = "";
-    if (p.foto) html += '<div class="ficha-foto"><img src="' + esc(p.foto) + '" alt="Foto de ' + esc(p.nombre) + '" width="1000" height="725"></div>';
+    // de fondo, la foto que ya se vio en la tarjeta, mientras llega la grande
+    if (p.foto) {
+      var fondo = fotoVista[p.foto] ? ' style="background-image:url(&quot;' + esc(fotoVista[p.foto]) + '&quot;)"' : "";
+      html += '<div class="ficha-foto"' + fondo + '><img class="carga" src="' + esc(p.foto) + '" alt="Foto de ' + esc(p.nombre) + '" width="1000" height="725"></div>';
+    }
     html += '<h2 class="ficha-titulo" id="ficha-titulo">' + esc(p.nombre) + "</h2>";
     if (p.detalle && !lineasEnRolls && !(rolls.length === 1 && !rolls[0].texto && gruposRoll(ficha.id).length)) {
       html += '<p class="ficha-detalle">' + esc(p.detalle) + "</p>";
@@ -978,6 +1010,7 @@
       ? '[data-armado="' + activo.getAttribute("data-armado") + '"][data-grupo-roll="' + activo.getAttribute("data-grupo-roll") + '"]' : null;
     var scroll = cuerpoFicha.scrollTop;
     cuerpoFicha.innerHTML = html;
+    marcarFotos(cuerpoFicha);
     cuerpoFicha.scrollTop = scroll;
     if (foco && $(foco, cuerpoFicha)) $(foco, cuerpoFicha).focus({ preventScroll: true });
     pintarPieFicha();
