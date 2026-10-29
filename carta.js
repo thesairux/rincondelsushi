@@ -320,7 +320,7 @@ window.CARTA = {
               "id": "menu-del-dia",
               "nombre": "Menú del día",
               "precio": 5000,
-              "foto": "img/carta/menu-del-dia.webp",
+              "foto": "img/carta/menu-del-dia-afiche.webp",
               "detalle": "1 proteína a elección y 2 agregados a elección (arroz, ensalada o papas fritas).",
               "personalizar": [
                 "md-proteina",
