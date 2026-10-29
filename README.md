@@ -7,8 +7,8 @@ ordenado por WhatsApp a la sucursal que elige el cliente (Villa Los Naranjos o V
 
 Con la base de datos y el correo configurados (ver «Pedidos, cuentas, avisos y pago online»), además:
 - el cliente **inicia sesión con un código por correo o sigue como invitado**, y deja un correo para el aviso;
-- cada pedido queda con **número** (N° 0427) y el local lo ve en **/admin → Pedidos**, donde lo marca
-  *Listo para retirar* o *En camino* y al cliente **le llega el correo**;
+- cada pedido queda con **número** (N° 0427) y el local lo ve en **/admin → Pedidos** y en el **Manager**
+  (/manager), donde lo marca *Listo para retirar* o *En camino* y al cliente **le llega el correo**;
 - el **delivery** se escribe con sugerencias de direcciones reales (OpenStreetMap), queda ubicado en el mapa,
   suma **$2.500** en el sector urbano de Ovalle y avisa si la dirección queda fuera;
 - se puede **pagar online** con Flow (Webpay) o al retirar / al recibir (efectivo, transferencia, tarjeta, Edenred).
@@ -131,6 +131,37 @@ Después de agregar o cambiar una variable, hay que volver a publicar (**Deploym
 Para revisar la configuración, abre **tu-pagina.vercel.app/api/admin**: dice si la clave de GitHub y la contraseña
 están puestas (nunca las muestra).
 
+## Rincón Sushi Manager (tu-pagina/manager)
+
+El sistema del local: pedidos, cocina, caja, pagos, clientes, delivery e informes. Está en **tu-pagina.vercel.app/manager**
+y usa **la misma base de datos que los pedidos de la página**, así que están conectados:
+
+- Los **pedidos de la página llegan solos** al tablero del Manager (con el mismo número, N° 0427 = #0427), suenan y
+  se ven en cocina. Un pedido con pago online aparece cuando Flow confirma el pago.
+- Cuando el Manager cambia el estado (*en preparación*, *listo*, *en camino*, *entregado*), el cliente lo ve en la
+  página y, si dejó su correo, le llega el aviso de *listo para retirar* o *en camino*. Si el local lo cambia desde
+  /admin → Pedidos, el Manager también lo ve.
+- Los **productos y secciones salen de la carta** (`carta.js`, la que se edita en /admin): están todos, con sus
+  opciones (envoltura, proteína, agregados…) y precios. El nombre, el precio, la foto y las opciones se cambian en
+  /admin y llegan solos. En el Manager se marcan **agotados** u **ocultos**, y la página los muestra así y no deja
+  pedirlos. También se pueden crear productos propios del Manager (se venden solo en la caja).
+- **Pausar la recepción de pedidos** de una sucursal en el Manager hace que la página no deje pedir en ella.
+- Las ventas de **caja** (mesón, teléfono, WhatsApp) siguen la misma numeración que los pedidos de la página.
+
+**Primera vez:** al abrir /manager pide crear la cuenta de administración (nombre, correo, contraseña) y la
+**clave del panel** (`ADMIN_PASSWORD`), para que nadie más pueda crearla. Después, en **Usuarios**, se crean las
+cuentas de caja, cocina y repartidores. Cada persona entra con su correo y contraseña, que se revisan en el
+servidor: la cocina no ve los datos de los clientes y el repartidor solo ve sus entregas. Las contraseñas se
+guardan cifradas y nunca llegan al navegador.
+
+Necesita la base de datos de los pedidos (ver arriba) y `ADMIN_PASSWORD`. Opcional: `MANAGER_SECRET`, la clave que
+firma las sesiones del Manager (si no está, se usa una que sale de las otras claves).
+
+El Manager revisa si hay algo nuevo cada 6 segundos mientras está a la vista (cada 45 si la pestaña está atrás), y
+solo baja lo que cambió. Con varias pantallas abiertas todo el día (caja y cocina) conviene revisar el uso en
+Upstash y en Vercel; el plan gratis de Upstash alcanza para una o dos pantallas, y pasar a *pay as you go* cuesta
+del orden de US$1 al mes por pantalla.
+
 ## Cómo está armada la carta (`carta.js`)
 
 ```
@@ -220,6 +251,9 @@ Si la carta deja de aparecer, lo más probable es que falte o sobre una coma en 
 - `img/`: logo e íconos; en `img/carta/` las imágenes de los productos y en `img/carta/600/` sus copias livianas.
 - `herramientas/miniaturas.py`: crea esas copias livianas.
 - `admin.html`: el panel de administración.
+- `manager.html`: Rincón Sushi Manager; `js/rsm-servidor.js` lo conecta con su base de datos en el servidor.
+- `api/manager.js`: el servidor del Manager (entrada del personal, permisos por cargo y sus datos);
+  `api/_manager.js`: los productos que salen de la carta y la conexión de los pedidos entre la página y el Manager.
 - `api/admin.js`: el servidor del panel (revisa la contraseña, guarda los cambios en GitHub y cambia el estado de
   los pedidos).
 - `api/pedidos.js`: pedidos y cuentas de los clientes (número, código por correo, estado).
@@ -227,7 +261,9 @@ Si la carta deja de aparecer, lo más probable es que falte o sobre una coma en 
 - `api/_tienda.js`, `api/_precios.js`, `api/_flow.js`: base de datos, correos, precios calculados con la carta y Flow
   (los que empiezan con _ no son direcciones públicas).
 - `fotos/`: las fotos que se suben desde el panel (se crea sola).
-- `vercel.json` y `robots.txt`: configuración para que el panel no aparezca en Google.
+- `vercel.json` y `robots.txt`: configuración para que el panel y el Manager no aparezcan en Google.
+- `pruebas/`: pruebas de punta a punta con Playwright (`node pruebas/servidor.js` y luego `node pruebas/pedido.js`
+  o `node pruebas/manager.js`).
 
 ## Cómo funciona el pedido
 

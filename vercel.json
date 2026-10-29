@@ -20,6 +20,15 @@
       ]
     },
     {
+      "source": "/manager",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    },
+    {
       "source": "/img/(.*)",
       "headers": [
         {
@@ -40,6 +49,9 @@
   ],
   "functions": {
     "api/pedidos.js": {
+      "includeFiles": "carta.js"
+    },
+    "api/manager.js": {
       "includeFiles": "carta.js"
     }
   }

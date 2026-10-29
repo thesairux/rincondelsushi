@@ -8,6 +8,7 @@ const crypto = require("crypto");
 const T = require("./_tienda");
 const P = require("./_precios");
 const F = require("./_flow");
+const M = require("./_manager");
 
 function configuracion() {
   const base = !!T.redisConf(), correo = !!T.correoConf();
@@ -106,10 +107,15 @@ async function entrar(body) {
 
 async function crear(body, req) {
   if (!(await T.permitido("crear-ip:" + T.ip(req), 30, 3600))) return [429, { error: "espera" }];
-  const C = await P.cargarCarta();
+  // lo que está agotado u oculto en el Manager no se puede pedir, y una sucursal en pausa no recibe pedidos
+  const disp = await M.disponibilidad();
+  const C = M.aplicarDisp(await P.cargarCarta(), disp);
   const l = limpiarPedido(body.pedido, C);
   if (l.error) return [400, { error: l.error, motivo: l.motivo || "" }];
   const p = l.pedido;
+  if (p.sucursal && (disp.pausadas || []).includes(p.sucursal)) {
+    return [400, { error: "pausa", motivo: `La sucursal ${p.sucursal} no está recibiendo pedidos en este momento. Escríbenos por WhatsApp.` }];
+  }
   // la página muestra un total; si la carta cambió desde que se abrió, se avisa en vez de cobrar otro monto
   const totalPagina = body.pedido && body.pedido.total;
   if (totalPagina != null && Math.round(+totalPagina) !== p.total) return [409, { error: "precio", total: p.total, motivo: `El total cambió a ${T.plata(p.total)}: la carta se actualizó. Revisa tu pedido.` }];
@@ -147,6 +153,7 @@ async function crear(body, req) {
     if (p.modo === "delivery") recordarDireccion(perfil, p.direccion, p.ubicacion);
     await T.guardar("cliente:" + cuenta, perfil);
   }
+  await M.reflejar(p); // al Manager (el pago online llega cuando Flow lo confirma)
   return [200, { ok: true, id, numero: T.numero(id), clave: p.clave, total: p.total, delivery: p.delivery, pagoUrl }];
 }
 
@@ -162,7 +169,12 @@ async function estado(body) {
 }
 
 module.exports = async (req, res) => {
-  if (req.method === "GET") return T.send(res, 200, configuracion());
+  if (req.method === "GET") {
+    // lo que el Manager tiene agotado, oculto o en pausa
+    let disp = null;
+    try { disp = await M.disponibilidad(); } catch (e) { /* sin base: la página sigue con su carta */ }
+    return T.send(res, 200, { ...configuracion(), disp });
+  }
   if (req.method !== "POST") return T.send(res, 405, { error: "metodo" });
   let body;
   try { body = (await T.readBody(req)) || {}; } catch (e) { return T.send(res, 400, { error: "datos" }); }

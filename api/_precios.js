@@ -251,4 +251,4 @@ function calcular(C, d, t) {
     total: subtotal - descuento + (delivery || 0), fueraDeZona: modo === "delivery" && delivery === null && typeof N.valorDelivery === "number" };
 }
 
-module.exports = { cargarCarta, calcular, dentro, costoDelivery, ahora, plata };
+module.exports = { cargarCarta, calcular, dentro, costoDelivery, ahora, plata, indice, nombreLinea, sinTildes, DIAS };
