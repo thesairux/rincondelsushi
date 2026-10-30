@@ -58,8 +58,6 @@ window.CARTA = {
     "region": "",
     "mapa": "",
     "mapaBusqueda": "",
-    "valorDelivery": 2500,
-    "notaDelivery": "Sector urbano de Ovalle",
     "datosTransferencia": "",
     "sucursales": [
       {
@@ -163,8 +161,8 @@ window.CARTA = {
           "texto": "Elige tu sucursal, Villa Los Naranjos o Villa El Portal, o escribe tu dirección y elígela en la lista."
         },
         {
-          "titulo": "Paga y envía",
-          "texto": "Paga online o al recibir. El pedido llega al WhatsApp de la sucursal y te avisamos por correo."
+          "titulo": "Envía por WhatsApp",
+          "texto": "Elige cómo pagas al retirar o al recibir y envía tu pedido: llega directo al WhatsApp de la sucursal que elegiste."
         }
       ]
     },

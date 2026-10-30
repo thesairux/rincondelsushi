@@ -812,22 +812,7 @@ html.editando .brillo[contenteditable] { -webkit-text-fill-color: currentColor; 
 
 /* sucursales: cada número abre el WhatsApp de su sucursal */
 
-/* cuenta, pedido registrado, dirección con sugerencias y pago */
-.enlace { justify-self: start; padding: 2px 0; border: 0; background: none; color: var(--principal); font-weight: 700; font-size: .82rem; text-decoration: underline; cursor: pointer; }
-.cuenta { display: grid; gap: 10px; padding: 14px 16px; border: 1px solid #ddd8d3; background: var(--blanco); }
-.cuenta-fila { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.cuenta-fila > div { display: grid; gap: 2px; min-width: 0; }
-.cuenta-fila b { font-size: .95rem; color: var(--texto); }
-.cuenta-fila span { font-size: .8rem; color: var(--suave); overflow-wrap: anywhere; }
-.mis-pedidos { display: grid; gap: 6px; margin: 0; padding: 10px 0 0; border-top: 1px solid var(--linea); list-style: none; font-size: .82rem; color: var(--suave); }
-.mis-pedidos b { color: var(--texto); }
-.pedido-enviado { display: grid; gap: 6px; padding: 14px 16px; border: 1.5px solid var(--acento-borde); background: var(--blanco); font-size: .85rem; color: var(--suave); }
-.pedido-enviado b { font-size: 1rem; color: var(--texto); }
-.pedido-enviado.ok { border-color: #19733e; }
-.pedido-enviado.ok b { color: #19733e; }
-.pedido-enviado.mal { border-color: var(--error); }
-.pedido-enviado-acciones { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin-top: 4px; }
-.pedido-error { margin: 0 0 10px; color: var(--error); font-size: .84rem; font-weight: 600; }
+/* dirección con sugerencias */
 .direccion-caja { position: relative; }
 .sugerencias { position: absolute; z-index: 5; left: 0; right: 0; top: calc(100% - 1px); margin: 0; padding: 4px 0; list-style: none; background: var(--blanco); border: 1px solid var(--acento); box-shadow: 0 12px 28px rgba(0, 0, 0, .16); max-height: 280px; overflow-y: auto; }
 .sugerencias li { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; cursor: pointer; color: var(--texto); }
@@ -836,12 +821,5 @@ html.editando .brillo[contenteditable] { -webkit-text-fill-color: currentColor; 
 .sugerencias li b { font-size: .9rem; font-weight: 600; }
 .sugerencias li small { font-size: .76rem; color: var(--suave); }
 .sugerencias li[aria-selected="true"], .sugerencias li:hover { background: var(--acento-fondo); }
-.direcciones-guardadas { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: .78rem; }
-.direcciones-guardadas button { padding: 6px 10px; border: 1px solid #ddd8d3; background: var(--blanco); font-size: .8rem; color: var(--texto); }
-.direcciones-guardadas button:hover { border-color: var(--acento); }
 .ubicacion-estado a { color: var(--principal); font-weight: 700; }
 .ubicacion-estado.fuera { color: #9a5b00; }
-.pagos-o { margin: 4px 0 0; font-size: .8rem; }
-.radio-tarjeta--doble { min-height: 58px; margin-bottom: 4px; }
-.radio-tarjeta--doble span { display: grid; gap: 2px; }
-.radio-tarjeta--doble small { font-size: .76rem; color: var(--suave); }

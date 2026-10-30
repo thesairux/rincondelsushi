@@ -5,16 +5,13 @@ Página de pedidos de **El Rincón del Sushi**, hecha con la plantilla demo mult
 buscador, armado de rolls (proteína, relleno y envoltura en cada roll), cupones de descuento y envío del pedido
 ordenado por WhatsApp a la sucursal que elige el cliente (Villa Los Naranjos o Villa El Portal), con retiro o delivery.
 
-Con la base de datos y el correo configurados (ver «Pedidos, cuentas, avisos y pago online»), además:
-- el cliente **inicia sesión con un código por correo o sigue como invitado**, y deja un correo para el aviso;
-- cada pedido queda con **número** (N° 0427) y el local lo ve en **/admin → Pedidos**, donde lo marca
-  *Listo para retirar* o *En camino* y al cliente **le llega el correo**;
-- el **delivery** se escribe con sugerencias de direcciones reales (OpenStreetMap), queda ubicado en el mapa,
-  suma **$2.500** en el sector urbano de Ovalle y avisa si la dirección queda fuera;
-- se puede **pagar online** con Flow (Webpay) o al retirar / al recibir (efectivo, transferencia, tarjeta, Edenred).
+El pedido va **solo por WhatsApp**: no hay cuentas, correo ni pago online. El cliente elige retiro o delivery
+(la dirección con sugerencias de calles reales y el mapa) y cómo paga al retirar (efectivo, transferencia, tarjeta o
+Edenred) o al recibir (efectivo, transferencia o Edenred), y el pedido se abre en el WhatsApp de la sucursal que
+eligió. El total es referencial: el local confirma disponibilidad, delivery y total al responder.
 
-Sin esa configuración la página funciona igual que siempre: el pedido va solo por WhatsApp. También funciona
-abriendo `index.html` directo en el navegador.
+La página funciona sin servidor (también abriendo `index.html` directo en el navegador). El único servidor es el
+del panel `/admin`, para guardar los cambios.
 
 ## Publicar
 
@@ -28,8 +25,8 @@ vienen son provisorios, con el nombre en letras). El logo (`img/logo-rincon.webp
 ## Pendiente de confirmar con el local
 
 - **Zona de despacho**: está cargado un polígono **aproximado** del sector urbano de Ovalle (en `carta.js` →
-  `negocio.zonaDelivery`, pares `[latitud, longitud]`). Hay que confirmarlo con el local; dentro de la zona el
-  delivery vale $2.500 y fuera se confirma por WhatsApp (y no se puede pagar online).
+  `negocio.zonaDelivery`, pares `[latitud, longitud]`). Hay que confirmarlo con el local; si la dirección queda
+  fuera, la página lo avisa y el pedido lo dice para que el local confirme si llega.
 - **Villa El Portal**: falta su dirección (la de Villa Los Naranjos es Los Sauces 895, según el afiche).
 - **Menú del día**: el afiche dice «Pollo a lo pobre $6.500» y «Chuleta a lo pobre $6.500» (están como +$1.500)
   y también «A lo pobre +$2.500» (está como agregado extra para las demás proteínas). Falta saber si es así y en
@@ -57,60 +54,35 @@ La carta combina el catálogo de WhatsApp con la carta en PDF del local. Donde n
 - **Fotos**: las bebidas, los jugos, la coctelería y las tablas de 200 cortes no tienen foto (queda el espacio).
 - Datos de transferencia, logo y colores del local.
 
-## Pedidos, cuentas, avisos y pago online
-
-Todo se activa con variables en Vercel (**Settings → Environment Variables**) y **Redeploy**. Cada parte es
-opcional: lo que no esté configurado simplemente no aparece.
-
-1. **Base de datos (obligatoria para todo lo demás)**: en Vercel, **Storage → Create → Upstash for Redis** (plan
-   gratis) y conéctala al proyecto. Agrega sola `KV_REST_API_URL` y `KV_REST_API_TOKEN` (sirven también
-   `UPSTASH_REDIS_REST_URL` y `UPSTASH_REDIS_REST_TOKEN`). Con esto cada pedido queda con número y aparece en
-   **/admin → Pedidos** (por día y por sucursal, se actualiza cada 30 segundos y suena cuando llega uno nuevo).
-2. **Correo (para iniciar sesión y para los avisos)**: crea una cuenta en [resend.com](https://resend.com)
-   (gratis hasta 3.000 correos al mes), verifica el dominio del local y pon `RESEND_API_KEY` y
-   `AVISOS_REMITENTE` (ej. `El Rincón del Sushi <pedidos@rincondelsushi.cl>`). Sin dominio propio, Resend solo
-   deja mandar correos a la cuenta con que te registraste: sirve para probar.
-   - El cliente puede **iniciar sesión** con un código de 6 números que le llega al correo (sin contraseña):
-     queda guardado su nombre, sus direcciones y sus últimos pedidos. O sigue **como invitado**.
-   - Cuando en el panel se marca **Listo para retirar** o **En camino**, le llega el aviso por correo (una vez por
-     estado). Si el cliente no dejó correo, el panel lo dice para avisarle por WhatsApp.
-3. **Pago online con Flow**: en Flow (**Mis datos → Integración**) están la API Key y la Secret Key: ponlas en
-   `FLOW_API_KEY` y `FLOW_SECRET_KEY`. Para probar sin cobrar, usa las claves de **sandbox.flow.cl** y agrega
-   `FLOW_SANDBOX=1`. Si la página tiene dominio propio, pon `SITIO_URL` (ej. `https://rincondelsushi.cl`).
-   - Aparece **Pagar online ahora** (Webpay: débito, crédito o prepago). El monto lo calcula el servidor con
-     `carta.js` (`api/_precios.js`), no el navegador; si la carta cambió, se le avisa al cliente antes de cobrar.
-   - Al volver de Flow, la página muestra **¡Pago recibido!** con el número del pedido y un botón para avisar al
-     local por WhatsApp; el panel lo muestra como **Online: pagado**. Si el pago no se completa, no se cobra nada.
-   - Para el delivery, el pago online pide elegir la dirección de la lista dentro de la zona de despacho.
-4. `CLIENTES_SECRET` (opcional): una clave larga cualquiera para firmar las sesiones de los clientes (si no está,
-   se deriva de `GITHUB_TOKEN`).
-
-Para revisar qué está configurado, abre **tu-pagina.vercel.app/api/admin** y **tu-pagina.vercel.app/api/pedidos**.
+## Direcciones y pruebas
 
 **Direcciones**: las sugerencias salen de OpenStreetMap con [Photon](https://photon.komoot.io) (gratis, sin clave),
 buscando cerca de la zona de despacho. Al elegir una, el pedido lleva el enlace a Google Maps para el repartidor.
 El cliente también puede tocar **Usar mi ubicación actual**.
 
-**Pruebas**: `node pruebas/servidor.js` levanta la página con las funciones de `api/` y, simulados, la base de
-datos, Resend, GitHub y Flow; con eso corriendo, `node pruebas/pedido.js` (necesita Playwright) hace pedidos como
-invitado y con sesión, delivery con sugerencias, pago online aprobado y rechazado, y los marca en el panel. Como
-el servidor rechaza un pedido cuyo total no coincide con el suyo, la prueba también confirma que `js/app.js` y
-`api/_precios.js` calculan igual.
+**Pruebas** (necesitan Playwright): `node pruebas/servidor.js` levanta la página y el panel con GitHub simulado
+(«Publicar» no guarda nada). Con eso corriendo, `node pruebas/pedido.js` arma pedidos de retiro y delivery y revisa
+el enlace y el mensaje de WhatsApp de cada sucursal, y `node pruebas/panel.js` revisa Stock, Promos y Publicar.
 
 ## Panel de administración
 
 Entra a **tu-pagina.vercel.app/admin**. El usuario es `rincondelsushi` (se cambia con `ADMIN_USER`) y la contraseña es la
 que pongas en `ADMIN_PASSWORD`. El panel no aparece en ningún menú de la página ni en Google.
 
-Ahí ves la página tal cual, y:
+Ahí ves la página tal cual, y arriba tienes:
+- **Stock**: un interruptor por producto y por ingrediente (salmón, camarón, palta…). Lo apagas y en la página sale
+  **Agotado** y no se puede pedir; lo prendes cuando llega. Arriba dice qué está agotado y hay un buscador.
+- **Promos**: como «Agregar servicio» en el panel de SanFelect. Cada promo tiene nombre, precio, qué trae, nota,
+  foto, los días que se puede pedir (sin marcar, todos) y si sale en la portada. **Agregar promo** suma una nueva;
+  con las flechas se ordenan y con el tacho se borran. También se pueden crear grupos de promos.
+- **Todas las opciones**: lo anterior más **Carta y precios** (los demás productos), **Local y WhatsApp** (el
+  WhatsApp de cada sucursal, dirección y colores), **Horario** y **Textos de la página**. Abajo, en *Más opciones*,
+  quedan **Opciones para elegir** (proteínas, rellenos, agregados) y **Cupones**.
+
+Además:
 - **Tocas cualquier texto** (títulos, nombres y descripciones de productos) y escribes encima.
-- Con los botones amarillos **Editar** de cada parte, o con el **+** de cada producto, abres sus opciones:
-  precios, fotos, variantes (simple/doble, sabores), productos agotados, promos de la portada, horario,
-  dirección, WhatsApp y **colores de la marca**.
-- En **Opciones para elegir** están los grupos que el cliente elige al agregar un producto: punto de la carne,
-  agregados con precio, y las proteínas, rellenos y envolturas de los rolls. Se pueden crear grupos nuevos
-  (por ejemplo «Salsa» o «Tamaño de la pizza») y en cada producto se marca cuáles se le preguntan al cliente.
-- En **Cupones** se crean los códigos de descuento (ver más abajo).
+- Los botones amarillos **Editar** de cada parte, o el **+** de cada producto, abren lo suyo (el **+** de una promo
+  abre Promos). Lo que se usa poco de cada producto (variantes, lo que elige el cliente) está en *Más opciones*.
 - **Ver como cliente** muestra la página sin marcas de edición; **Celular** la muestra en tamaño de teléfono.
 - Al tocar **Publicar**, los cambios se guardan en el repositorio y Vercel actualiza la página sola
   en uno o dos minutos.
@@ -139,6 +111,8 @@ secciones            → botones grandes de la carta: Promos, Sushi, Hamburguesa
     productos        → cada producto con su precio
 personalizacion      → grupos que el cliente elige: punto de la carne, agregados, proteína de cada roll…
 ```
+
+La sección con `"promos": true` (o con «promo» en el nombre) es la que el panel muestra en **Promos**.
 
 **Productos**
 - **Precio**: `"precio": 14500`, sin punto ni signo.
@@ -181,7 +155,7 @@ personalizacion      → grupos que el cliente elige: punto de la carne, agregad
   (para redes, volantes o clientes frecuentes).
 - Un cupón por pedido. Si el pedido no cumple una condición, el cliente ve por qué (por ejemplo «te faltan $2.300») y el
   descuento se aplica solo cuando la cumple. El mensaje de WhatsApp lleva el cupón, el descuento y el total.
-- La página no tiene servidor: los códigos se pueden ver en `carta.js` y no se puede limitar a «un uso por persona».
+- La página no tiene servidor de pedidos: los códigos se pueden ver en `carta.js` y no se puede limitar a «un uso por persona».
   Por eso cada cupón llega escrito en el pedido, para que el local lo confirme al responder.
 - Si no hay cupones activos y visibles, la sección **Cupones** y su enlace del menú no aparecen.
 
@@ -189,11 +163,11 @@ personalizacion      → grupos que el cliente elige: punto de la carne, agregad
 - **Sucursales**: en `negocio`, `"sucursales": [{ "nombre": "Villa El Portal", "whatsapp": "56946324426",
   "whatsappVisible": "+56 9 4632 4426", "direccion": "…" }]`. Con dos o más, el cliente elige la sucursal al
   pedir y el pedido llega al WhatsApp de esa sucursal; en la portada y el pie aparecen todos los números.
-  Se editan en el panel, en «Local y contacto».
+  Se editan en el panel, en «Local y WhatsApp».
 - **Formas de pago**: `"pagosDelivery": ["Efectivo", "Transferencia", "Edenred"]` (al recibir) y
-  `"pagosRetiro": ["Efectivo", "Transferencia", "Tarjeta", "Edenred"]` (al retirar). «Pagar online» aparece solo
-  si Flow está configurado.
-- **Delivery**: `"valorDelivery": 2500` y `"zonaDelivery": { "nombre": "sector urbano de Ovalle", "poligono": […] }`.
+  `"pagosRetiro": ["Efectivo", "Transferencia", "Tarjeta", "Edenred"]` (al retirar).
+- **Delivery**: `"zonaDelivery": { "nombre": "sector urbano de Ovalle", "poligono": […] }`. La página no muestra ni
+  suma el valor del delivery: el local lo confirma por WhatsApp junto con el total.
 - **Productos de un día**: `"dias": ["lunes"]` en un producto: solo se puede pedir ese día (los otros días dice
   «Solo los lunes») y en la portada aparece solo ese día. `"unidad": "Sushiburger"` cambia «Roll 1, Roll 2…» por
   «Sushiburger 1, 2…» en los productos que se arman de a varios.
@@ -203,8 +177,6 @@ personalizacion      → grupos que el cliente elige: punto de la carne, agregad
 - **Días sin atención** (feriados): `"diasCerrados": ["2026-12-25", "2027-01-01"]`.
 - Lo que quede vacío no se muestra: sin `"direccion"` no aparece la sección de ubicación; sin `"instagram"`, no hay enlace.
 - **Mapa**: `"mapa"` es el enlace del local en Google Maps y `"mapaBusqueda"` lo que se busca para mostrar el mapa.
-- **Delivery**: con `"valorDelivery": null` y `"notaDelivery": "Según el sector"` el valor se confirma por WhatsApp;
-  con un valor fijo (`"valorDelivery": 2000`) se suma al total.
 - **Transferencia**: `"datosTransferencia": "Banco …\nCuenta …\nRUT …"` se muestra cuando el cliente elige ese pago.
 
 Al editar a mano, cuida las comillas y las comas: cada elemento de una lista va separado por una coma.
@@ -220,20 +192,15 @@ Si la carta deja de aparecer, lo más probable es que falte o sobre una coma en 
 - `img/`: logo e íconos; en `img/carta/` las imágenes de los productos y en `img/carta/600/` sus copias livianas.
 - `herramientas/miniaturas.py`: crea esas copias livianas.
 - `admin.html`: el panel de administración.
-- `api/admin.js`: el servidor del panel (revisa la contraseña, guarda los cambios en GitHub y cambia el estado de
-  los pedidos).
-- `api/pedidos.js`: pedidos y cuentas de los clientes (número, código por correo, estado).
-- `api/pago.js`: la vuelta del pago online de Flow.
-- `api/_tienda.js`, `api/_precios.js`, `api/_flow.js`: base de datos, correos, precios calculados con la carta y Flow
-  (los que empiezan con _ no son direcciones públicas).
+- `api/admin.js`: el servidor del panel (revisa la contraseña y guarda los cambios en GitHub).
+- `pruebas/`: el servidor de prueba y las pruebas del pedido y del panel.
 - `fotos/`: las fotos que se suben desde el panel (se crea sola).
 - `vercel.json` y `robots.txt`: configuración para que el panel no aparezca en Google.
 
 ## Cómo funciona el pedido
 
-El cliente arma el pedido, inicia sesión o sigue como invitado, escribe su nombre (y su correo para el aviso),
-elige la sucursal, retiro o delivery (con la dirección elegida en la lista o su ubicación) y cómo paga. Al tocar
-**Enviar pedido por WhatsApp**, el pedido se registra con su número y se abre el WhatsApp de esa sucursal con un
-mensaje ordenado: número, correo, modalidad, dirección y ubicación, forma de pago, productos con todo lo elegido,
-notas, delivery y total. Con **Pagar online**, primero paga en Flow y después avisa por WhatsApp. El pedido queda
-guardado en el navegador del cliente aunque cierre la página.
+El cliente arma el pedido, escribe su nombre, elige la sucursal, retiro o delivery (con la dirección elegida en la
+lista o su ubicación) y cómo paga. Al tocar **Enviar pedido por WhatsApp** se abre el WhatsApp de esa sucursal con un
+mensaje ordenado: sucursal, modalidad, dirección y ubicación, forma de pago, productos con todo lo elegido, notas,
+cupón y subtotal. El local responde confirmando disponibilidad y total. El pedido queda guardado en el navegador
+del cliente aunque cierre la página.

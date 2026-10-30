@@ -221,36 +221,39 @@ input.in:focus,textarea.in:focus,select.in:focus{border-color:var(--red-soft);ou
 @media (max-width:1180px){.lbl-long{display:none}.lbl-short{display:inline}#client-lbl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}}
 @media (min-width:861px) and (max-width:1023px){.tb-brand small{display:none}}
 
-/* Pedidos */
-.ped-badge{min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--yellow);color:#1b1405;font-size:.78rem;line-height:20px}
-.pedidos{position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;background:var(--bg)}
-.ped-cab{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.75rem 1rem;padding:.8rem 1.1rem;border-bottom:1px solid var(--line)}
-.ped-cab h2{margin:0;font:800 1.7rem/1 var(--display);text-transform:uppercase}
-.ped-cab h2:focus{outline:none}
-.ped-cab small{color:var(--muted);font-size:.86rem}
-.ped-filtros{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
-.ped-filtros .in{width:auto;min-height:40px;padding:.4rem .7rem}
-.ped-lista{flex:1;overflow-y:auto;display:grid;align-items:start;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));align-content:start;gap:.9rem;padding:1rem 1.1rem 3rem}
-.ped{display:grid;align-content:start;gap:.65rem;padding:1rem;border-radius:14px;background:var(--card);border:1px solid var(--line);min-width:0}
-.ped.nuevo{border-color:var(--yellow);box-shadow:0 0 0 3px rgba(255,204,31,.2)}
-.ped.apagado{opacity:.6}
-.ped-top{display:flex;align-items:baseline;justify-content:space-between;gap:.5rem}
-.ped-top b{font:800 1.5rem/1 var(--display)}
-.ped-top span{color:var(--muted);font-size:.88rem}
-.chip{display:inline-block;padding:.15rem .6rem;border-radius:999px;background:var(--card-2);border:1px solid var(--line-2);font-size:.8rem;font-weight:700}
-.chip.ok{border-color:var(--ok);color:var(--ok)}
-.chip.warn{border-color:var(--yellow);color:var(--yellow)}
-.chip.mal{border-color:var(--danger);color:var(--danger)}
-.ped-datos{display:grid;gap:.2rem;font-size:.92rem}
-.ped-datos span{color:var(--muted)}
-.ped-items{margin:0;padding:.6rem 0 0;border-top:1px solid var(--line);list-style:none;display:grid;gap:.45rem;font-size:.92rem}
-.ped-items li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.1rem .6rem}
-.ped-items small{grid-column:1 / -1;color:var(--muted);font-size:.82rem;line-height:1.35}
-.ped-total{display:flex;justify-content:space-between;padding-top:.55rem;border-top:1px solid var(--line);font-weight:700}
-.ped-acciones{display:flex;flex-wrap:wrap;gap:.4rem}
-.ped-acciones .btn{min-height:38px;padding:.35rem .8rem;font-size:.88rem}
-.ped-aviso{margin:0;font-size:.82rem;color:var(--ok)}
-@media (max-width:600px){.ped-lista{grid-template-columns:1fr;padding:.8rem}.ped-filtros{width:100%}.ped-filtros .in{flex:1}}
+/* Stock: lo que hay y lo que se agotó */
+.stock-resumen{margin:.75rem 0 0;padding:.7rem .9rem;border-radius:10px;background:rgba(255,138,122,.1);border:1px solid rgba(255,138,122,.35);font-size:.93rem;font-weight:600}
+.stock-resumen.ok{background:rgba(60,207,114,.08);border-color:rgba(60,207,114,.35)}
+.fgroup .stock-resumen:first-child{margin-top:0}
+.stock-cat{display:grid;gap:.4rem}
+.stock-cat h4{margin:.5rem 0 .1rem;font:800 1.15rem/1 var(--display);text-transform:uppercase;letter-spacing:.03em;color:var(--yellow)}
+.stock-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:.75rem;min-height:52px;padding:.4rem .75rem;border-radius:10px;border:1px solid var(--line);background:var(--card-2);cursor:pointer}
+.fgroup .stock-row{background:var(--card)}
+.stock-row .n{min-width:0;font-weight:600;overflow-wrap:anywhere}
+.stock-row .p{color:var(--muted);font-size:.88rem;white-space:nowrap}
+.stock-row.agotado{border-color:rgba(255,138,122,.45)}
+.stock-row.agotado .n{color:var(--muted);text-decoration:line-through}
+.sw{display:inline-flex;align-items:center;gap:.5rem;font-weight:700;font-size:.85rem;white-space:nowrap}
+.sw input{appearance:none;-webkit-appearance:none;position:relative;flex:none;width:46px;height:28px;margin:0;border-radius:999px;background:var(--line-2);cursor:pointer;transition:background .2s}
+.sw input::after{content:"";position:absolute;top:4px;left:4px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .2s}
+.sw input:checked{background:var(--ok)}
+.sw input:checked::after{transform:translateX(18px)}
+.sw input:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+.sw span{min-width:4.3em}
+.sw .no{color:var(--danger)}
+.stock-row.agotado .sw .si,.stock-row:not(.agotado) .sw .no{display:none}
+@media (max-width:420px){.stock-row{grid-template-columns:minmax(0,1fr) auto}.stock-row .p{grid-row:2;font-size:.82rem}.stock-row .sw{grid-row:1 / 3;grid-column:2}}
+/* Más opciones de un producto */
+details.mas{border-top:1px solid var(--line);padding-top:.4rem}
+details.mas > summary{display:flex;align-items:center;gap:.4rem;min-height:40px;list-style:none;cursor:pointer;font-weight:700;color:var(--muted)}
+details.mas > summary::-webkit-details-marker{display:none}
+details.mas > summary .chev{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+details.mas[open] > summary .chev{transform:rotate(180deg)}
+details.mas > div{display:grid;gap:.85rem;padding-top:.5rem}
+.avanzado{margin:1.4rem 0 .6rem;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+/* Stock y Promos quedan solo con su ícono donde no caben con su nombre */
+@media (max-width:1399px){.tb-brand small{display:none}}
+@media (max-width:520px),(min-width:861px) and (max-width:1180px){.tb-l{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.tb-side .btn.small{padding-inline:.6rem}}
 
 /* Aviso */
 .toast{position:fixed;left:50%;bottom:calc(1.5rem + env(safe-area-inset-bottom));transform:translate(-50%,20px);z-index:50;width:min(560px,100% - 2rem);
@@ -315,13 +318,14 @@ input.in:focus,textarea.in:focus,select.in:focus{border-color:var(--red-soft);ou
   </div>
 
   <div class="tb-side">
-    <button class="btn small" id="btn-pedidos" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>Pedidos<b class="ped-badge" id="ped-badge" hidden></b></button>
+    <button class="btn small" id="btn-stock" type="button" title="Marcar lo que se agotó"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5 12 3l8 4.5v9L12 21l-8-4.5v-9Z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></svg><span class="tb-l">Stock</span></button>
+    <button class="btn small" id="btn-promos" type="button" title="Agregar o cambiar promos"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12.5V4.5h8l9 9-8 8-9-9Z"/><circle cx="8" cy="8.5" r="1.5"/></svg><span class="tb-l">Promos</span></button>
     <button class="btn small" id="logout" type="button">Salir</button>
   </div>
 
   <div class="hint" id="hint">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4ZM13.5 6.5l4 4"/></svg>
-    <p><b>Toca cualquier texto de tu página para cambiarlo.</b> Para precios, fotos, colores, horario y opciones para elegir usa los botones <mark>Editar</mark> de cada parte, o el <b>+</b> de cada producto.</p>
+    <p><b>Toca cualquier texto de tu página para cambiarlo.</b> En <b>Stock</b> marcas lo que se agotó y en <b>Promos</b> agregas o cambias promociones. Para precios y fotos usa los botones <mark>Editar</mark> de cada parte, o el <b>+</b> de cada producto.</p>
     <button class="btn small" id="hint-ok" type="button">Entendido</button>
   </div>
 
@@ -345,23 +349,6 @@ input.in:focus,textarea.in:focus,select.in:focus{border-color:var(--red-soft);ou
   </div>
   <div class="drawer-body" id="drawer-body"><div id="groups"></div><p class="drawer-foot"><a id="view-site" target="_blank" rel="noopener">Ver mi página publicada ↗</a></p></div>
 </aside>
-
-<!-- ============ Pedidos de la página ============ -->
-<section class="pedidos" id="pedidos" hidden aria-labelledby="ped-titulo">
-  <header class="ped-cab">
-    <div>
-      <h2 id="ped-titulo" tabindex="-1">Pedidos</h2>
-      <small id="ped-sub">Se actualiza solo cada 30 segundos</small>
-    </div>
-    <div class="ped-filtros">
-      <input class="in" type="date" id="ped-fecha" aria-label="Día">
-      <select class="in" id="ped-sucursal" aria-label="Sucursal"></select>
-      <button class="btn small" id="ped-recargar" type="button">Actualizar</button>
-      <button class="btn small primary" id="ped-cerrar" type="button">Volver a la página</button>
-    </div>
-  </header>
-  <div class="ped-lista" id="ped-lista"><p class="empty">Cargando pedidos…</p></div>
-</section>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -388,6 +375,7 @@ function setPath(o, p, v) {
   parent[last] = v;
 }
 const plata = n => "$" + String(Math.round(n || 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+const sinTildes = t => String(t || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 const nuevoId = pre => pre + "-" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 /* Desde la página solo se aceptan textos que existan en la carta */
 const BAD_KEYS = ["__proto__", "prototype", "constructor"];
@@ -409,6 +397,7 @@ let dirty = false;
 const pending = new Map();    // fotos nuevas aún no publicadas: ruta -> { blob, url }
 const localUrls = new Map();  // fotos publicadas en esta sesión: ruta -> url
 const openGroups = new Set();
+const openMas = new Set();    // «Más opciones» abiertas de cada producto
 let focusGroups = null;       // partes abiertas desde el botón Editar de la página
 
 /* ---------- avisos ---------- */
@@ -484,6 +473,7 @@ function withDefaults(site) {
   if (!Array.isArray(s.diasCerrados)) s.diasCerrados = [];
   if (!Array.isArray(s.secciones)) s.secciones = [];
   s.secciones.forEach(sec => {
+    if (/promo/i.test(sec.nombre || "")) sec.promos = true;
     if (!Array.isArray(sec.categorias)) sec.categorias = [];
     sec.categorias.forEach(cat => { if (!Array.isArray(cat.productos)) cat.productos = []; });
   });
@@ -584,7 +574,11 @@ window.addEventListener("message", e => {
     const input = document.querySelector(`#groups [data-path="${d.ruta}"]`);
     if (input && input !== document.activeElement) input.value = d.valor;
   }
-  if (d.type === "pagina-abrir" && Array.isArray(d.grupos)) openDrawer(d.grupos, typeof d.producto === "string" ? d.producto : null);
+  if (d.type === "pagina-abrir" && Array.isArray(d.grupos)) {
+    const prod = typeof d.producto === "string" ? d.producto : null;
+    const grupos = prod && esPromoId(prod) ? d.grupos.map(g => (g === "carta" ? "promos" : g)) : d.grupos;
+    openDrawer(grupos, prod);
+  }
 });
 
 /* Computador o celular */
@@ -650,7 +644,9 @@ const SVG = {
   shop: '<path d="M4 9.5 5.5 4h13L20 9.5M4 9.5h16M4 9.5V20h16V9.5M9 20v-5h6v5"/>',
   clock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
   text: '<path d="M5 6h14M12 6v13M8.5 19h7"/>',
-  cupon: '<path d="M3.5 7h17v3a2 2 0 0 0 0 4v3h-17v-3a2 2 0 0 0 0-4Z"/><path d="M10 7.5v1.5M10 11.25v1.5M10 15v1.5"/>'
+  cupon: '<path d="M3.5 7h17v3a2 2 0 0 0 0 4v3h-17v-3a2 2 0 0 0 0-4Z"/><path d="M10 7.5v1.5M10 11.25v1.5M10 15v1.5"/>',
+  box: '<path d="M4 7.5 12 3l8 4.5v9L12 21l-8-4.5v-9Z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/>',
+  tag: '<path d="M3.5 12.5V4.5h8l9 9-8 8-9-9Z"/><circle cx="8" cy="8.5" r="1.5"/>'
 };
 
 function field(label, path, o = {}) {
@@ -710,30 +706,47 @@ function personalizarHTML(p, cat, base) {
       <button class="btn small" type="button" data-action="ir-grupos">Editar opciones</button></div>`;
 }
 
-function productHTML(p, base, i, len, cat) {
+/* Días en que se puede pedir (las promos del lunes, martes…); sin marcar, todos los días */
+function diasHTML(p, base) {
+  const marcados = Array.isArray(p.dias) ? p.dias : [];
+  return `<div class="f">Días que se puede pedir<small>Sin marcar: todos los días</small></div>
+    <div class="checks">${DIAS.map(([k, n]) => `<label class="check"><input type="checkbox" data-dias="${base}" value="${k}" ${marcados.includes(k) ? "checked" : ""}>${n}</label>`).join("")}</div>`;
+}
+function productHTML(p, base, i, len, cat, promo) {
   const foto = p.foto
     ? `<div class="one-photo"><img src="${esc(imgUrl(p.foto))}" alt="" onerror="this.classList.add('missing')">
         <div class="row"><label class="add">Cambiar foto<input class="vh" type="file" accept="image/*" data-action="photo" data-path="${base}.foto"></label>
         <button class="btn small" type="button" data-action="clear" data-path="${base}.foto">Quitar foto</button></div></div>`
     : `<div class="adds"><label class="add">${SVG.plus}Agregar foto<input class="vh" type="file" accept="image/*" data-action="photo" data-path="${base}.foto"></label></div>`;
-  return `<div class="item" data-producto="${esc(p.id)}">
-    <div class="item-head"><strong>${esc(p.nombre || "Producto nuevo")}</strong>${tools(base.replace(/\.\d+$/, ""), i, len, "producto")}</div>
-    <div class="dos">${field("Nombre", `${base}.nombre`)}${field("Precio", `${base}.precio`, { num: "entero", ph: "14500", hint: "Sin punto ni $" })}</div>
-    ${field("Descripción", `${base}.detalle`, { area: true, rows: 3, hint: "Si son varias variedades, una por línea" })}
-    ${field("Nota destacada", `${base}.nota`, { ph: "Ej: Válido por tiempo limitado" })}
-    ${field("Incluye", `${base}.incluye`, { ph: "Ej: 3 salsas: soya o agridulce" })}
+  const vacio = promo ? "Promo nueva" : "Producto nuevo";
+  // lo que se usa poco queda guardado en «Más opciones»
+  const mas = `${field("Incluye", `${base}.incluye`, { ph: "Ej: 3 salsas: soya o agridulce" })}
     <label class="f">Variantes (tamaño, sabor…)<small>El cliente elige una. Una por línea; si una cuesta distinto: Nombre | precio</small>
       <textarea class="in" rows="2" data-opciones="${base}" placeholder="Ej: Simple | 6490&#10;Doble | 8490">${esc(opcionesTexto(p))}</textarea></label>
     ${personalizarHTML(p, cat, base)}
     ${typeof p.rolls === "number" || p.__arma ? field("Rolls que arma el cliente", `${base}.rolls`, { num: "rolls", ph: "2", hint: "20 cortes = 2 rolls de 10" }) : ""}
+    ${promo ? "" : diasHTML(p, base)}`;
+  return `<div class="item" data-producto="${esc(p.id)}">
+    <div class="item-head"><strong data-vacio="${vacio}">${esc(p.nombre || vacio)}</strong>${tools(base.replace(/\.\d+$/, ""), i, len, promo ? "promo" : "producto")}</div>
+    <div class="dos">${field("Nombre", `${base}.nombre`)}${field("Precio", `${base}.precio`, { num: "entero", ph: "14500", hint: "Sin punto ni $" })}</div>
+    ${field(promo ? "Qué trae" : "Descripción", `${base}.detalle`, { area: true, rows: 3, hint: promo ? "Ej: 30 piezas: 10 California, 10 Hosomaki…" : "Si son varias variedades, una por línea" })}
+    ${field("Nota destacada", `${base}.nota`, { ph: promo ? "Ej: Válida solo esta semana" : "Ej: Válido por tiempo limitado" })}
+    ${promo ? diasHTML(p, base) : ""}
     ${foto}
     <div class="checks">${check("Disponible", `${base}.disponible`, { inverse: true })}${check("Mostrar en la portada", `${base}.destacado`)}</div>
+    <details class="mas" data-mas="${base}" ${openMas.has(base) ? "open" : ""}><summary>${SVG.chev}Más opciones</summary><div>${mas}</div></details>
   </div>`;
 }
+/* La sección de las promos se edita aparte, en «Promos» */
+const esPromo = sec => sec.promos === true;
+const esPromoId = id => state.secciones.some(sec => esPromo(sec) && sec.categorias.some(c => c.productos.some(p => p.id === id)));
+const cuentaProductos = filtro => state.secciones.filter(filtro).reduce((a, s) => a + s.categorias.reduce((b, c) => b + c.productos.length, 0), 0);
+
 function cartaBody() {
   ARMADO.clear();
   state.personalizacion.forEach(g => { if (g.porRoll && g.tipo === "elegir") ARMADO.add(g.id); });
   const secs = state.secciones.map((sec, s) => {
+    if (esPromo(sec)) return "";
     const sbase = `secciones.${s}`;
     const cats = sec.categorias.map((cat, c) => {
       const cbase = `${sbase}.categorias.${c}`;
@@ -758,9 +771,74 @@ function cartaBody() {
       <div class="adds"><button class="add" type="button" data-action="add-category" data-path="${sbase}.categorias">${SVG.plus}Agregar categoría</button></div>
     </div>`;
   }).join("");
-  return `<p class="note">Los nombres y descripciones también los puedes cambiar tocándolos en la página. Una categoría con foto en algún producto se muestra en tarjetas.</p>
+  return `<p class="note">Los nombres y descripciones también los puedes cambiar tocándolos en la página. Una categoría con foto en algún producto se muestra en tarjetas. Las promos están en «Promos».</p>
+    <div class="adds"><button class="add" type="button" data-action="ir-promos">${SVG.tag}Ir a las promos</button></div>
     ${secs || '<p class="empty">La carta está vacía. Agrega una sección.</p>'}
     <div class="adds"><button class="add" type="button" data-action="add-section">${SVG.plus}Agregar sección</button></div>`;
+}
+
+/* Promos: como «Agregar servicio» en el panel de SanFelect, cada promo con su precio, foto y días */
+function promosBody() {
+  const secs = state.secciones.map((sec, s) => [sec, s]).filter(([sec]) => esPromo(sec));
+  if (!secs.length) {
+    return `<p class="note">Todavía no hay una sección de promos en la carta.</p>
+      <div class="adds"><button class="add" type="button" data-action="add-promo-section">${SVG.plus}Crear la sección de promos</button></div>`;
+  }
+  return `<p class="note">Cambia el precio, lo que trae y la foto de cada promo, o agrega una nueva. Con «Mostrar en la portada» y una foto sale en el carrusel de arriba de la página. Si marcas días, solo se puede pedir esos días.</p>` +
+    secs.map(([sec, s]) => {
+      const sbase = `secciones.${s}`;
+      const grupos = sec.categorias.map((cat, c) => {
+        const cbase = `${sbase}.categorias.${c}`;
+        const promos = cat.productos.map((p, i) => productHTML(p, `${cbase}.productos.${i}`, i, cat.productos.length, cat, true)).join("");
+        return `<div class="item">
+          <div class="item-head"><span class="tag">Grupo de promos</span>${tools(`${sbase}.categorias`, c, sec.categorias.length, "grupo de promos")}</div>
+          ${field("Nombre del grupo", `${cbase}.nombre`, { hint: "Es el botón chico dentro de la sección" })}
+          ${field("Nota del grupo", `${cbase}.nota`, { area: true, rows: 2, ph: "Ej: Todas las promociones llevan una bebida de regalo." })}
+          ${promos || '<p class="empty">Este grupo no tiene promos.</p>'}
+          <div class="adds"><button class="add" type="button" data-action="add-promo" data-path="${cbase}.productos">${SVG.plus}Agregar promo</button></div>
+        </div>`;
+      }).join("");
+      return `${field("Nombre de la sección", `${sbase}.nombre`, { hint: "Es el botón grande de la carta" })}
+        ${grupos}
+        <div class="adds"><button class="add" type="button" data-action="add-category" data-que="promos" data-path="${sbase}.categorias">${SVG.plus}Agregar grupo de promos</button></div>`;
+    }).join("");
+}
+
+/* Stock: un interruptor por producto y por ingrediente; apagado = agotado */
+function agotados() {
+  const l = [];
+  state.secciones.forEach(sec => sec.categorias.forEach(cat => cat.productos.forEach(p => { if (p.disponible === false) l.push(p.nombre || "Producto nuevo"); })));
+  state.personalizacion.forEach(g => g.opciones.forEach(o => { if (o.disponible === false && o.nombre) l.push(o.nombre); }));
+  return l;
+}
+function actualizarStock() {
+  const l = agotados();
+  document.querySelectorAll("#groups [data-stock-resumen]").forEach(el => {
+    el.classList.toggle("ok", !l.length);
+    el.textContent = l.length ? `Agotado ahora (${l.length}): ${l.slice(0, 8).join(", ")}${l.length > 8 ? "…" : ""}` : "Todo disponible: no hay nada agotado.";
+  });
+}
+function stockFila(path, nombre, precio, hay) {
+  return `<label class="stock-row${hay ? "" : " agotado"}" data-stock-fila="${esc(sinTildes(nombre))}">
+    <span class="n">${esc(nombre)}</span><span class="p">${precio}</span>
+    <span class="sw"><input type="checkbox" data-check="${path}" data-inverse="1" ${hay ? "checked" : ""} aria-label="${esc(nombre)}: hay"><span class="si">Hay</span><span class="no">Agotado</span></span>
+  </label>`;
+}
+function stockBody() {
+  const cats = [];
+  state.secciones.forEach((sec, s) => sec.categorias.forEach((cat, c) => {
+    const filas = cat.productos.map((p, i) => stockFila(`secciones.${s}.categorias.${c}.productos.${i}.disponible`, p.nombre || "Producto nuevo", typeof p.precio === "number" ? plata(p.precio) : "", p.disponible !== false)).join("");
+    if (filas) cats.push(`<div class="stock-cat" data-stock-cat><h4>${esc(cat.nombre || sec.nombre || "Carta")}</h4>${filas}</div>`);
+  }));
+  const ingredientes = state.personalizacion.map((g, k) => {
+    const filas = g.opciones.map((o, i) => (String(o.nombre || "").trim() ? stockFila(`personalizacion.${k}.opciones.${i}.disponible`, o.nombre, o.precio ? "+" + plata(o.precio) : "", o.disponible !== false) : "")).join("");
+    return filas ? `<div class="stock-cat" data-stock-cat><h4>${esc(g.nombre || "Opciones")}</h4>${filas}</div>` : "";
+  }).join("");
+  return `<p class="stock-resumen" data-stock-resumen></p>
+    <p class="note">Apaga lo que se agotó: en la página sale «Agotado» y no se puede pedir. Préndelo de nuevo cuando llegue, y toca <b>Publicar</b>.</p>
+    <input class="in" type="search" data-stock-buscar placeholder="Buscar producto o ingrediente" aria-label="Buscar en el stock" autocomplete="off">
+    ${cats.join("")}
+    ${ingredientes ? `<div class="f">Ingredientes y agregados<small>Lo que el cliente elige en los rolls y en otros productos.</small></div>${ingredientes}` : ""}`;
 }
 
 /* Cómo se elige un grupo que no es de rolls */
@@ -852,19 +930,21 @@ function horarioBody() {
 }
 
 const GROUPS = [
-  { id: "carta", title: "Carta y precios", icon: SVG.menu, sub: () => {
-      const n = state.secciones.reduce((a, s) => a + s.categorias.reduce((b, c) => b + c.productos.length, 0), 0);
-      return plural(n, "producto", "productos") + ", fotos y promos de la portada";
-    }, body: cartaBody },
-  { id: "armado", title: "Opciones para elegir", icon: SVG.roll, sub: () => {
+  { id: "stock", title: "Stock", icon: SVG.box, sub: () => {
+      const n = agotados().length;
+      return n ? plural(n, "cosa agotada", "cosas agotadas") + " ahora" : "Todo disponible";
+    }, body: stockBody },
+  { id: "promos", title: "Promos", icon: SVG.tag, sub: () => plural(cuentaProductos(esPromo), "promo", "promos") + ": precios, fotos y días", body: promosBody },
+  { id: "carta", title: "Carta y precios", icon: SVG.menu, sub: () => plural(cuentaProductos(sec => !esPromo(sec)), "producto", "productos") + ", precios y fotos", body: cartaBody },
+  { id: "armado", title: "Opciones para elegir", icon: SVG.roll, avanzado: true, sub: () => {
       const n = state.personalizacion.map(g => g.nombre).filter(Boolean);
       return n.length ? n.slice(0, 4).join(", ") + (n.length > 4 ? "…" : "") : "Agregados, punto de la carne, rolls…";
     }, body: armadoBody },
-  { id: "cupones", title: "Cupones", icon: SVG.cupon, sub: () => {
+  { id: "cupones", title: "Cupones", icon: SVG.cupon, avanzado: true, sub: () => {
       const n = state.cupones.filter(c => c.activo !== false).length;
       return n ? plural(n, "cupón activo", "cupones activos") : "Descuentos con código";
     }, body: cuponesBody },
-  { id: "negocio", title: "Local y contacto", icon: SVG.shop, sub: () => "Nombre, colores, WhatsApp, dirección y delivery", body: () =>
+  { id: "negocio", title: "Local y WhatsApp", icon: SVG.shop, sub: () => "WhatsApp de cada sucursal, dirección y colores", body: () =>
       field("Nombre del local", "negocio.nombre") +
       `<div class="f">Colores de la marca<small>El principal va en botones y detalles; el destacado, en los títulos de color. Elige un principal oscuro o intenso para que el texto blanco se lea bien.</small></div>
       <div class="dos">${colorField("Color principal", "tema.color", "#d01c23")}${colorField("Color destacado", "tema.colorDestacado", "#ffcc1f")}</div>
@@ -879,7 +959,6 @@ const GROUPS = [
       field("Ciudad", "negocio.ciudad") +
       field("Enlace de Google Maps", "negocio.mapa", { type: "url", hint: "Se abre con «Abrir en Google Maps» y «Ver cómo llegar»" }) +
       field("Búsqueda para el mapa de la página", "negocio.mapaBusqueda", { hint: "Nombre del local y dirección, como en Google Maps" }) +
-      `<div class="dos">${field("Valor del delivery", "negocio.valorDelivery", { num: "opcional", hint: "Vacío si depende del sector" })}${field("Texto del delivery", "negocio.notaDelivery", { ph: "Según el sector" })}</div>` +
       field("Datos para transferencia", "negocio.datosTransferencia", { area: true, rows: 4, hint: "Se muestran cuando el cliente elige pagar con transferencia", ph: "Banco…\nCuenta…\nRUT…" }) },
   { id: "horario", title: "Horario", icon: SVG.clock, sub: () => state.horarioConfirmado ? "Confirmado" : "Referencial, por confirmar", body: horarioBody },
   { id: "textos", title: "Textos de la página", icon: SVG.text, sub: () => "Títulos y textos de cada parte", body: () => {
@@ -906,8 +985,12 @@ function renderEditor() {
       ${gs.length > 1 ? `<h3><span class="gi"><svg viewBox="0 0 24 24">${g.icon}</svg></span>${g.title}</h3>` : ""}
       <div class="gbody">${g.body()}</div></section>`).join("");
   } else {
-    $("#groups").innerHTML = GROUPS.map(g => group(g.id, g.title, g.sub(), g.icon, g.body())).join("");
+    const html = g => group(g.id, g.title, g.sub(), g.icon, g.body());
+    const avanzados = GROUPS.filter(g => g.avanzado);
+    $("#groups").innerHTML = GROUPS.filter(g => !g.avanzado).map(html).join("") +
+      (avanzados.length ? '<p class="avanzado">Más opciones</p>' + avanzados.map(html).join("") : "");
   }
+  actualizarStock();
   body.scrollTop = y;
 }
 
@@ -918,13 +1001,27 @@ groupsEl.addEventListener("toggle", e => {
   if (!g || e.target !== g) return;
   if (g.open) {
     openGroups.add(g.dataset.group);
-    const zona = { carta: "carta", armado: "armado", cupones: "cupones", negocio: "negocio", horario: "horario", textos: "textos" }[g.dataset.group];
+    const zona = { stock: "carta", promos: "promos", carta: "carta", armado: "armado", cupones: "cupones", negocio: "negocio", horario: "horario", textos: "textos" }[g.dataset.group];
     toPage({ type: "pagina-ir", grupo: zona });
   } else openGroups.delete(g.dataset.group);
+}, true);
+groupsEl.addEventListener("toggle", e => {
+  const d = e.target;
+  if (!d.matches || !d.matches("details.mas")) return;
+  if (d.open) openMas.add(d.dataset.mas); else openMas.delete(d.dataset.mas);
 }, true);
 
 groupsEl.addEventListener("input", e => {
   const el = e.target;
+  if (el.hasAttribute("data-stock-buscar")) {
+    const q = sinTildes(el.value.trim());
+    el.closest(".gbody").querySelectorAll("[data-stock-cat]").forEach(cat => {
+      let alguna = false;
+      cat.querySelectorAll(".stock-row").forEach(r => { const si = !q || r.dataset.stockFila.includes(q); r.hidden = !si; if (si) alguna = true; });
+      cat.hidden = !alguna;
+    });
+    return;
+  }
   if (el.dataset.opciones) {
     const p = getPath(state, el.dataset.opciones);
     const opciones = [], precios = {};
@@ -947,7 +1044,7 @@ groupsEl.addEventListener("input", e => {
     const head = el.closest(".item") && el.closest(".item").querySelector(":scope > .item-head > strong");
     const campo = head && (head.dataset.cabeza || "nombre");
     if (campo === "codigo" && el.dataset.path.endsWith(".codigo")) head.textContent = el.value.toUpperCase().replace(/\s+/g, "") || "Cupón nuevo";
-    else if (campo === "nombre" && el.dataset.path.endsWith(".nombre")) head.textContent = el.value || "Producto nuevo";
+    else if (campo === "nombre" && el.dataset.path.endsWith(".nombre")) head.textContent = el.value || head.dataset.vacio || "Producto nuevo";
   } else return;
   markDirty();
   pushSoon();
@@ -959,6 +1056,13 @@ groupsEl.addEventListener("change", e => {
     if (el.dataset.inverse) v = el.checked ? true : false;
     if (el.dataset.uno) v = el.checked ? 1 : 0;
     setPath(state, el.dataset.check, v);
+    // el mismo producto puede estar en Stock y en la carta: los dos quedan iguales
+    document.querySelectorAll(`#groups [data-check="${el.dataset.check}"]`).forEach(x => {
+      x.checked = el.checked;
+      const fila = x.closest(".stock-row");
+      if (fila) fila.classList.toggle("agotado", !x.checked);
+    });
+    actualizarStock();
     markDirty(); pushSite();
     if (el.dataset.check === "horarioConfirmado") renderEditor();
   }
@@ -972,6 +1076,15 @@ groupsEl.addEventListener("change", e => {
     // si queda igual que el resto de la categoría, el producto vuelve a usar el de la categoría
     const deCat = (cat.personalizar || []).filter(id => orden.includes(id));
     if (lista.join() === deCat.join()) delete p.personalizar; else p.personalizar = lista;
+    markDirty(); pushSite();
+  }
+  if (el.dataset.dias) {
+    const p = getPath(state, el.dataset.dias);
+    const orden = DIAS.map(([k]) => k);
+    const lista = (Array.isArray(p.dias) ? p.dias : []).filter(d => d !== el.value);
+    if (el.checked) lista.push(el.value);
+    p.dias = lista.filter(d => orden.includes(d)).sort((x, y) => orden.indexOf(x) - orden.indexOf(y));
+    if (!p.dias.length) delete p.dias;
     markDirty(); pushSite();
   }
   if (el.dataset.tipo) {
@@ -998,7 +1111,7 @@ groupsEl.addEventListener("click", e => {
   if (a === "up" || a === "down" || a === "del") {
     const list = getPath(state, b.dataset.list), i = +b.dataset.i;
     if (a === "del") {
-      const que = { producto: "este producto", "categoría": "esta categoría y sus productos", "sección": "esta sección y todo lo que tiene", "opción": "esta opción", "cupón": "este cupón", grupo: "este grupo de opciones (se quita de todos los productos)" }[b.dataset.what] || "esto";
+      const que = { producto: "este producto", promo: "esta promo", "grupo de promos": "este grupo y sus promos", "categoría": "esta categoría y sus productos", "sección": "esta sección y todo lo que tiene", "opción": "esta opción", "cupón": "este cupón", grupo: "este grupo de opciones (se quita de todos los productos)" }[b.dataset.what] || "esto";
       if (!confirm(`¿Eliminar ${que}?`)) return;
       list.splice(i, 1);
     } else {
@@ -1008,8 +1121,15 @@ groupsEl.addEventListener("click", e => {
     }
   } else if (a === "add-product") {
     getPath(state, b.dataset.path).push({ id: nuevoId("p"), nombre: "Producto nuevo", detalle: "", precio: "" });
+  } else if (a === "add-promo") {
+    getPath(state, b.dataset.path).push({ id: nuevoId("p"), nombre: "Promo nueva", detalle: "", precio: "", destacado: true });
+  } else if (a === "add-promo-section") {
+    state.secciones.unshift({ nombre: "Promos", promos: true, categorias: [{ id: nuevoId("c"), nombre: "Promos", productos: [] }] });
+  } else if (a === "ir-promos") {
+    openDrawer(["promos"]);
+    return;
   } else if (a === "add-category") {
-    getPath(state, b.dataset.path).push({ id: nuevoId("c"), nombre: "Nueva categoría", productos: [] });
+    getPath(state, b.dataset.path).push({ id: nuevoId("c"), nombre: b.dataset.que === "promos" ? "Más promos" : "Nueva categoría", productos: [] });
   } else if (a === "add-section") {
     state.secciones.push({ nombre: "Nueva sección", categorias: [{ id: nuevoId("c"), nombre: "Nueva categoría", productos: [] }] });
   } else if (a === "add-option") {
@@ -1033,7 +1153,7 @@ groupsEl.addEventListener("click", e => {
   markDirty();
   renderEditor();
   pushSite();
-  if (a === "add-product") {
+  if (a === "add-product" || a === "add-promo") {
     // el producto nuevo queda a la vista, con su nombre listo para escribir
     const nuevo = [...document.querySelectorAll("#groups [data-producto]")]
       .filter(x => x.querySelector(`[data-path^="${b.dataset.path}."]`)).pop();
@@ -1100,7 +1220,7 @@ function cleanSite(vista) {
     if (!vista) n.sucursales = n.sucursales.filter(x => String(x.nombre || "").trim() && x.whatsapp.length >= 8);
   }
   n.instagram = String(n.instagram || "").trim().replace(/^@/, "").replace(/^https?:\/\/(www\.)?instagram\.com\//, "").replace(/\/.*$/, "");
-  n.valorDelivery = typeof n.valorDelivery === "number" ? n.valorDelivery : null;
+  delete n.valorDelivery; delete n.notaDelivery;   // el valor del delivery se confirma por WhatsApp
   if (!n.datosTransferencia) n.datosTransferencia = null;
   const horario = {};
   let abre = false;
@@ -1116,6 +1236,8 @@ function cleanSite(vista) {
   ["color", "colorDestacado"].forEach(k => { const v = String(s.tema[k] || "").trim(); if (/^#[0-9a-f]{6}$/i.test(v)) tema[k] = v.toLowerCase(); });
   if (Object.keys(tema).length) s.tema = tema; else delete s.tema;
   const grupos = s.personalizacion.map(g => g.id);
+  const dias = DIAS.map(([k]) => k);
+  s.secciones.forEach(sec => { if (sec.promos !== true) delete sec.promos; });
   s.secciones.forEach(sec => sec.categorias.forEach(cat => {
     ["nota", "ayuda"].forEach(k => { if (!cat[k]) delete cat[k]; });
     if (Array.isArray(cat.personalizar)) cat.personalizar = cat.personalizar.filter(id => grupos.includes(id));
@@ -1135,6 +1257,8 @@ function cleanSite(vista) {
       else if (!Array.isArray(p.rolls)) { if (typeof p.rolls === "number" && p.rolls > 0) p.rolls = Math.min(30, p.rolls); else delete p.rolls; }
       if (!p.destacado) delete p.destacado;
       if (p.disponible !== false) delete p.disponible;
+      if (Array.isArray(p.dias)) p.dias = p.dias.filter(d => dias.includes(d));
+      if (!Array.isArray(p.dias) || !p.dias.length) delete p.dias;
     });
   }));
   s.personalizacion.forEach(g => {
@@ -1149,7 +1273,6 @@ function cleanSite(vista) {
   });
   const categorias = [];
   s.secciones.forEach(sec => sec.categorias.forEach(c => categorias.push(c.id)));
-  const dias = DIAS.map(([k]) => k);
   s.cupones.forEach(c => {
     c.codigo = String(c.codigo || "").toUpperCase().replace(/\s+/g, "");
     c.nombre = String(c.nombre || "").trim();
@@ -1233,90 +1356,9 @@ async function publish() {
   }
 }
 
-/* ---------- pedidos de la página (api/pedidos.js) ---------- */
-const PED = { lista: [], vistos: null, timer: 0, fecha: "", sucursal: "", hoy: "", correo: false };
-const ESTADO_TXT = { "esperando-pago": "Esperando pago online", recibido: "Recibido", preparando: "En preparación", listo: "Listo para retirar", "en-camino": "En camino", entregado: "Entregado", cancelado: "Cancelado" };
-const horaDe = t => new Date(t).toLocaleTimeString("es-CL", { hour: "2-digit", minute: "2-digit", timeZone: "America/Santiago" });
-function pedidoHtml(p) {
-  const nuevo = PED.vistos && !PED.vistos.has(p.id);
-  const online = p.pago && p.pago.metodo === "Online";
-  const pago = !p.pago || !p.pago.metodo ? "" : online
-    ? `<span class="chip ${p.pago.estado === "pagado" ? "ok" : p.pago.estado === "revisar" ? "mal" : p.pago.estado === "pendiente" ? "warn" : "mal"}">Online: ${esc({ pagado: "pagado", pendiente: "esperando pago", rechazado: "rechazado", anulado: "anulado", revisar: "revisar monto" }[p.pago.estado] || p.pago.estado)}</span>`
-    : `<span class="chip">Paga ${p.modo === "delivery" ? "al recibir" : "al retirar"}: ${esc(p.pago.metodo)}</span>`;
-  const mapa = p.ubicacion ? ` · <a href="https://www.google.com/maps/search/?api=1&query=${p.ubicacion.lat},${p.ubicacion.lng}" target="_blank" rel="noopener">mapa</a>` : "";
-  const sigue = p.modo === "delivery" ? ["en-camino", "En camino"] : ["listo", "Listo para retirar"];
-  const botones = p.estado === "esperando-pago" ? [["cancelado", "Cancelar"]]
-    : [["preparando", "En preparación"], sigue, ["entregado", "Entregado"], ["cancelado", "Cancelar"]];
-  const avisos = (p.avisos || []).map(a => ESTADO_TXT[a]).filter(Boolean);
-  return `<article class="ped${nuevo ? " nuevo" : ""}${["entregado", "cancelado", "esperando-pago"].includes(p.estado) ? " apagado" : ""}">
-    <div class="ped-top"><b>N° ${esc(String(p.id).padStart(4, "0"))}</b><span>${horaDe(p.creado)}</span></div>
-    <div class="row"><span class="chip ${p.estado === "listo" || p.estado === "en-camino" ? "ok" : p.estado === "cancelado" ? "mal" : ""}">${esc(ESTADO_TXT[p.estado] || p.estado)}</span>${pago}</div>
-    <div class="ped-datos">
-      <div><b>${esc(p.nombre)}</b>${p.email ? ` <span>· ${esc(p.email)}</span>` : ""}</div>
-      ${p.sucursal ? `<div><span>Sucursal</span> ${esc(p.sucursal)}</div>` : ""}
-      <div><span>${p.modo === "delivery" ? "Delivery" : "Retiro en el local"}</span>${p.modo === "delivery" ? ` ${esc(p.direccion)}${mapa}${p.fueraDeZona ? ' <span class="chip warn">fuera de la zona</span>' : ""}` : ""}</div>
-    </div>
-    <ul class="ped-items">${(p.items || []).map(it => `<li><span>${it.cant} × ${esc(it.nombre)}</span><span>${plata(it.precio)}</span>${(it.detalle || []).length ? `<small>${it.detalle.map(esc).join("<br>")}</small>` : ""}</li>`).join("")}</ul>
-    ${p.descuento ? `<div class="ped-datos"><div><span>Cupón ${esc(p.cupon)}</span> −${plata(p.descuento)}</div></div>` : ""}
-    ${p.modo === "delivery" ? `<div class="ped-datos"><div><span>Delivery</span> ${p.delivery == null ? "por confirmar" : plata(p.delivery)}</div></div>` : ""}
-    <div class="ped-total"><span>Total</span><span>${plata(p.total)}</span></div>
-    <div class="ped-acciones">${botones.map(([v, t]) => `<button class="btn ${p.estado === v ? "primary" : ""}" type="button" data-ped="${p.id}" data-estado="${v}" ${p.estado === v ? 'aria-pressed="true"' : ""}>${t}</button>`).join("")}</div>
-    ${avisos.length ? `<p class="ped-aviso">Aviso por correo enviado: ${esc(avisos.join(", "))}</p>` : p.email ? "" : '<p class="ped-aviso" style="color:var(--muted)">Sin correo: avísale por WhatsApp.</p>'}
-  </article>`;
-}
-function pintarPedidos() {
-  const lista = PED.lista.filter(p => !PED.sucursal || p.sucursal === PED.sucursal);
-  const sucs = [...new Set(PED.lista.map(p => p.sucursal).filter(Boolean).concat(((state && state.negocio && state.negocio.sucursales) || []).map(x => x.nombre)))];
-  $("#ped-sucursal").innerHTML = `<option value="">Todas las sucursales</option>` + sucs.map(n => `<option ${n === PED.sucursal ? "selected" : ""}>${esc(n)}</option>`).join("");
-  $("#ped-lista").innerHTML = lista.length ? lista.map(pedidoHtml).join("") : `<p class="empty">No hay pedidos ${PED.fecha === PED.hoy ? "hoy" : "ese día"}${PED.sucursal ? " en " + esc(PED.sucursal) : ""}.</p>`;
-  const activos = PED.lista.filter(p => ["recibido", "preparando"].includes(p.estado)).length;
-  $("#ped-badge").hidden = !activos; $("#ped-badge").textContent = activos;
-  $("#ped-sub").textContent = `${lista.length} ${lista.length === 1 ? "pedido" : "pedidos"} · se actualiza solo cada 30 segundos` + (PED.correo ? "" : " · falta configurar el correo (RESEND_API_KEY) para avisar a los clientes");
-}
-function sonar() {
-  try {
-    const a = new (window.AudioContext || window.webkitAudioContext)(), o = a.createOscillator(), g = a.createGain();
-    o.connect(g); g.connect(a.destination); o.frequency.value = 880; g.gain.setValueAtTime(.18, a.currentTime);
-    g.gain.exponentialRampToValueAtTime(.0001, a.currentTime + .6); o.start(); o.stop(a.currentTime + .6);
-  } catch (e) {}
-}
-async function cargarPedidos(silencio) {
-  try {
-    const r = await api("pedidos", { fecha: PED.fecha || undefined });
-    PED.hoy = r.hoy; PED.correo = r.correo;
-    if (!PED.fecha) { PED.fecha = r.fecha; $("#ped-fecha").value = r.fecha; }
-    const nuevos = PED.vistos ? r.pedidos.filter(p => !PED.vistos.has(p.id) && p.estado !== "esperando-pago") : [];
-    PED.lista = r.pedidos;
-    pintarPedidos();
-    if (nuevos.length) { sonar(); toast(nuevos.length === 1 ? `Pedido nuevo: N° ${String(nuevos[0].id).padStart(4, "0")}` : `${nuevos.length} pedidos nuevos`); }
-    PED.vistos = new Set(r.pedidos.map(p => p.id));
-  } catch (err) {
-    if (err.status === 503) $("#ped-lista").innerHTML = '<p class="empty">Para ver aquí los pedidos falta conectar la base de datos en Vercel (Storage → Upstash for Redis). Mientras tanto, los pedidos llegan solo por WhatsApp.</p>';
-    else if (!silencio) toast(explain(err), true);
-  }
-}
-$("#btn-pedidos").addEventListener("click", () => {
-  $("#pedidos").hidden = false; $("#ped-titulo").focus();
-  cargarPedidos();
-  clearInterval(PED.timer); PED.timer = setInterval(() => cargarPedidos(true), 30000);
-});
-$("#ped-cerrar").addEventListener("click", () => { $("#pedidos").hidden = true; clearInterval(PED.timer); });
-$("#ped-recargar").addEventListener("click", () => cargarPedidos());
-$("#ped-fecha").addEventListener("change", e => { PED.fecha = e.target.value; PED.vistos = null; cargarPedidos(); });
-$("#ped-sucursal").addEventListener("change", e => { PED.sucursal = e.target.value; pintarPedidos(); });
-$("#ped-lista").addEventListener("click", async e => {
-  const b = e.target.closest("[data-ped]");
-  if (!b || b.getAttribute("aria-pressed") === "true") return;
-  const estado = b.dataset.estado;
-  if (estado === "cancelado" && !confirm("¿Cancelar este pedido?")) return;
-  b.disabled = true;
-  try {
-    const r = await api("estado-pedido", { id: +b.dataset.ped, estado });
-    PED.lista = PED.lista.map(p => (p.id === r.pedido.id ? r.pedido : p));
-    pintarPedidos();
-    toast(r.avisado ? `Listo: le avisamos a ${r.pedido.email} por correo.` : `Pedido N° ${String(r.pedido.id).padStart(4, "0")}: ${ESTADO_TXT[estado]}.`);
-  } catch (err) { b.disabled = false; toast(explain(err), true); }
-});
+/* ---------- atajos de la barra ---------- */
+$("#btn-stock").addEventListener("click", () => openDrawer(["stock"]));
+$("#btn-promos").addEventListener("click", () => openDrawer(["promos"]));
 </script>
 </body>
 </html>
