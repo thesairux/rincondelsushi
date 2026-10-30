@@ -13,7 +13,6 @@
 */
 const crypto = require("crypto");
 const T = require("./_tienda");
-const M = require("./_manager");
 
 const DEFAULT_USER = "rincondelsushi";
 const CONTENT_FILE = "carta.js";
@@ -174,14 +173,31 @@ async function listaPedidos(body) {
   }
   return { ok: true, fecha, hoy: T.fecha(), pedidos, correo: !!T.correoConf() };
 }
-/* Cambia el estado (con «listo» o «en camino» le avisa al cliente por correo) y lo pasa al Manager */
+/* Cambia el estado; con «listo» o «en camino» le avisa al cliente por correo (una vez por estado) */
 async function cambiarEstado(body) {
   const id = Math.round(+body.id);
   if (!T.ESTADOS[body.estado] || !(id > 0)) throw Object.assign(new Error("datos"), { client: "datos" });
   const p = await T.leer("pedido:" + id);
   if (!p) throw Object.assign(new Error("no existe"), { client: "no-existe" });
-  const avisado = await T.cambiarEstado(p, body.estado);
-  await M.reflejar(p);
+  p.estado = body.estado;
+  p.historial = (p.historial || []).concat({ estado: body.estado, t: Date.now() });
+  p.avisos = p.avisos || [];
+  let avisado = false;
+  if ((p.estado === "listo" || p.estado === "en-camino") && p.email && !p.avisos.includes(p.estado)) {
+    const n = T.numero(p.id);
+    const hola = `Hola ${p.nombre}:`;
+    // si el correo falla, el estado se guarda igual (y el panel no dice «avisado»)
+    avisado = p.estado === "listo"
+      ? T.correo(p.email, `Tu pedido N° ${n} está listo para retirar`, "¡Tu pedido está listo!", [
+          `${hola} tu pedido N° ${n} ya está listo para retirar${p.sucursal ? " en la sucursal " + p.sucursal : ""}${p.sucursalDireccion ? " (" + p.sucursalDireccion + ")" : ""}.`,
+          `Total: ${T.plata(p.total)}.`, "¡Te esperamos!"], p.local)
+      : T.correo(p.email, `Tu pedido N° ${n} va en camino`, "¡Tu pedido va en camino!", [
+          `${hola} tu pedido N° ${n} ya salió${p.direccion ? " hacia " + p.direccion : ""}.`,
+          `Total: ${T.plata(p.total)}.`, "¡Que lo disfrutes!"], p.local);
+    avisado = await Promise.resolve(avisado).catch(() => false);
+    if (avisado) p.avisos.push(p.estado);
+  }
+  await T.redis([["SET", T.PREFIJO + "pedido:" + id, JSON.stringify(p), "KEEPTTL"]]);
   return { ok: true, pedido: p, avisado };
 }
 

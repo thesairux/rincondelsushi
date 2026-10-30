@@ -485,7 +485,7 @@
     var caja = $("[data-destacados]");
     if (!caja) return;
     carrusel.lista = Object.keys(PRODUCTOS).map(function (k) { return PRODUCTOS[k].p; })
-      .filter(function (p) { return p.destacado && p.foto && p.disponible !== false && !p.oculto && disponibleHoy(p); });
+      .filter(function (p) { return p.destacado && p.foto && p.disponible !== false && disponibleHoy(p); });
     if (!carrusel.lista.length) { caja.hidden = true; return; }
     if (carrusel.i >= carrusel.lista.length) carrusel.i = 0;
     var p = carrusel.lista[carrusel.i];
@@ -631,8 +631,6 @@
       '<div class="tarjeta-cuerpo"><h4 class="fila-nombre"' + rutaDe(p, "nombre") + ">" + esc(p.nombre) + "</h4>" + detalleLista(p) + notaProducto(p) +
       '<div class="tarjeta-pie"><span class="precio">' + precioLista(p) + "</span>" + botonAgregar(p, "tarjeta") + "</div></div></li>";
   }
-  // lo que el Manager tiene oculto no se muestra
-  function visibles(lista) { return lista.filter(function (p) { return !p.oculto; }); }
   function bloque(cat, productos, titulo) {
     // con "tarjetas": true la categoría va en tarjetas aunque falten las fotos (queda el espacio de la imagen)
     var conFotos = cat.tarjetas || productos.some(function (p) { return p.foto; });
@@ -650,7 +648,7 @@
       var hay = 0;
       C.secciones.forEach(function (sec) {
         sec.categorias.forEach(function (cat) {
-          var encontrados = visibles(cat.productos).filter(function (p) {
+          var encontrados = cat.productos.filter(function (p) {
             var texto = sinTildes([p.nombre, p.detalle, p.incluye, p.nota, cat.nombre, sec.nombre, (p.opciones || []).join(" ")].join(" "));
             return palabras.every(function (w) { return texto.indexOf(w) >= 0; });
           });
@@ -666,8 +664,7 @@
       var sec = C.secciones[vista.seccion];
       sec.categorias.forEach(function (cat) {
         if (vista.categoria && vista.categoria !== cat.id) return;
-        var vs = visibles(cat.productos);
-        if (vs.length) html += bloque(cat, vs);
+        if (cat.productos.length) html += bloque(cat, cat.productos);
       });
     }
     lista.innerHTML = html;
@@ -1183,9 +1180,8 @@
     if (ss.length > 1) {
       html += '<fieldset class="campo"><legend class="campo-titulo">¿A qué sucursal pides?</legend><div class="dos">' +
         ss.map(function (s) {
-          var sel = pedido.sucursal === s.nombre, pausa = enPausa(s.nombre);
-          return '<label class="radio-tarjeta' + (sel ? " sel" : "") + (pausa ? " radio-tarjeta--pausa" : "") + '"><input type="radio" name="sucursal" value="' + esc(s.nombre) + '"' + (sel ? " checked" : "") + (pausa ? " disabled" : "") + "> " + esc(s.nombre) +
-            (pausa ? " <small>No está recibiendo pedidos ahora</small>" : "") + "</label>";
+          var sel = pedido.sucursal === s.nombre;
+          return '<label class="radio-tarjeta' + (sel ? " sel" : "") + '"><input type="radio" name="sucursal" value="' + esc(s.nombre) + '"' + (sel ? " checked" : "") + "> " + esc(s.nombre) + "</label>";
         }).join("") +
         '</div><span class="campo-ayuda" data-ayuda="sucursal"></span></fieldset>';
     }
@@ -1229,7 +1225,6 @@
     var correo = CUENTA ? CUENTA.email : pedido.email.trim();
     if (correo && !CUENTA && !EMAIL.test(correo)) return { campo: "email", texto: "Revisa tu correo", ayuda: "Revisa que el correo esté bien escrito, o déjalo vacío." };
     if (sucursales().length > 1 && !sucursalElegida()) return { campo: "sucursal", texto: "Elige tu sucursal", ayuda: "Elige la sucursal: el pedido llega a su WhatsApp." };
-    if (sucursalElegida() && enPausa(sucursalElegida().nombre)) return { campo: "sucursal", texto: "Esa sucursal está en pausa", ayuda: "En este momento no está recibiendo pedidos. Elige la otra sucursal o escríbenos por WhatsApp." };
     if (pedido.modo === "delivery" && !pedido.direccion.trim()) return { campo: "direccion", texto: "Falta tu dirección de entrega", ayuda: "Escribe tu dirección para poder enviar el pedido." };
     if (!pedido.pago) return { campo: "pago", texto: "Elige cómo pagas", ayuda: "Elige cómo pagas para poder enviar el pedido." };
     if (pedido.pago === "Online") {
@@ -1449,15 +1444,6 @@
      Funcionan si el servidor del pedido está configurado (api/pedidos.js); si no, el pedido va solo por
      WhatsApp, como siempre. */
   var TIENDA = { pedidos: false, correo: false, cuentas: false, online: false };
-  // lo que dice el Manager del local: productos agotados u ocultos y sucursales que pausaron los pedidos
-  var DISP = { agotados: [], ocultos: [], pausadas: [] };
-  function enPausa(nombre) { return DISP.pausadas.indexOf(nombre) >= 0; }
-  function aplicarDisp(d) {
-    DISP = { agotados: d.agotados || [], ocultos: d.ocultos || [], pausadas: d.pausadas || [] };
-    DISP.agotados.forEach(function (id) { if (PRODUCTOS[id]) PRODUCTOS[id].p.disponible = false; });
-    DISP.ocultos.forEach(function (id) { if (PRODUCTOS[id]) PRODUCTOS[id].p.oculto = true; });
-    if (DISP.agotados.length || DISP.ocultos.length) { pintarDestacados(); pintarLista(); }
-  }
   var API_PEDIDOS = "api/pedidos";
   var SESION = "cuenta-v1";
   var ENVIADO = "pedido-enviado-v1";
@@ -1777,7 +1763,6 @@
       var r = null; try { r = JSON.parse(x.responseText); } catch (e) {}
       if (x.status !== 200 || !r) return;
       TIENDA = { pedidos: !!r.pedidos, correo: !!r.correo, cuentas: !!r.cuentas, online: !!r.online };
-      if (r.disp) aplicarDisp(r.disp);
       if (TIENDA.cuentas) { CUENTA = leer(SESION); cargarPerfil(); }
       volverDelPago();
       if (dlgPedido.open) pintarPedido();

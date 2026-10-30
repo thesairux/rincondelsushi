@@ -6,7 +6,6 @@
 */
 const T = require("./_tienda");
 const F = require("./_flow");
-const M = require("./_manager");
 
 async function actualizar(token) {
   const st = await F.estadoPago(token);
@@ -26,7 +25,6 @@ async function actualizar(token) {
   }
   if ((p.pago && p.pago.estado) !== antes) {
     await T.redis([["SET", T.PREFIJO + "pedido:" + id, JSON.stringify(p), "KEEPTTL"]]);
-    await M.reflejar(p); // pagado: el pedido aparece en el Manager
     if (p.pago.estado === "pagado" && p.email) {
       await T.correo(p.email, `Recibimos tu pago del pedido N° ${T.numero(id)}`, "¡Pago recibido!", [
         `Hola ${p.nombre}: recibimos el pago de ${T.plata(p.total)} de tu pedido N° ${T.numero(id)}.`,

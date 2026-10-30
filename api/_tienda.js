@@ -58,20 +58,6 @@ async function redis(comandos) {
   const data = await res.json();
   return data.map(r => { if (r.error) throw new Error("Redis: " + r.error); return r.result; });
 }
-/* Igual, pero todos juntos o ninguno (una transacción): nadie ve la mitad de un cambio */
-async function redisTx(comandos) {
-  const c = redisConf();
-  if (!c) throw Object.assign(new Error("sin base"), { client: "sin-base" });
-  const res = await fetch(c.url + "/multi-exec", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${c.tok}`, "Content-Type": "application/json" },
-    body: JSON.stringify(comandos.map(cmd => cmd.map(String)))
-  });
-  if (!res.ok) throw Object.assign(new Error(`Redis ${res.status}`), { status: res.status });
-  const data = await res.json();
-  if (!Array.isArray(data)) throw new Error("Redis: " + (data && data.error || "transacción"));
-  return data.map(r => { if (r.error) throw new Error("Redis: " + r.error); return r.result; });
-}
 async function leer(clave) {
   const [v] = await redis([["GET", PREFIJO + clave]]);
   try { return v ? JSON.parse(v) : null; } catch (e) { return null; }
@@ -173,32 +159,8 @@ function publico(p) {
   };
 }
 
-/* Cambia el estado de un pedido de la página y lo guarda; con «listo» o «en camino» le avisa al cliente por
-   correo (una vez por estado). Lo usan el panel (api/admin.js) y el Manager (api/manager.js). */
-async function cambiarEstado(p, estado) {
-  p.estado = estado;
-  p.historial = (p.historial || []).concat({ estado, t: Date.now() });
-  p.avisos = p.avisos || [];
-  let avisado = false;
-  if ((estado === "listo" || estado === "en-camino") && p.email && !p.avisos.includes(estado)) {
-    const n = numero(p.id);
-    const hola = `Hola ${p.nombre}:`;
-    // si el correo falla, el estado se guarda igual (y el panel no dice «avisado»)
-    avisado = await (estado === "listo"
-      ? correo(p.email, `Tu pedido N° ${n} está listo para retirar`, "¡Tu pedido está listo!", [
-          `${hola} tu pedido N° ${n} ya está listo para retirar${p.sucursal ? " en la sucursal " + p.sucursal : ""}${p.sucursalDireccion ? " (" + p.sucursalDireccion + ")" : ""}.`,
-          `Total: ${plata(p.total)}.`, "¡Te esperamos!"], p.local)
-      : correo(p.email, `Tu pedido N° ${n} va en camino`, "¡Tu pedido va en camino!", [
-          `${hola} tu pedido N° ${n} ya salió${p.direccion ? " hacia " + p.direccion : ""}.`,
-          `Total: ${plata(p.total)}.`, "¡Que lo disfrutes!"], p.local)).catch(() => false);
-    if (avisado) p.avisos.push(estado);
-  }
-  await redis([["SET", PREFIJO + "pedido:" + p.id, JSON.stringify(p), "KEEPTTL"]]);
-  return avisado;
-}
-
 module.exports = {
   PREFIJO, DIAS_PEDIDO, ESTADOS,
-  send, readBody, ip, redis, redisTx, redisConf, leer, guardar, permitido, correo, correoConf,
-  secreto, firmar, sesion, hashCodigo, email, texto, fecha, plata, numero, publico, cambiarEstado
+  send, readBody, ip, redis, redisConf, leer, guardar, permitido, correo, correoConf,
+  secreto, firmar, sesion, hashCodigo, email, texto, fecha, plata, numero, publico
 };
